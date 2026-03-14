@@ -200,7 +200,7 @@ export default async function TemplatePage({ params }: TemplatePageProps) {
                         <span className="text-3xl font-black text-emerald-500">Free</span>
                         <Badge className="border-0 bg-emerald-500/10 text-emerald-600">No cost</Badge>
                       </div>
-                      <DownloadButton templateId={template.id} isFree={true} />
+                      <DownloadButton templateId={template.id} isFree={true} downloadType={template.downloadType} downloadUrl={template.downloadUrl} />
                       <p className="text-center text-xs text-muted-foreground">
                         Instant download · No sign-up required
                       </p>
@@ -214,7 +214,7 @@ export default async function TemplatePage({ params }: TemplatePageProps) {
                         </div>
                         <Badge className="border-0 bg-violet-500/10 text-violet-600 text-xs">No subscription</Badge>
                       </div>
-                      <DownloadButton templateId={template.id} isFree={false} />
+                      <DownloadButton templateId={template.id} isFree={false} downloadType={template.downloadType} downloadUrl={template.downloadUrl} />
                       <p className="text-center text-xs text-muted-foreground">
                         Just $1 one-time · Instant download · Yours forever
                       </p>

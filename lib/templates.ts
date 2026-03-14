@@ -1,3 +1,7 @@
+const RELEASES_BASE = "https://github.com/nitheesb/Templakit/releases/download/v1.0.0"
+
+export type DownloadType = "file" | "external"
+
 export interface Template {
   id: string
   title: string
@@ -15,9 +19,18 @@ export interface Template {
   isTrending?: boolean
   slideCount?: number
   pages?: number
+  /** How this template is delivered */
+  downloadType: DownloadType
+  /** For "file": GitHub Releases zip URL. For "external": platform link. */
+  downloadUrl: string
 }
 
 export const isPaid = (t: Template) => t.price > 0
+
+/** Helpers */
+export function fileDownloadUrl(id: string) {
+  return `${RELEASES_BASE}/template-${id}.zip`
+}
 
 export const tools = [
   { name: "PowerPoint",    slug: "PowerPoint",    icon: "Presentation", count: 8, color: "from-orange-500 to-red-500",    description: "Microsoft PowerPoint templates" },
@@ -43,7 +56,9 @@ export const templates: Template[] = [
     price: 1, downloads: 24530, rating: 4.9,
     tags: ["startup", "pitch deck", "investors", "fundraising", "venture capital", "seed round"],
     previewColor: "from-violet-600 to-indigo-600",
-    formats: ["PPTX", "PDF"], isTrending: true, slideCount: 30,
+    formats: ["PPTX", "PDF"],
+    downloadType: "file",
+    downloadUrl: fileDownloadUrl("1"), isTrending: true, slideCount: 30,
   },
   {
     id: "2",
@@ -53,7 +68,9 @@ export const templates: Template[] = [
     price: 1, downloads: 11240, rating: 4.8,
     tags: ["corporate", "annual report", "finance", "board meeting", "shareholder", "business"],
     previewColor: "from-blue-700 to-blue-900",
-    formats: ["PPTX", "PDF"], slideCount: 40,
+    formats: ["PPTX", "PDF"],
+    downloadType: "file",
+    downloadUrl: fileDownloadUrl("2"), slideCount: 40,
   },
   {
     id: "3",
@@ -63,7 +80,9 @@ export const templates: Template[] = [
     price: 0, downloads: 18760, rating: 4.7,
     tags: ["marketing", "campaign", "strategy", "kpi", "brand", "agency"],
     previewColor: "from-pink-500 to-rose-600",
-    formats: ["PPTX", "PDF"], isNew: true, slideCount: 25,
+    formats: ["PPTX", "PDF"],
+    downloadType: "file",
+    downloadUrl: fileDownloadUrl("3"), isNew: true, slideCount: 25,
   },
   {
     id: "4",
@@ -73,7 +92,9 @@ export const templates: Template[] = [
     price: 1, downloads: 15890, rating: 4.8,
     tags: ["tech", "product launch", "saas", "roadmap", "go-to-market", "product manager"],
     previewColor: "from-emerald-600 to-teal-700",
-    formats: ["PPTX", "PDF"], isTrending: true, slideCount: 28,
+    formats: ["PPTX", "PDF"],
+    downloadType: "file",
+    downloadUrl: fileDownloadUrl("4"), isTrending: true, slideCount: 28,
   },
   {
     id: "5",
@@ -83,7 +104,9 @@ export const templates: Template[] = [
     price: 0, downloads: 22410, rating: 4.6,
     tags: ["sales", "quarterly review", "QBR", "revenue", "pipeline", "sales metrics"],
     previewColor: "from-indigo-600 to-purple-700",
-    formats: ["PPTX", "PDF"], slideCount: 20,
+    formats: ["PPTX", "PDF"],
+    downloadType: "file",
+    downloadUrl: fileDownloadUrl("5"), slideCount: 20,
   },
   {
     id: "6",
@@ -93,7 +116,9 @@ export const templates: Template[] = [
     price: 0, downloads: 31200, rating: 4.7,
     tags: ["academic", "thesis", "university", "research", "dissertation", "conference"],
     previewColor: "from-slate-600 to-slate-800",
-    formats: ["PPTX", "PDF"], slideCount: 22,
+    formats: ["PPTX", "PDF"],
+    downloadType: "file",
+    downloadUrl: fileDownloadUrl("6"), slideCount: 22,
   },
   {
     id: "7",
@@ -103,7 +128,9 @@ export const templates: Template[] = [
     price: 1, downloads: 9340, rating: 4.9,
     tags: ["branding", "brand identity", "brand guidelines", "logo", "style guide", "design"],
     previewColor: "from-amber-500 to-orange-600",
-    formats: ["PPTX", "PDF"], isNew: true, slideCount: 35,
+    formats: ["PPTX", "PDF"],
+    downloadType: "file",
+    downloadUrl: fileDownloadUrl("7"), isNew: true, slideCount: 35,
   },
   {
     id: "8",
@@ -113,7 +140,9 @@ export const templates: Template[] = [
     price: 0, downloads: 14560, rating: 4.5,
     tags: ["workshop", "training", "education", "L&D", "corporate training", "facilitation"],
     previewColor: "from-cyan-500 to-blue-600",
-    formats: ["PPTX", "PDF"], slideCount: 30,
+    formats: ["PPTX", "PDF"],
+    downloadType: "file",
+    downloadUrl: fileDownloadUrl("8"), slideCount: 30,
   },
 
   // ── Google Slides ──────────────────────────────────────────
@@ -125,7 +154,9 @@ export const templates: Template[] = [
     price: 1, downloads: 19870, rating: 4.9,
     tags: ["pitch deck", "investor", "startup", "fundraising", "Series A", "seed"],
     previewColor: "from-yellow-500 to-amber-600",
-    formats: ["Google Slides", "PPTX", "PDF"], isTrending: true, slideCount: 25,
+    formats: ["Google Slides", "PPTX", "PDF"],
+    downloadType: "external",
+    downloadUrl: "https://docs.google.com/presentation", isTrending: true, slideCount: 25,
   },
   {
     id: "10",
@@ -135,7 +166,9 @@ export const templates: Template[] = [
     price: 0, downloads: 12300, rating: 4.6,
     tags: ["proposal", "business", "scope of work", "client", "consulting", "B2B"],
     previewColor: "from-green-500 to-teal-600",
-    formats: ["Google Slides", "PPTX", "PDF"], slideCount: 22,
+    formats: ["Google Slides", "PPTX", "PDF"],
+    downloadType: "external",
+    downloadUrl: "https://docs.google.com/presentation", slideCount: 22,
   },
   {
     id: "11",
@@ -145,7 +178,9 @@ export const templates: Template[] = [
     price: 1, downloads: 27560, rating: 4.8,
     tags: ["portfolio", "designer", "creative", "case study", "UX", "photography"],
     previewColor: "from-purple-600 to-pink-600",
-    formats: ["Google Slides", "PDF"], isNew: true, slideCount: 20,
+    formats: ["Google Slides", "PDF"],
+    downloadType: "external",
+    downloadUrl: "https://docs.google.com/presentation", isNew: true, slideCount: 20,
   },
   {
     id: "12",
@@ -155,7 +190,9 @@ export const templates: Template[] = [
     price: 0, downloads: 35670, rating: 4.5,
     tags: ["standup", "team meeting", "agile", "scrum", "weekly sync", "remote work"],
     previewColor: "from-slate-500 to-zinc-600",
-    formats: ["Google Slides", "PDF"], slideCount: 8,
+    formats: ["Google Slides", "PDF"],
+    downloadType: "external",
+    downloadUrl: "https://docs.google.com/presentation", slideCount: 8,
   },
   {
     id: "13",
@@ -165,7 +202,9 @@ export const templates: Template[] = [
     price: 1, downloads: 16780, rating: 4.7,
     tags: ["product roadmap", "product manager", "planning", "sprint", "agile", "OKR"],
     previewColor: "from-indigo-500 to-violet-600",
-    formats: ["Google Slides", "PPTX", "PDF"], isTrending: true, slideCount: 18,
+    formats: ["Google Slides", "PPTX", "PDF"],
+    downloadType: "external",
+    downloadUrl: "https://docs.google.com/presentation", isTrending: true, slideCount: 18,
   },
   {
     id: "14",
@@ -175,7 +214,9 @@ export const templates: Template[] = [
     price: 0, downloads: 8920, rating: 4.6,
     tags: ["nonprofit", "fundraising", "charity", "impact", "grant", "donor"],
     previewColor: "from-rose-500 to-pink-600",
-    formats: ["Google Slides", "PDF"], slideCount: 20,
+    formats: ["Google Slides", "PDF"],
+    downloadType: "external",
+    downloadUrl: "https://docs.google.com/presentation", slideCount: 20,
   },
   {
     id: "15",
@@ -185,7 +226,9 @@ export const templates: Template[] = [
     price: 0, downloads: 42100, rating: 4.4,
     tags: ["education", "school", "lesson plan", "teacher", "classroom", "K-12"],
     previewColor: "from-amber-400 to-yellow-500",
-    formats: ["Google Slides", "PDF"], slideCount: 24,
+    formats: ["Google Slides", "PDF"],
+    downloadType: "external",
+    downloadUrl: "https://docs.google.com/presentation", slideCount: 24,
   },
 
   // ── Canva ─────────────────────────────────────────────────
@@ -197,7 +240,9 @@ export const templates: Template[] = [
     price: 1, downloads: 58900, rating: 4.9,
     tags: ["instagram", "stories", "social media", "creator", "influencer", "engagement"],
     previewColor: "from-pink-500 to-orange-500",
-    formats: ["Canva", "PNG", "MP4"], isTrending: true,
+    formats: ["Canva", "PNG", "MP4"],
+    downloadType: "external",
+    downloadUrl: "https://www.canva.com/templates", isTrending: true,
   },
   {
     id: "17",
@@ -207,7 +252,9 @@ export const templates: Template[] = [
     price: 0, downloads: 29450, rating: 4.7,
     tags: ["linkedin", "banner", "personal brand", "professional", "B2B", "networking"],
     previewColor: "from-blue-600 to-cyan-600",
-    formats: ["Canva", "PNG", "PDF"], isNew: true,
+    formats: ["Canva", "PNG", "PDF"],
+    downloadType: "external",
+    downloadUrl: "https://www.canva.com/templates", isNew: true,
   },
   {
     id: "18",
@@ -217,7 +264,9 @@ export const templates: Template[] = [
     price: 1, downloads: 21340, rating: 4.8,
     tags: ["branding", "brand kit", "logo", "identity", "startup", "small business"],
     previewColor: "from-violet-600 to-purple-700",
-    formats: ["Canva", "PNG", "PDF", "SVG"], isTrending: true,
+    formats: ["Canva", "PNG", "PDF", "SVG"],
+    downloadType: "external",
+    downloadUrl: "https://www.canva.com/templates", isTrending: true,
   },
   {
     id: "19",
@@ -227,7 +276,9 @@ export const templates: Template[] = [
     price: 0, downloads: 47230, rating: 4.8,
     tags: ["youtube", "thumbnail", "creator", "CTR", "video", "content creator"],
     previewColor: "from-red-600 to-orange-600",
-    formats: ["Canva", "PNG", "JPG"], isTrending: true,
+    formats: ["Canva", "PNG", "JPG"],
+    downloadType: "external",
+    downloadUrl: "https://www.canva.com/templates", isTrending: true,
   },
   {
     id: "20",
@@ -238,6 +289,8 @@ export const templates: Template[] = [
     tags: ["event flyer", "conference", "party", "workshop", "print", "promotion"],
     previewColor: "from-emerald-500 to-green-600",
     formats: ["Canva", "PNG", "PDF"],
+    downloadType: "external",
+    downloadUrl: "https://www.canva.com/templates",
   },
   {
     id: "21",
@@ -247,7 +300,9 @@ export const templates: Template[] = [
     price: 1, downloads: 12670, rating: 4.9,
     tags: ["media kit", "influencer", "press kit", "brand partnerships", "sponsorship", "PR"],
     previewColor: "from-rose-500 to-violet-600",
-    formats: ["Canva", "PDF"], isNew: true,
+    formats: ["Canva", "PDF"],
+    downloadType: "external",
+    downloadUrl: "https://www.canva.com/templates", isNew: true,
   },
   {
     id: "22",
@@ -258,6 +313,8 @@ export const templates: Template[] = [
     tags: ["pinterest", "pins", "traffic", "SEO", "content marketing", "blog"],
     previewColor: "from-red-500 to-pink-600",
     formats: ["Canva", "PNG", "JPG"],
+    downloadType: "external",
+    downloadUrl: "https://www.canva.com/templates",
   },
   {
     id: "23",
@@ -268,6 +325,8 @@ export const templates: Template[] = [
     tags: ["restaurant", "menu", "food", "cafe", "hospitality", "print design"],
     previewColor: "from-amber-600 to-yellow-600",
     formats: ["Canva", "PDF", "PNG"],
+    downloadType: "external",
+    downloadUrl: "https://www.canva.com/templates",
   },
 
   // ── Excel ─────────────────────────────────────────────────
@@ -279,7 +338,9 @@ export const templates: Template[] = [
     price: 1, downloads: 18920, rating: 4.9,
     tags: ["financial model", "projections", "startup", "P&L", "cash flow", "DCF valuation"],
     previewColor: "from-green-700 to-emerald-700",
-    formats: ["XLSX", "Google Sheets"], isTrending: true, pages: 8,
+    formats: ["XLSX", "Google Sheets"],
+    downloadType: "file",
+    downloadUrl: fileDownloadUrl("24"), isTrending: true, pages: 8,
   },
   {
     id: "25",
@@ -289,7 +350,9 @@ export const templates: Template[] = [
     price: 0, downloads: 26730, rating: 4.7,
     tags: ["marketing budget", "ROI tracking", "campaign", "channel mix", "spend tracking"],
     previewColor: "from-teal-600 to-cyan-600",
-    formats: ["XLSX", "Google Sheets"], isNew: true, pages: 5,
+    formats: ["XLSX", "Google Sheets"],
+    downloadType: "file",
+    downloadUrl: fileDownloadUrl("25"), isNew: true, pages: 5,
   },
   {
     id: "26",
@@ -299,7 +362,9 @@ export const templates: Template[] = [
     price: 1, downloads: 14350, rating: 4.8,
     tags: ["HR", "employee tracker", "payroll", "leave management", "headcount", "HR analytics"],
     previewColor: "from-indigo-600 to-blue-700",
-    formats: ["XLSX"], pages: 6,
+    formats: ["XLSX"],
+    downloadType: "file",
+    downloadUrl: fileDownloadUrl("26"), pages: 6,
   },
   {
     id: "27",
@@ -309,7 +374,9 @@ export const templates: Template[] = [
     price: 1, downloads: 22160, rating: 4.8,
     tags: ["ecommerce", "sales dashboard", "Shopify analytics", "product performance", "revenue"],
     previewColor: "from-violet-600 to-indigo-700",
-    formats: ["XLSX", "Google Sheets"], isTrending: true, pages: 7,
+    formats: ["XLSX", "Google Sheets"],
+    downloadType: "file",
+    downloadUrl: fileDownloadUrl("27"), isTrending: true, pages: 7,
   },
   {
     id: "28",
@@ -319,7 +386,9 @@ export const templates: Template[] = [
     price: 0, downloads: 41200, rating: 4.6,
     tags: ["personal finance", "budget planner", "savings", "debt payoff", "net worth"],
     previewColor: "from-emerald-500 to-teal-600",
-    formats: ["XLSX", "Google Sheets"], pages: 4,
+    formats: ["XLSX", "Google Sheets"],
+    downloadType: "file",
+    downloadUrl: fileDownloadUrl("28"), pages: 4,
   },
   {
     id: "29",
@@ -329,7 +398,9 @@ export const templates: Template[] = [
     price: 0, downloads: 33470, rating: 4.7,
     tags: ["Gantt chart", "project management", "project planning", "milestones", "PMO"],
     previewColor: "from-blue-600 to-cyan-600",
-    formats: ["XLSX", "Google Sheets"], pages: 3,
+    formats: ["XLSX", "Google Sheets"],
+    downloadType: "file",
+    downloadUrl: fileDownloadUrl("29"), pages: 3,
   },
 
   // ── Figma ─────────────────────────────────────────────────
@@ -341,7 +412,9 @@ export const templates: Template[] = [
     price: 1, downloads: 31560, rating: 4.9,
     tags: ["SaaS dashboard", "Figma UI kit", "design system", "admin panel", "data visualization"],
     previewColor: "from-pink-600 to-rose-600",
-    formats: ["Figma"], isTrending: true,
+    formats: ["Figma"],
+    downloadType: "external",
+    downloadUrl: "https://www.figma.com/community", isTrending: true,
   },
   {
     id: "31",
@@ -351,7 +424,9 @@ export const templates: Template[] = [
     price: 1, downloads: 28900, rating: 4.8,
     tags: ["mobile app", "iOS", "Android", "Figma UI kit", "app design", "UX design"],
     previewColor: "from-purple-600 to-violet-700",
-    formats: ["Figma"], isTrending: true,
+    formats: ["Figma"],
+    downloadType: "external",
+    downloadUrl: "https://www.figma.com/community", isTrending: true,
   },
   {
     id: "32",
@@ -361,7 +436,9 @@ export const templates: Template[] = [
     price: 0, downloads: 45230, rating: 4.8,
     tags: ["landing page", "web design", "conversion optimization", "Figma", "responsive"],
     previewColor: "from-indigo-600 to-purple-600",
-    formats: ["Figma"], isNew: true,
+    formats: ["Figma"],
+    downloadType: "external",
+    downloadUrl: "https://www.figma.com/community", isNew: true,
   },
   {
     id: "33",
@@ -372,6 +449,8 @@ export const templates: Template[] = [
     tags: ["ecommerce", "online store", "Figma", "checkout flow", "product page", "web design"],
     previewColor: "from-rose-500 to-pink-600",
     formats: ["Figma"],
+    downloadType: "external",
+    downloadUrl: "https://www.figma.com/community",
   },
   {
     id: "34",
@@ -382,6 +461,8 @@ export const templates: Template[] = [
     tags: ["design system", "Figma tokens", "component library", "accessibility", "WCAG"],
     previewColor: "from-slate-700 to-zinc-700",
     formats: ["Figma"],
+    downloadType: "external",
+    downloadUrl: "https://www.figma.com/community",
   },
   {
     id: "35",
@@ -391,7 +472,9 @@ export const templates: Template[] = [
     price: 0, downloads: 38900, rating: 4.7,
     tags: ["portfolio", "personal website", "designer portfolio", "developer portfolio", "case study"],
     previewColor: "from-amber-500 to-orange-500",
-    formats: ["Figma"], isNew: true,
+    formats: ["Figma"],
+    downloadType: "external",
+    downloadUrl: "https://www.figma.com/community", isNew: true,
   },
 
   // ── Word ──────────────────────────────────────────────────
@@ -403,7 +486,9 @@ export const templates: Template[] = [
     price: 0, downloads: 52300, rating: 4.8,
     tags: ["resume", "ATS resume", "job application", "CV", "career", "job search"],
     previewColor: "from-blue-700 to-indigo-700",
-    formats: ["DOCX", "PDF"], isTrending: true, pages: 1,
+    formats: ["DOCX", "PDF"],
+    downloadType: "file",
+    downloadUrl: fileDownloadUrl("36"), isTrending: true, pages: 1,
   },
   {
     id: "37",
@@ -413,7 +498,9 @@ export const templates: Template[] = [
     price: 0, downloads: 29870, rating: 4.7,
     tags: ["business proposal", "consulting proposal", "SOW", "B2B sales", "RFP response"],
     previewColor: "from-slate-700 to-slate-900",
-    formats: ["DOCX", "PDF"], pages: 6,
+    formats: ["DOCX", "PDF"],
+    downloadType: "file",
+    downloadUrl: fileDownloadUrl("37"), pages: 6,
   },
   {
     id: "38",
@@ -423,7 +510,9 @@ export const templates: Template[] = [
     price: 0, downloads: 44120, rating: 4.6,
     tags: ["cover letter", "job application", "career", "resume cover letter", "internship"],
     previewColor: "from-cyan-600 to-teal-700",
-    formats: ["DOCX", "PDF"], pages: 1,
+    formats: ["DOCX", "PDF"],
+    downloadType: "file",
+    downloadUrl: fileDownloadUrl("38"), pages: 1,
   },
   {
     id: "39",
@@ -433,7 +522,9 @@ export const templates: Template[] = [
     price: 1, downloads: 11230, rating: 4.5,
     tags: ["internal newsletter", "employee communications", "HR", "company news", "internal comms"],
     previewColor: "from-blue-500 to-indigo-600",
-    formats: ["DOCX", "PDF"], pages: 4,
+    formats: ["DOCX", "PDF"],
+    downloadType: "file",
+    downloadUrl: fileDownloadUrl("39"), pages: 4,
   },
   {
     id: "40",
@@ -443,7 +534,9 @@ export const templates: Template[] = [
     price: 1, downloads: 19870, rating: 4.8,
     tags: ["NDA", "contract template", "freelance agreement", "legal document", "SaaS agreement"],
     previewColor: "from-zinc-700 to-neutral-800",
-    formats: ["DOCX", "PDF"], isNew: true, pages: 8,
+    formats: ["DOCX", "PDF"],
+    downloadType: "file",
+    downloadUrl: fileDownloadUrl("40"), isNew: true, pages: 8,
   },
   {
     id: "41",
@@ -453,7 +546,9 @@ export const templates: Template[] = [
     price: 1, downloads: 8760, rating: 4.7,
     tags: ["executive bio", "speaker sheet", "thought leadership", "media kit", "keynote speaker"],
     previewColor: "from-amber-600 to-orange-700",
-    formats: ["DOCX", "PDF"], pages: 2,
+    formats: ["DOCX", "PDF"],
+    downloadType: "file",
+    downloadUrl: fileDownloadUrl("41"), pages: 2,
   },
 
   // ── Notion ────────────────────────────────────────────────
@@ -465,7 +560,9 @@ export const templates: Template[] = [
     price: 1, downloads: 34560, rating: 4.9,
     tags: ["startup", "Notion OS", "OKR", "product roadmap", "investor CRM", "hiring pipeline"],
     previewColor: "from-slate-600 to-zinc-700",
-    formats: ["Notion"], isTrending: true, pages: 12,
+    formats: ["Notion"],
+    downloadType: "external",
+    downloadUrl: "https://www.notion.so/templates", isTrending: true, pages: 12,
   },
   {
     id: "43",
@@ -475,7 +572,9 @@ export const templates: Template[] = [
     price: 0, downloads: 61200, rating: 4.8,
     tags: ["life dashboard", "habit tracker", "Notion productivity", "goal planner", "journaling"],
     previewColor: "from-violet-600 to-purple-700",
-    formats: ["Notion"], isTrending: true, pages: 8,
+    formats: ["Notion"],
+    downloadType: "external",
+    downloadUrl: "https://www.notion.so/templates", isTrending: true, pages: 8,
   },
   {
     id: "44",
@@ -485,7 +584,9 @@ export const templates: Template[] = [
     price: 0, downloads: 48730, rating: 4.7,
     tags: ["content calendar", "social media planning", "creator", "content strategy", "scheduling"],
     previewColor: "from-pink-500 to-rose-600",
-    formats: ["Notion"], isNew: true, pages: 5,
+    formats: ["Notion"],
+    downloadType: "external",
+    downloadUrl: "https://www.notion.so/templates", isNew: true, pages: 5,
   },
   {
     id: "45",
@@ -495,7 +596,9 @@ export const templates: Template[] = [
     price: 1, downloads: 27890, rating: 4.8,
     tags: ["freelancer CRM", "invoicing", "client management", "freelance business", "project tracker"],
     previewColor: "from-emerald-600 to-teal-700",
-    formats: ["Notion"], pages: 10,
+    formats: ["Notion"],
+    downloadType: "external",
+    downloadUrl: "https://www.notion.so/templates", pages: 10,
   },
   {
     id: "46",
@@ -505,7 +608,9 @@ export const templates: Template[] = [
     price: 1, downloads: 18450, rating: 4.6,
     tags: ["knowledge base", "company wiki", "onboarding", "SOP templates", "internal docs"],
     previewColor: "from-blue-600 to-indigo-700",
-    formats: ["Notion"], pages: 15,
+    formats: ["Notion"],
+    downloadType: "external",
+    downloadUrl: "https://www.notion.so/templates", pages: 15,
   },
 
   // ── Google Docs ───────────────────────────────────────────
@@ -517,7 +622,9 @@ export const templates: Template[] = [
     price: 0, downloads: 38760, rating: 4.8,
     tags: ["creative resume", "design resume", "portfolio", "creative director", "brand manager"],
     previewColor: "from-cyan-500 to-teal-600",
-    formats: ["Google Docs", "DOCX", "PDF"], isTrending: true, pages: 2,
+    formats: ["Google Docs", "DOCX", "PDF"],
+    downloadType: "external",
+    downloadUrl: "https://docs.google.com", isTrending: true, pages: 2,
   },
   {
     id: "48",
@@ -527,7 +634,9 @@ export const templates: Template[] = [
     price: 1, downloads: 16540, rating: 4.7,
     tags: ["consulting proposal", "B2B proposal", "RFP", "management consulting", "professional services"],
     previewColor: "from-indigo-600 to-blue-700",
-    formats: ["Google Docs", "PDF"], pages: 7,
+    formats: ["Google Docs", "PDF"],
+    downloadType: "external",
+    downloadUrl: "https://docs.google.com", pages: 7,
   },
   {
     id: "49",
@@ -537,7 +646,9 @@ export const templates: Template[] = [
     price: 0, downloads: 29340, rating: 4.6,
     tags: ["blog template", "content writing", "SEO content", "copywriting", "content marketing"],
     previewColor: "from-amber-500 to-yellow-500",
-    formats: ["Google Docs", "DOCX"], isNew: true, pages: 3,
+    formats: ["Google Docs", "DOCX"],
+    downloadType: "external",
+    downloadUrl: "https://docs.google.com", isNew: true, pages: 3,
   },
   {
     id: "50",
@@ -547,7 +658,9 @@ export const templates: Template[] = [
     price: 1, downloads: 11230, rating: 4.7,
     tags: ["grant proposal", "nonprofit funding", "NIH grant", "research proposal", "foundation grant"],
     previewColor: "from-teal-600 to-green-700",
-    formats: ["Google Docs", "DOCX", "PDF"], pages: 10,
+    formats: ["Google Docs", "DOCX", "PDF"],
+    downloadType: "external",
+    downloadUrl: "https://docs.google.com", pages: 10,
   },
 ]
 

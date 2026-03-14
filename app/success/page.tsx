@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { CheckCircle2, Download, ArrowRight, Home } from "lucide-react"
+import { CheckCircle2, Download, ArrowRight, Home, ExternalLink } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { Button } from "@/components/ui/button"
@@ -56,11 +56,34 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
               </div>
             )}
 
-            {/* Placeholder download — replace with real file URL later */}
-            <Button className="w-full btn-gradient text-white gap-2 rounded-xl font-semibold border-0" size="lg">
-              <Download className="h-5 w-5" />
-              Download Your Template
-            </Button>
+            {/* Real download — from GitHub Releases or external platform */}
+            {template ? (
+              template.downloadType === "external" ? (
+                <a
+                  href={template.downloadUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-6 py-3 text-base font-semibold text-white shadow-lg hover:bg-emerald-600 transition-colors"
+                >
+                  <ExternalLink className="h-5 w-5" />
+                  Open Template in {template.tool}
+                </a>
+              ) : (
+                <a
+                  href={template.downloadUrl}
+                  download
+                  className="flex w-full items-center justify-center gap-2 rounded-xl btn-gradient px-6 py-3 text-base font-semibold text-white shadow-lg transition-opacity hover:opacity-90"
+                >
+                  <Download className="h-5 w-5" />
+                  Download {template.title.split("—")[0].trim()} (.zip)
+                </a>
+              )
+            ) : (
+              <Button className="w-full btn-gradient text-white gap-2 rounded-xl font-semibold border-0" size="lg">
+                <Download className="h-5 w-5" />
+                Download Your Template
+              </Button>
+            )}
 
             <p className="mt-3 text-xs text-muted-foreground">
               A receipt has been sent to your email by Stripe.
