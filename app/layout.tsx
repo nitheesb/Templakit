@@ -49,6 +49,9 @@ export const metadata: Metadata = {
     "free marketing presentation template",
     "professional templates free download",
   ],
+  verification: {
+    google: "google41a41efec9c24141",
+  },
   authors: [{ name: "Templakit", url: "https://templakit.vercel.app" }],
   creator: "Templakit",
   publisher: "Templakit",
