@@ -1,70 +1,77 @@
-import { Search, Palette, Download } from "lucide-react"
+import { Search, Palette, Download, Zap } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const steps = [
   {
     number: "01",
-    title: "Browse",
-    description: "Explore our curated collection of professionally designed templates across multiple categories.",
+    title: "Browse 1,200+ Templates",
+    description: "Search by tool (PowerPoint, Canva, Figma…), category, or style. Filter by free vs premium. Every template has a full preview so you know exactly what you're getting before you click.",
     icon: Search,
-    color: "from-blue-500 to-indigo-500",
+    color: "from-blue-500 to-indigo-600",
+    detail: "500+ free templates · 8 tools covered",
   },
   {
     number: "02",
-    title: "Customize",
-    description: "Make it yours by customizing colors, fonts, and content to match your brand perfectly.",
+    title: "Customise in Your Tool",
+    description: "Open directly in PowerPoint, Canva, Figma, Excel, Word, Notion, or Google Docs. Change colours, fonts, and content in the tool you already know — no new software to learn.",
     icon: Palette,
-    color: "from-violet-500 to-purple-500",
+    color: "from-violet-500 to-purple-600",
+    detail: "Works with tools you already use",
   },
   {
     number: "03",
-    title: "Download",
-    description: "Download your template in your preferred format and start using it immediately.",
+    title: "Download & Use Instantly",
+    description: "Free templates download immediately — no sign-up, no waiting. Premium templates ($1) go through a 30-second Stripe checkout. Your files are yours forever, including all future updates.",
     icon: Download,
-    color: "from-emerald-500 to-teal-500",
+    color: "from-emerald-500 to-teal-600",
+    detail: "Instant download · Yours forever",
   },
 ]
 
 export function HowItWorks() {
   return (
-    <section className="border-t border-border/40 bg-secondary/30">
+    <section className="border-t border-border/40">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div className="text-center">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            How It Works
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
+            <Zap className="h-3.5 w-3.5" /> Simple Process
+          </div>
+          <h2 className="text-3xl font-black tracking-tight sm:text-4xl">
+            From browsing to done in under 5 minutes
           </h2>
-          <p className="mt-3 text-muted-foreground">
-            Get started in three simple steps
+          <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
+            No tutorials, no learning curve. Find a template you love, open it in your tool, customise, and use it — that&apos;s it.
           </p>
         </div>
 
-        <div className="mt-16 grid gap-8 lg:grid-cols-3">
-          {steps.map((step, index) => {
+        <div className="relative mt-16 grid gap-8 lg:grid-cols-3">
+          {/* Connector lines */}
+          <div className="absolute left-0 right-0 top-8 hidden h-px lg:block">
+            <div className="mx-auto max-w-3xl px-32">
+              <div className="h-px bg-gradient-to-r from-blue-500/30 via-violet-500/30 to-emerald-500/30" />
+            </div>
+          </div>
+
+          {steps.map((step) => {
             const Icon = step.icon
             return (
-              <div key={step.number} className="relative">
-                {/* Connector line */}
-                {index < steps.length - 1 && (
-                  <div className="absolute left-1/2 top-16 hidden h-px w-full bg-gradient-to-r from-border via-primary/50 to-border lg:block" />
-                )}
-                
-                <div className="relative flex flex-col items-center text-center">
-                  {/* Icon */}
-                  <div className={cn(
-                    "relative flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br shadow-lg",
-                    step.color
-                  )}>
-                    <Icon className="h-8 w-8 text-white" />
-                    <div className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-background text-xs font-bold shadow-sm ring-1 ring-border">
-                      {step.number}
-                    </div>
+              <div key={step.number} className="relative flex flex-col items-center text-center">
+                <div className={cn(
+                  "relative flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br shadow-xl shadow-black/10",
+                  step.color
+                )}>
+                  <Icon className="h-7 w-7 text-white" />
+                  <div className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-background text-xs font-black ring-2 ring-border">
+                    {step.number}
                   </div>
+                </div>
 
-                  {/* Content */}
-                  <h3 className="mt-6 text-xl font-semibold">{step.title}</h3>
-                  <p className="mt-3 max-w-xs text-muted-foreground">
-                    {step.description}
-                  </p>
+                <h3 className="mt-6 text-xl font-black">{step.title}</h3>
+                <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted-foreground">
+                  {step.description}
+                </p>
+                <div className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary/50 px-3 py-1 text-xs font-medium text-muted-foreground">
+                  {step.detail}
                 </div>
               </div>
             )
