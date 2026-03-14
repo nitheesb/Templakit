@@ -1,26 +1,26 @@
 const stats = [
-  { value: "1,200+", label: "Templates", emoji: "📦" },
-  { value: "50K+",   label: "Downloads",  emoji: "⬇️" },
-  { value: "8",      label: "Tools Covered", emoji: "🛠️" },
-  { value: "4.9★",   label: "Avg Rating",  emoji: "⭐" },
+  { value: "500+",  label: "Free Templates",   color: "text-emerald-500" },
+  { value: "50K+",  label: "Total Downloads",   color: "text-violet-500"  },
+  { value: "8",     label: "Tools Supported",   color: "text-blue-500"    },
+  { value: "4.9★",  label: "Average Rating",    color: "text-amber-500"   },
 ]
 
 export function StatsBanner() {
   return (
-    <section className="border-y border-border/40 bg-secondary/20">
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+    <section className="border-y border-border/40">
+      <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 gap-0 lg:grid-cols-4">
           {stats.map((stat, i) => (
             <div
               key={stat.label}
-              className={`flex flex-col items-center justify-center py-4 text-center ${
-                i < stats.length - 1 ? "lg:border-r lg:border-border/50" : ""
-              }`}
+              className={`flex flex-col items-center justify-center py-5 text-center ${i < stats.length - 1 ? "lg:border-r lg:border-border/50" : ""}`}
             >
-              <div className="text-3xl font-bold tracking-tight sm:text-4xl">
+              <span className={`text-3xl font-black sm:text-4xl ${stat.color}`}>
                 {stat.value}
-              </div>
-              <div className="mt-1 text-sm text-muted-foreground">{stat.label}</div>
+              </span>
+              <span className="mt-1 text-xs font-medium text-muted-foreground sm:text-sm">
+                {stat.label}
+              </span>
             </div>
           ))}
         </div>

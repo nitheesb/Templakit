@@ -1,113 +1,123 @@
 import Link from "next/link"
-import { ArrowRight, Sparkles, Star } from "lucide-react"
+import { ArrowRight, CheckCircle2, Star } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-const avatarColors = [
+const avatarGradients = [
   "from-violet-500 to-purple-600",
   "from-pink-500 to-rose-500",
-  "from-amber-500 to-orange-500",
-  "from-emerald-500 to-teal-500",
+  "from-amber-400 to-orange-500",
+  "from-emerald-400 to-teal-500",
+  "from-blue-500 to-indigo-500",
 ]
+const avatarInitials = ["J", "S", "A", "M", "R"]
 
 export function HeroSection() {
   return (
     <section className="relative overflow-hidden">
-      {/* Background layers */}
-      <div className="dot-grid absolute inset-0 -z-10 opacity-40" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-primary/8 via-transparent to-transparent" />
-      <div className="absolute -z-10 left-1/4 top-0 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-gradient-to-br from-primary/20 to-violet-500/10 blur-[100px]" />
-      <div className="absolute -z-10 right-1/4 top-20 h-[400px] w-[400px] translate-x-1/2 rounded-full bg-gradient-to-br from-pink-500/10 to-purple-500/10 blur-[80px]" />
+      {/* Layered backgrounds */}
+      <div className="dot-grid absolute inset-0 -z-10 opacity-50" />
+      <div className="mesh-gradient absolute inset-0 -z-10" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-transparent to-background/80" />
 
-      <div className="mx-auto max-w-7xl px-4 pb-16 pt-20 sm:px-6 sm:pb-24 sm:pt-28 lg:px-8 lg:pb-32 lg:pt-36">
+      <div className="mx-auto max-w-7xl px-4 pb-20 pt-16 sm:px-6 sm:pb-28 sm:pt-24 lg:px-8 lg:pb-36 lg:pt-32">
         <div className="mx-auto max-w-4xl text-center">
 
-          {/* Eyebrow badge */}
-          <div className="animate-fade-in mb-8 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm backdrop-blur-sm">
-            <Sparkles className="h-3.5 w-3.5 text-primary" />
-            <span className="font-medium text-primary">1,200+ Professional Templates</span>
-            <span className="text-muted-foreground">— Free & Pro</span>
+          {/* Eyebrow */}
+          <div className="animate-fade-in mb-8 inline-flex items-center gap-2.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-sm font-medium text-emerald-600 dark:text-emerald-400">
+            <CheckCircle2 className="h-4 w-4" />
+            100% Free to browse — No sign-up required
           </div>
 
-          {/* Main headline */}
-          <h1 className="animate-slide-up text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
-            The Best Templates for{" "}
+          {/* Headline */}
+          <h1 className="animate-slide-up text-5xl font-black tracking-tight sm:text-6xl lg:text-7xl xl:text-8xl">
+            Free Templates for{" "}
             <span className="gradient-text animate-gradient">
               Every Tool
             </span>
           </h1>
 
           {/* Subheading */}
-          <p className="animate-slide-up delay-100 mx-auto mt-6 max-w-2xl text-lg text-muted-foreground sm:text-xl">
-            Download professionally designed templates for PowerPoint, Google Slides, Canva, Excel,
-            Figma, Word, Notion, and Google Docs. Save hours. Look incredible.
+          <p className="animate-slide-up delay-100 mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
+            Browse 500+ free professionally designed templates for{" "}
+            <span className="font-semibold text-foreground">PowerPoint, Google Slides, Canva, Excel, Figma, Word, Notion</span>{" "}
+            and more. Download instantly.
           </p>
 
-          {/* CTA row */}
+          {/* CTAs */}
           <div className="animate-slide-up delay-200 mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <Button asChild size="lg" className="w-full shadow-xl shadow-primary/25 sm:w-auto">
-              <Link href="/templates">
-                Browse Templates
-                <ArrowRight className="ml-1 h-4 w-4" />
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
-              <Link href="/pricing">View Pricing</Link>
+            <Link
+              href="/templates"
+              className="btn-gradient inline-flex w-full items-center justify-center gap-2 rounded-xl px-8 py-3.5 text-base font-semibold text-white sm:w-auto"
+            >
+              Browse Free Templates
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Button asChild variant="outline" size="lg" className="w-full sm:w-auto rounded-xl">
+              <Link href="/pricing">See Pricing</Link>
             </Button>
           </div>
 
           {/* Social proof */}
-          <div className="animate-slide-up delay-300 mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-6">
+          <div className="animate-slide-up delay-300 mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center sm:gap-8">
             {/* Avatar stack */}
-            <div className="flex items-center gap-2">
-              <div className="flex -space-x-2">
-                {avatarColors.map((color, i) => (
+            <div className="flex items-center gap-3">
+              <div className="flex -space-x-2.5">
+                {avatarGradients.map((g, i) => (
                   <div
                     key={i}
-                    className={`flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br ${color} ring-2 ring-background text-xs font-semibold text-white`}
+                    className={`flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br ${g} text-[11px] font-bold text-white ring-2 ring-background`}
                   >
-                    {["J", "S", "A", "M"][i]}
+                    {avatarInitials[i]}
                   </div>
                 ))}
               </div>
-              <div className="flex items-center gap-1 text-sm">
-                <div className="flex">
+              <div className="flex flex-col text-left">
+                <div className="flex items-center gap-1">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
                   ))}
+                  <span className="ml-1 text-sm font-bold">4.9</span>
                 </div>
-                <span className="font-medium">4.9</span>
-                <span className="text-muted-foreground">from 2,400+ reviews</span>
+                <span className="text-xs text-muted-foreground">from 2,400+ reviews</span>
               </div>
             </div>
-            <span className="hidden text-muted-foreground/40 sm:block">·</span>
-            <p className="text-sm text-muted-foreground">
-              Trusted by <span className="font-semibold text-foreground">10,000+</span> creators & teams
-            </p>
+
+            <span className="hidden text-border sm:block">|</span>
+
+            <div className="flex items-center gap-6 text-sm text-muted-foreground">
+              <span><span className="font-bold text-foreground">500+</span> free templates</span>
+              <span><span className="font-bold text-foreground">50K+</span> downloads</span>
+              <span><span className="font-bold text-foreground">8</span> tools covered</span>
+            </div>
           </div>
 
-          <p className="animate-fade-in delay-400 mt-3 text-xs text-muted-foreground/60">
-            No credit card required · 5 free downloads monthly
+          {/* Trust line */}
+          <p className="animate-fade-in delay-500 mt-4 text-xs text-muted-foreground/60">
+            Free to browse · Download free templates instantly · Premium downloads from $1
           </p>
         </div>
 
-        {/* Tool pills row */}
-        <div className="animate-fade-in delay-500 mt-16 flex flex-wrap items-center justify-center gap-3">
+        {/* Tool pill links */}
+        <div className="animate-fade-in delay-700 mt-16 flex flex-wrap items-center justify-center gap-2.5">
           {[
-            { name: "PowerPoint", emoji: "📊" },
-            { name: "Google Slides", emoji: "🖥️" },
-            { name: "Canva", emoji: "🎨" },
-            { name: "Excel", emoji: "📈" },
-            { name: "Figma", emoji: "✏️" },
-            { name: "Word", emoji: "📄" },
-            { name: "Notion", emoji: "📓" },
-            { name: "Google Docs", emoji: "📝" },
-          ].map((tool) => (
+            { name: "PowerPoint",    emoji: "📊", color: "hover:border-orange-500/40 hover:bg-orange-500/5 hover:text-orange-600" },
+            { name: "Google Slides", emoji: "🖥️", color: "hover:border-yellow-500/40 hover:bg-yellow-500/5 hover:text-yellow-600" },
+            { name: "Canva",         emoji: "🎨", color: "hover:border-violet-500/40 hover:bg-violet-500/5 hover:text-violet-600" },
+            { name: "Excel",         emoji: "📈", color: "hover:border-green-500/40 hover:bg-green-500/5 hover:text-green-600" },
+            { name: "Figma",         emoji: "✏️", color: "hover:border-pink-500/40 hover:bg-pink-500/5 hover:text-pink-600" },
+            { name: "Word",          emoji: "📄", color: "hover:border-blue-500/40 hover:bg-blue-500/5 hover:text-blue-600" },
+            { name: "Notion",        emoji: "📓", color: "hover:border-slate-500/40 hover:bg-slate-500/5" },
+            { name: "Google Docs",   emoji: "📝", color: "hover:border-cyan-500/40 hover:bg-cyan-500/5 hover:text-cyan-600" },
+          ].map(tool => (
             <Link
               key={tool.name}
               href={`/templates?category=${encodeURIComponent(tool.name)}`}
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium shadow-sm transition-all duration-200 hover:border-primary/50 hover:bg-primary/5 hover:shadow-md hover:shadow-primary/5"
+              className={cn(
+                "inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-muted-foreground shadow-sm transition-all duration-200 hover:shadow-md",
+                tool.color
+              )}
             >
-              <span>{tool.emoji}</span>
+              <span role="img" aria-label={tool.name}>{tool.emoji}</span>
               {tool.name}
             </Link>
           ))}
@@ -115,4 +125,8 @@ export function HeroSection() {
       </div>
     </section>
   )
+}
+
+function cn(...classes: (string | undefined)[]) {
+  return classes.filter(Boolean).join(" ")
 }
