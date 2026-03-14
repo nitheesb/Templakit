@@ -7,6 +7,7 @@ import { Footer } from "@/components/footer"
 import { Badge } from "@/components/ui/badge"
 import { TemplateCard } from "@/components/template-card"
 import { DownloadButton } from "@/components/download-button"
+import { BitcoinPayment } from "@/components/bitcoin-payment"
 import { getTemplateById, getRelatedTemplates, templates } from "@/lib/templates"
 import { cn } from "@/lib/utils"
 
@@ -265,6 +266,18 @@ export default async function TemplatePage({ params }: TemplatePageProps) {
                   <Shield className="h-3.5 w-3.5 text-primary" />
                   Secure checkout · 30-day money-back guarantee
                 </div>
+
+                {/* Bitcoin alternative — only for paid templates */}
+                {!isFree && (
+                  <div>
+                    <div className="my-3 flex items-center gap-3 text-xs text-muted-foreground">
+                      <div className="h-px flex-1 bg-border" />
+                      or pay with crypto
+                      <div className="h-px flex-1 bg-border" />
+                    </div>
+                    <BitcoinPayment />
+                  </div>
+                )}
               </div>
             </div>
           </div>
