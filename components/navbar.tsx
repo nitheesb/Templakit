@@ -2,30 +2,76 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 import { useTheme } from "next-themes"
 import {
-  Menu, X, Moon, Sun, Sparkles, ChevronDown,
+  Menu, X, Moon, Sun, Sparkles,
   Presentation, Monitor, Palette, Table2,
   FileText, BookOpen, FileEdit, Figma,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { Suspense } from "react"
 
 const toolNav = [
-  { name: "PowerPoint",    slug: "PowerPoint",    icon: Presentation, color: "text-orange-500", desc: "Slides & presentations" },
-  { name: "Google Slides", slug: "Google Slides", icon: Monitor,      color: "text-yellow-500", desc: "Shareable presentations" },
-  { name: "Canva",         slug: "Canva",         icon: Palette,      color: "text-violet-500", desc: "Designs & social media" },
-  { name: "Excel",         slug: "Excel",         icon: Table2,       color: "text-green-500",  desc: "Spreadsheets & models" },
-  { name: "Figma",         slug: "Figma",         icon: Figma,        color: "text-pink-500",   desc: "UI kits & design files" },
-  { name: "Word",          slug: "Word",          icon: FileText,     color: "text-blue-500",   desc: "Documents & resumes" },
-  { name: "Notion",        slug: "Notion",        icon: BookOpen,     color: "text-slate-400",  desc: "Pages & databases" },
-  { name: "Google Docs",   slug: "Google Docs",   icon: FileEdit,     color: "text-cyan-500",   desc: "Docs & proposals" },
+  { name: "PowerPoint",    slug: "PowerPoint",    icon: Presentation, color: "text-orange-500", activeColor: "bg-orange-500/10 text-orange-600 border-orange-500/30" },
+  { name: "Google Slides", slug: "Google Slides", icon: Monitor,      color: "text-yellow-500", activeColor: "bg-yellow-500/10 text-yellow-600 border-yellow-500/30" },
+  { name: "Canva",         slug: "Canva",         icon: Palette,      color: "text-violet-500", activeColor: "bg-violet-500/10 text-violet-600 border-violet-500/30" },
+  { name: "Excel",         slug: "Excel",         icon: Table2,       color: "text-green-600",  activeColor: "bg-green-500/10 text-green-700 border-green-500/30" },
+  { name: "Figma",         slug: "Figma",         icon: Figma,        color: "text-pink-500",   activeColor: "bg-pink-500/10 text-pink-600 border-pink-500/30" },
+  { name: "Word",          slug: "Word",          icon: FileText,     color: "text-blue-500",   activeColor: "bg-blue-500/10 text-blue-600 border-blue-500/30" },
+  { name: "Notion",        slug: "Notion",        icon: BookOpen,     color: "text-slate-400",  activeColor: "bg-slate-500/10 text-slate-500 border-slate-500/30" },
+  { name: "Google Docs",   slug: "Google Docs",   icon: FileEdit,     color: "text-cyan-500",   activeColor: "bg-cyan-500/10 text-cyan-600 border-cyan-500/30" },
 ]
+
+function ToolStrip() {
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+  const activeCategory = pathname === "/templates" ? searchParams.get("category") : null
+
+  return (
+    <div className="hidden border-b border-border/40 bg-secondary/10 md:block">
+      <div className="mx-auto flex h-10 max-w-7xl items-center gap-0.5 overflow-x-auto px-4 sm:px-6 lg:px-8 scrollbar-none">
+        <Link
+          href="/templates"
+          className={cn(
+            "flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold transition-all duration-150 whitespace-nowrap",
+            !activeCategory && pathname === "/templates"
+              ? "border-primary/30 bg-primary/10 text-primary"
+              : "border-transparent text-muted-foreground hover:text-foreground hover:bg-secondary"
+          )}
+        >
+          All Templates
+        </Link>
+
+        <div className="mx-2 h-4 w-px bg-border/60 shrink-0" />
+
+        {toolNav.map((tool) => {
+          const Icon = tool.icon
+          const isActive = activeCategory === tool.slug
+          return (
+            <Link
+              key={tool.slug}
+              href={`/templates?category=${encodeURIComponent(tool.slug)}`}
+              className={cn(
+                "flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold transition-all duration-150 whitespace-nowrap",
+                isActive
+                  ? tool.activeColor
+                  : "border-transparent text-muted-foreground hover:bg-secondary hover:text-foreground"
+              )}
+            >
+              <Icon className={cn("h-3 w-3 shrink-0", isActive ? "" : tool.color)} />
+              {tool.name}
+            </Link>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
-  const [megaOpen, setMegaOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const { theme, setTheme } = useTheme()
   const pathname = usePathname()
@@ -36,21 +82,19 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
-  // Close menus on route change
-  useEffect(() => { setIsOpen(false); setMegaOpen(false) }, [pathname])
+  useEffect(() => { setIsOpen(false) }, [pathname])
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/")
 
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 w-full transition-all duration-300",
-        scrolled
-          ? "border-b border-border/60 bg-background/95 shadow-sm backdrop-blur-xl"
-          : "border-b border-transparent bg-background/60 backdrop-blur-md"
-      )}
-    >
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <header className={cn(
+      "sticky top-0 z-50 w-full transition-all duration-300",
+      scrolled
+        ? "border-b border-border/60 bg-background/95 shadow-sm backdrop-blur-xl"
+        : "border-b border-transparent bg-background/60 backdrop-blur-md"
+    )}>
+      {/* ── Main bar ───────────────────────────────────────── */}
+      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
 
         {/* Logo */}
         <Link href="/" className="flex shrink-0 items-center gap-2 group">
@@ -62,67 +106,17 @@ export function Navbar() {
 
         {/* Desktop Nav */}
         <nav className="hidden items-center gap-1 md:flex">
-          {/* Templates mega-menu trigger */}
-          <div
-            className="relative"
-            onMouseEnter={() => setMegaOpen(true)}
-            onMouseLeave={() => setMegaOpen(false)}
+          <Link
+            href="/templates"
+            className={cn(
+              "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+              isActive("/templates")
+                ? "bg-primary/10 text-primary"
+                : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+            )}
           >
-            <button
-              className={cn(
-                "flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-                isActive("/templates")
-                  ? "bg-primary/10 text-primary"
-                  : "text-muted-foreground hover:bg-secondary hover:text-foreground"
-              )}
-            >
-              Templates
-              <ChevronDown className={cn("h-4 w-4 transition-transform duration-200", megaOpen && "rotate-180")} />
-            </button>
-
-            {/* Mega Menu */}
-            <div
-              className={cn(
-                "absolute left-1/2 top-full mt-2 w-[560px] -translate-x-1/2 overflow-hidden rounded-2xl border border-border bg-card shadow-2xl shadow-black/20 transition-all duration-200",
-                megaOpen ? "animate-slide-down opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-              )}
-            >
-              <div className="p-4">
-                <p className="mb-3 px-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-                  Browse by Tool
-                </p>
-                <div className="grid grid-cols-2 gap-1">
-                  {toolNav.map((tool) => {
-                    const Icon = tool.icon
-                    return (
-                      <Link
-                        key={tool.slug}
-                        href={`/templates?category=${encodeURIComponent(tool.slug)}`}
-                        className="group flex items-center gap-3 rounded-xl p-3 transition-colors hover:bg-secondary"
-                      >
-                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border bg-secondary group-hover:border-primary/30 group-hover:bg-primary/5">
-                          <Icon className={cn("h-4 w-4", tool.color)} />
-                        </div>
-                        <div>
-                          <p className="text-sm font-medium">{tool.name}</p>
-                          <p className="text-xs text-muted-foreground">{tool.desc}</p>
-                        </div>
-                      </Link>
-                    )
-                  })}
-                </div>
-                <div className="mt-3 border-t border-border pt-3 px-2">
-                  <Link
-                    href="/templates"
-                    className="flex items-center gap-2 text-sm font-medium text-primary hover:underline"
-                  >
-                    Browse all 1,200+ templates →
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-
+            Templates
+          </Link>
           <Link
             href="/pricing"
             className={cn(
@@ -156,11 +150,11 @@ export function Navbar() {
           <Button size="sm" className="shadow-lg shadow-primary/20">Get Started</Button>
         </div>
 
-        {/* Mobile Controls */}
+        {/* Mobile controls */}
         <div className="flex items-center gap-1 md:hidden">
           <button
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-secondary"
+            className="relative flex h-9 w-9 items-center justify-center rounded-full hover:bg-secondary"
             aria-label="Toggle theme"
           >
             <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
@@ -176,15 +170,17 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      <div
-        className={cn(
-          "overflow-hidden transition-all duration-300 ease-in-out md:hidden",
-          isOpen ? "max-h-[90vh]" : "max-h-0"
-        )}
-      >
+      {/* ── Tool strip (desktop) — always visible ───────────── */}
+      <Suspense>
+        <ToolStrip />
+      </Suspense>
+
+      {/* ── Mobile Menu ────────────────────────────────────── */}
+      <div className={cn(
+        "overflow-hidden transition-all duration-300 ease-in-out md:hidden",
+        isOpen ? "max-h-[90vh]" : "max-h-0"
+      )}>
         <nav className="flex flex-col gap-1 border-t border-border/40 bg-background/98 p-4 backdrop-blur-xl">
-          {/* Tools grid */}
           <p className="px-2 py-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
             Templates by Tool
           </p>
