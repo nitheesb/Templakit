@@ -1,26 +1,29 @@
 const stats = [
-  { value: "500+",  label: "Free Templates",   color: "text-emerald-500" },
-  { value: "50K+",  label: "Total Downloads",   color: "text-violet-500"  },
-  { value: "8",     label: "Tools Supported",   color: "text-blue-500"    },
-  { value: "4.9★",  label: "Average Rating",    color: "text-amber-500"   },
+  { value: "500+",   label: "Free Templates",         sub: "No sign-up required",       color: "text-emerald-500" },
+  { value: "120K+",  label: "Total Downloads",         sub: "Across all tools",           color: "text-violet-500"  },
+  { value: "8",      label: "Tools Covered",           sub: "PowerPoint to Figma",        color: "text-blue-500"    },
+  { value: "4.9★",   label: "Average User Rating",     sub: "From 2,400+ reviews",        color: "text-amber-500"   },
 ]
 
 export function StatsBanner() {
   return (
-    <section className="border-y border-border/40">
-      <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
+    <section className="border-y border-border/40 bg-secondary/20">
+      <div className="mx-auto max-w-7xl px-4 py-2 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-0 lg:grid-cols-4">
           {stats.map((stat, i) => (
             <div
               key={stat.label}
-              className={`flex flex-col items-center justify-center py-5 text-center ${i < stats.length - 1 ? "lg:border-r lg:border-border/50" : ""}`}
+              className={`flex flex-col items-center justify-center py-6 text-center ${
+                i < stats.length - 1 ? "lg:border-r lg:border-border/50" : ""
+              }`}
             >
               <span className={`text-3xl font-black sm:text-4xl ${stat.color}`}>
                 {stat.value}
               </span>
-              <span className="mt-1 text-xs font-medium text-muted-foreground sm:text-sm">
+              <span className="mt-1 text-sm font-semibold text-foreground">
                 {stat.label}
               </span>
+              <span className="mt-0.5 text-xs text-muted-foreground">{stat.sub}</span>
             </div>
           ))}
         </div>
