@@ -9,7 +9,22 @@ import { TemplateCard } from "@/components/template-card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { templates, tools, styles } from "@/lib/templates"
+import { templates, styles } from "@/lib/templates"
+
+// Compute counts dynamically from actual template data
+const toolCounts: Record<string, number> = {}
+templates.forEach(t => { toolCounts[t.tool] = (toolCounts[t.tool] ?? 0) + 1 })
+
+const tools = [
+  { name: "PowerPoint",    count: toolCounts["PowerPoint"]    ?? 0 },
+  { name: "Google Slides", count: toolCounts["Google Slides"] ?? 0 },
+  { name: "Canva",         count: toolCounts["Canva"]         ?? 0 },
+  { name: "Excel",         count: toolCounts["Excel"]         ?? 0 },
+  { name: "Figma",         count: toolCounts["Figma"]         ?? 0 },
+  { name: "Word",          count: toolCounts["Word"]          ?? 0 },
+  { name: "Notion",        count: toolCounts["Notion"]        ?? 0 },
+  { name: "Google Docs",   count: toolCounts["Google Docs"]   ?? 0 },
+]
 import { cn } from "@/lib/utils"
 
 const SORT_OPTIONS = [
