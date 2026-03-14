@@ -4,10 +4,10 @@ import Link from "next/link"
 import { ArrowLeft, Download, Star, Tag, CheckCircle2, Shield } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
-import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { TemplateCard } from "@/components/template-card"
-import { getTemplateById, getRelatedTemplates, templates, priceLabel } from "@/lib/templates"
+import { DownloadButton } from "@/components/download-button"
+import { getTemplateById, getRelatedTemplates, templates } from "@/lib/templates"
 import { cn } from "@/lib/utils"
 
 interface TemplatePageProps {
@@ -223,10 +223,7 @@ export default async function TemplatePage({ params }: TemplatePageProps) {
                         <span className="text-3xl font-black text-emerald-500">Free</span>
                         <Badge className="border-0 bg-emerald-500/10 text-emerald-600">No cost</Badge>
                       </div>
-                      <Button size="lg" className="w-full btn-gradient text-white gap-2 rounded-xl font-semibold">
-                        <Download className="h-5 w-5" />
-                        Download Free
-                      </Button>
+                      <DownloadButton templateId={template.id} isFree={true} />
                       <p className="text-center text-xs text-muted-foreground">
                         Instant download · No sign-up required
                       </p>
@@ -240,10 +237,7 @@ export default async function TemplatePage({ params }: TemplatePageProps) {
                         </div>
                         <Badge className="border-0 bg-violet-500/10 text-violet-600 text-xs">No subscription</Badge>
                       </div>
-                      <Button size="lg" className="w-full btn-gradient text-white gap-2 rounded-xl font-semibold">
-                        <Download className="h-5 w-5" />
-                        Download for $1
-                      </Button>
+                      <DownloadButton templateId={template.id} isFree={false} />
                       <p className="text-center text-xs text-muted-foreground">
                         Just $1 one-time · Instant download · Yours forever
                       </p>
