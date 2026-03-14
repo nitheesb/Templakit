@@ -234,18 +234,18 @@ export default async function TemplatePage({ params }: TemplatePageProps) {
                   ) : (
                     <>
                       <div className="flex items-center justify-between">
-                        <div>
-                          <span className="text-3xl font-black">${template.price}</span>
-                          <span className="ml-1 text-sm text-muted-foreground">one-time</span>
+                        <div className="flex items-end gap-1.5">
+                          <span className="text-3xl font-black">$1</span>
+                          <span className="mb-0.5 text-sm text-muted-foreground">one-time · flat price</span>
                         </div>
-                        <Badge variant="secondary" className="text-xs">No subscription</Badge>
+                        <Badge className="border-0 bg-violet-500/10 text-violet-600 text-xs">No subscription</Badge>
                       </div>
                       <Button size="lg" className="w-full btn-gradient text-white gap-2 rounded-xl font-semibold">
                         <Download className="h-5 w-5" />
-                        Download for ${template.price}
+                        Download for $1
                       </Button>
                       <p className="text-center text-xs text-muted-foreground">
-                        One-time payment · Instant download · Yours forever
+                        Just $1 one-time · Instant download · Yours forever
                       </p>
                     </>
                   )}

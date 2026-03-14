@@ -93,7 +93,7 @@ export function HeroSection() {
 
           {/* Trust line */}
           <p className="animate-fade-in delay-500 mt-4 text-xs text-muted-foreground/60">
-            Free to browse · Download free templates instantly · Premium downloads from $1
+            Free to browse · 500+ templates free forever · Premium downloads just $1
           </p>
         </div>
 

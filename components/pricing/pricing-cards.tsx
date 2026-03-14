@@ -1,66 +1,63 @@
 "use client"
 
 import { useState } from "react"
-import { Check, Zap, Download, Infinity } from "lucide-react"
+import { Check, Zap, Download, Infinity, Gift, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 
-const payAsYouGo = [
-  { label: "Basic template", price: "$1", example: "e.g. Resume, Blog Post, Basic Slides" },
-  { label: "Standard template", price: "$2", example: "e.g. Pitch Deck, Brand Kit, UI Kit" },
-  { label: "Premium template", price: "$3", example: "e.g. Full Design System, Financial Model" },
-]
-
 const plans = [
   {
     name: "Free",
-    tagline: "Browse everything, download free templates",
+    tagline: "Browse & download hundreds of free templates",
     monthlyPrice: 0,
     annualPrice: 0,
     highlight: false,
-    ctaText: "Start Browsing Free",
+    ctaText: "Start for Free",
+    icon: Gift,
     features: [
       "Unlimited browsing of all templates",
       "Download all free templates (500+)",
       "PNG & PDF formats",
       "Personal use license",
-      "No credit card required",
+      "No account required",
     ],
-  },
-  {
-    name: "Credits Pack",
-    tagline: "Best value for premium downloads",
-    monthlyPrice: 5,
-    annualPrice: null,
-    highlight: true,
-    ctaText: "Get 10 Credits",
-    badge: "Best Value",
-    features: [
-      "10 premium download credits",
-      "Use on any premium templates",
-      "All file formats",
-      "Commercial use license",
-      "Credits never expire",
-      "50% cheaper than per-download",
-    ],
-    perCredit: "$0.50 per premium download",
   },
   {
     name: "Unlimited",
-    tagline: "Everything, forever, no counting",
+    tagline: "Every template, every tool, every format",
     monthlyPrice: 9,
     annualPrice: 7,
-    highlight: false,
-    ctaText: "Start Free Trial",
+    highlight: true,
+    ctaText: "Start 7-Day Free Trial",
+    badge: "Most Popular",
+    icon: Infinity,
     features: [
-      "Unlimited premium downloads",
+      "Unlimited downloads (free + premium)",
       "All 1,200+ templates",
-      "All file formats",
+      "All file formats (PPTX, Figma, DOCX…)",
       "Commercial use license",
+      "No watermarks",
       "Priority support",
       "Early access to new templates",
-      "7-day free trial",
+      "7-day free trial included",
+    ],
+  },
+  {
+    name: "Team",
+    tagline: "For agencies and growing teams",
+    monthlyPrice: 19,
+    annualPrice: 15,
+    highlight: false,
+    ctaText: "Contact Sales",
+    icon: Sparkles,
+    features: [
+      "Everything in Unlimited",
+      "Up to 10 team members",
+      "Shared template library",
+      "Brand kit uploads",
+      "Team collaboration tools",
+      "Dedicated account manager",
     ],
   },
 ]
@@ -71,33 +68,43 @@ export function PricingCards() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
 
-      {/* Pay-as-you-go callout */}
-      <div className="mb-16 rounded-2xl border border-primary/20 bg-primary/5 p-6 sm:p-8">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <div className="flex items-center gap-2">
-              <Download className="h-5 w-5 text-primary" />
-              <h3 className="text-lg font-bold">Pay per download — no subscription needed</h3>
+      {/* Pay-per-download hero callout */}
+      <div className="mb-16 overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/5 via-violet-500/5 to-pink-500/5 p-8">
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+          <div className="max-w-lg">
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-emerald-500/10 px-3 py-1 text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+              <Download className="h-3.5 w-3.5" /> No subscription needed
             </div>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Just want one template? Pay a tiny one-time fee. No account required.
+            <h3 className="text-2xl font-black tracking-tight">
+              Just want one template?<br />
+              Pay <span className="gradient-text">just $1</span>
+            </h3>
+            <p className="mt-2 text-muted-foreground">
+              Every premium template is only <strong className="text-foreground">$1 one-time</strong>.
+              No subscription, no account, no hassle. The fairest pricing on the internet.
             </p>
           </div>
-          <div className="flex flex-wrap gap-3">
-            {payAsYouGo.map(tier => (
-              <div key={tier.label} className="rounded-xl border border-border bg-card px-4 py-3 text-center min-w-[110px]">
-                <div className="text-2xl font-black text-primary">{tier.price}</div>
-                <div className="text-xs font-semibold text-foreground">{tier.label}</div>
-                <div className="mt-0.5 text-[10px] text-muted-foreground leading-tight">{tier.example}</div>
-              </div>
-            ))}
+          <div className="flex items-center gap-6">
+            <div className="text-center">
+              <div className="text-6xl font-black text-primary">$1</div>
+              <div className="mt-1 text-sm font-semibold text-muted-foreground">per premium template</div>
+              <div className="mt-0.5 text-xs text-muted-foreground">one-time · yours forever</div>
+            </div>
+            <div className="space-y-2 text-sm text-muted-foreground">
+              {["Instant download", "All formats included", "Commercial license", "Free updates"].map(f => (
+                <div key={f} className="flex items-center gap-2">
+                  <Check className="h-4 w-4 text-emerald-500 shrink-0" />
+                  {f}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Billing toggle — only for Unlimited */}
+      {/* Billing toggle */}
       <div className="mb-10 flex flex-col items-center gap-3 text-center">
-        <h3 className="text-xl font-bold">Or choose a plan for regular downloads</h3>
+        <p className="text-sm text-muted-foreground">Or save more with a plan:</p>
         <div className="flex items-center gap-2 rounded-full border border-border bg-secondary/40 p-1">
           <button
             onClick={() => setAnnual(false)}
@@ -124,8 +131,7 @@ export function PricingCards() {
       {/* Plan cards */}
       <div className="grid gap-6 lg:grid-cols-3">
         {plans.map(plan => {
-          const price = annual && plan.annualPrice !== null ? plan.annualPrice : plan.monthlyPrice
-          const showPerMonth = plan.name === "Unlimited"
+          const price = annual ? plan.annualPrice : plan.monthlyPrice
 
           return (
             <div
@@ -134,7 +140,7 @@ export function PricingCards() {
                 "relative flex flex-col rounded-2xl border p-8 transition-all duration-300",
                 plan.highlight
                   ? "border-primary/50 bg-card glow-sm scale-[1.02] ring-1 ring-primary/20"
-                  : "border-border bg-card hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5"
+                  : "border-border bg-card hover:border-primary/30 hover:shadow-lg"
               )}
             >
               {plan.badge && (
@@ -150,14 +156,9 @@ export function PricingCards() {
                 <p className="mt-1 text-sm text-muted-foreground">{plan.tagline}</p>
               </div>
 
-              <div className="mb-1 flex items-end gap-1.5">
+              <div className="mb-2 flex items-end gap-1.5">
                 {price === 0 ? (
                   <span className="text-5xl font-black text-emerald-500">Free</span>
-                ) : plan.name === "Credits Pack" ? (
-                  <>
-                    <span className="text-5xl font-black">${price}</span>
-                    <span className="mb-1.5 text-muted-foreground text-sm">/ 10 credits</span>
-                  </>
                 ) : (
                   <>
                     <span className="text-5xl font-black">${price}</span>
@@ -165,17 +166,13 @@ export function PricingCards() {
                   </>
                 )}
               </div>
-
-              {plan.perCredit && (
-                <p className="mb-4 text-xs font-semibold text-emerald-500">{plan.perCredit}</p>
-              )}
-              {annual && showPerMonth && price > 0 && (
-                <p className="mb-4 -mt-1 text-xs text-emerald-500 font-semibold">
+              {annual && price > 0 && (
+                <p className="mb-4 text-xs font-semibold text-emerald-500">
                   Billed annually · Save ${(plan.monthlyPrice - price) * 12}/yr
                 </p>
               )}
 
-              <ul className="mb-8 flex-1 space-y-3 mt-4">
+              <ul className="mb-8 mt-4 flex-1 space-y-3">
                 {plan.features.map(f => (
                   <li key={f} className="flex items-start gap-3 text-sm">
                     <Check className={cn("mt-0.5 h-4 w-4 shrink-0", plan.highlight ? "text-primary" : "text-emerald-500")} />
@@ -196,12 +193,12 @@ export function PricingCards() {
         })}
       </div>
 
-      {/* Money-back */}
+      {/* Trust row */}
       <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
         <span className="flex items-center gap-1.5"><Check className="h-4 w-4 text-emerald-500" /> 30-day money-back guarantee</span>
         <span className="flex items-center gap-1.5"><Check className="h-4 w-4 text-emerald-500" /> Cancel anytime</span>
         <span className="flex items-center gap-1.5"><Check className="h-4 w-4 text-emerald-500" /> No hidden fees</span>
-        <span className="flex items-center gap-1.5"><Infinity className="h-4 w-4 text-emerald-500" /> Credits never expire</span>
+        <span className="flex items-center gap-1.5"><Check className="h-4 w-4 text-emerald-500" /> Free forever plan</span>
       </div>
     </div>
   )
