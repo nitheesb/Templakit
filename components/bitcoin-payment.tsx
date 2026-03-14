@@ -46,8 +46,8 @@ export function BitcoinPayment() {
 
       <p className="mt-2 text-[10px] text-muted-foreground">
         After sending, email{" "}
-        <a href="mailto:hello@templakit.com" className="text-primary hover:underline">
-          hello@templakit.com
+        <a href="mailto:nitheesbalaji@gmail.com" className="text-primary hover:underline">
+          nitheesbalaji@gmail.com
         </a>{" "}
         with your txid and the template name.
       </p>
