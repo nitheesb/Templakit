@@ -112,33 +112,164 @@ export default async function TemplatePage({ params }: TemplatePageProps) {
             <div className="lg:col-span-3">
               <div
                 className={cn(
-                  "relative aspect-[16/10] overflow-hidden rounded-2xl bg-gradient-to-br shadow-2xl",
-                  template.previewColor
+                  "relative aspect-[16/10] overflow-hidden rounded-2xl shadow-2xl",
+                  template.previewColor, "bg-gradient-to-br"
                 )}
               >
-                {/* Document mockup */}
-                <div className="absolute inset-6 flex flex-col gap-4 rounded-xl bg-white/12 p-5 backdrop-blur-sm">
-                  <div className="flex items-center gap-2">
-                    <div className="h-3 w-3 rounded-full bg-white/60" />
-                    <div className="h-2 w-1/3 rounded-full bg-white/50" />
-                  </div>
-                  <div className="flex flex-1 gap-4">
-                    <div className="flex-1 space-y-2">
-                      <div className="h-3 w-3/4 rounded-full bg-white/70" />
-                      <div className="h-2 w-1/2 rounded-full bg-white/50" />
-                      <div className="mt-3 space-y-1.5">
-                        <div className="h-2 w-full rounded-full bg-white/35" />
-                        <div className="h-2 w-4/5 rounded-full bg-white/30" />
-                        <div className="h-2 w-3/5 rounded-full bg-white/25" />
+                {/* Tool-specific mockup rendered via TemplateCard's ToolPreview — use inline version */}
+                {template.tool === "Excel" || template.tool === "Google Docs" ? (
+                  // Spreadsheet / doc: white page
+                  <div className="absolute inset-6 flex flex-col rounded-xl bg-white/95 shadow-inner overflow-hidden">
+                    <div className="flex items-center gap-2 border-b border-gray-200 bg-gray-50 px-4 py-2">
+                      <div className="h-2.5 w-20 rounded-full bg-gray-400" />
+                      <div className="h-2.5 w-14 rounded-full bg-gray-300" />
+                      <div className="h-2.5 w-16 rounded-full bg-gray-300" />
+                    </div>
+                    <div className="flex-1 p-5 space-y-3">
+                      <div className="h-4 w-1/3 rounded bg-gray-700" />
+                      <div className="h-2 w-1/4 rounded-full bg-gray-400" />
+                      <div className="mt-3 space-y-2">
+                        {[1,.9,.95,.8,.85,.7,.9,.75].map((w,i) => (
+                          <div key={i} className="h-2 rounded-full bg-gray-200" style={{width:`${w*100}%`}} />
+                        ))}
                       </div>
                     </div>
-                    <div className="w-2/5 rounded-lg bg-white/20" />
                   </div>
-                  <div className="flex gap-2">
-                    <div className="h-7 flex-1 rounded-lg bg-white/25" />
-                    <div className="h-7 w-16 rounded-lg bg-white/15" />
+                ) : template.tool === "Word" ? (
+                  <div className="absolute inset-6 flex flex-col rounded-xl bg-white/95 shadow-xl overflow-hidden border border-gray-200">
+                    <div className="bg-blue-700 px-4 py-1.5 flex items-center gap-2">
+                      <div className="h-2 w-8 rounded-full bg-white/60" />
+                      <div className="h-2 w-10 rounded-full bg-white/40" />
+                    </div>
+                    <div className="flex-1 p-5 space-y-2">
+                      <div className="border-b border-gray-200 pb-3">
+                        <div className="h-5 w-2/3 rounded bg-gray-800 mb-1.5" />
+                        <div className="h-2 w-1/3 rounded-full bg-gray-400" />
+                      </div>
+                      {[1,.9,.85,.95,.75,.88,.7,.9].map((w,i) => (
+                        <div key={i} className="h-2 rounded-full bg-gray-200" style={{width:`${w*100}%`}} />
+                      ))}
+                    </div>
                   </div>
-                </div>
+                ) : template.tool === "Notion" ? (
+                  <div className="absolute inset-0 flex overflow-hidden rounded-2xl">
+                    <div className="w-24 shrink-0 bg-black/25 p-3 flex flex-col gap-2">
+                      <div className="h-2.5 w-full rounded-full bg-white/70" />
+                      <div className="h-px bg-white/20 my-1" />
+                      {["full","4/5","3/4","full","4/5","2/3"].map((w,i) => (
+                        <div key={i} className={`h-2 w-${w} rounded-full bg-white/30`} />
+                      ))}
+                    </div>
+                    <div className="flex-1 bg-white/10 p-5 flex flex-col gap-3">
+                      <div className="h-6 w-2/3 rounded bg-white/80" />
+                      <div className="h-px bg-white/20" />
+                      <div className="space-y-2">
+                        {[1,.85,.9,.7,.8].map((w,i) => (
+                          <div key={i} className="h-2.5 rounded-full bg-white/40" style={{width:`${w*100}%`}} />
+                        ))}
+                      </div>
+                      <div className="mt-2 rounded border border-white/25 overflow-hidden">
+                        {[0,1,2,3].map(r => (
+                          <div key={r} className={cn("flex border-b border-white/10", r===0 && "bg-white/15")}>
+                            {[1,2,3].map(c => (
+                              <div key={c} className="flex-1 px-2 py-1.5 border-r border-white/10">
+                                <div className="h-2 rounded-full bg-white/40" style={{width: r===0 ? "80%" : `${60+Math.random()*30}%`}} />
+                              </div>
+                            ))}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ) : template.tool === "Figma" ? (
+                  <div className="absolute inset-0 flex overflow-hidden rounded-2xl bg-[#1e1e1e]/50">
+                    <div className="w-20 shrink-0 bg-black/30 p-2 flex flex-col gap-1.5">
+                      <div className="h-2 w-full rounded-full bg-white/50" />
+                      {[90,70,80,65,75,55,80].map((w,i) => (
+                        <div key={i} className="flex items-center gap-1">
+                          <div className="h-1.5 w-1.5 rounded-full bg-white/25 shrink-0" />
+                          <div className="h-1.5 rounded-full bg-white/25" style={{width:`${w}%`}} />
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex-1 flex items-center justify-center p-4">
+                      <div className="h-full w-4/5 rounded-xl border border-white/20 bg-white/10 flex flex-col overflow-hidden">
+                        <div className="flex items-center gap-2 bg-white/15 px-3 py-2 border-b border-white/10">
+                          <div className="h-2.5 w-2.5 rounded-full bg-white/60" />
+                          <div className="h-1.5 w-16 rounded-full bg-white/40" />
+                          <div className="flex-1" />
+                          <div className="h-5 w-12 rounded-full bg-white/25" />
+                        </div>
+                        <div className="flex-1 flex flex-col items-center justify-center gap-3 p-4">
+                          <div className="h-4 w-3/4 rounded-full bg-white/70" />
+                          <div className="h-2.5 w-1/2 rounded-full bg-white/45" />
+                          <div className="flex gap-3 mt-2">
+                            <div className="h-8 w-20 rounded-full bg-white/25" />
+                            <div className="h-8 w-20 rounded-full bg-white/15 border border-white/30" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="w-20 shrink-0 bg-black/30 p-2 flex flex-col gap-2">
+                      <div className="h-2 w-full rounded-full bg-white/50" />
+                      <div className="h-6 w-full rounded bg-white/20" />
+                      <div className="h-6 w-full rounded bg-white/15" />
+                      <div className="flex gap-1">
+                        {[1,2,3].map(i => <div key={i} className="flex-1 h-6 rounded bg-white/20" />)}
+                      </div>
+                    </div>
+                  </div>
+                ) : template.tool === "Canva" ? (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-8">
+                    <div className="absolute inset-0 bg-black/10 backdrop-blur-[1px]" />
+                    <div className="relative z-10 h-16 w-16 rounded-full bg-white/30 shadow-xl flex items-center justify-center">
+                      <div className="h-10 w-10 rounded-full bg-gradient-to-br from-white/80 to-white/20" />
+                    </div>
+                    <div className="relative z-10 text-center space-y-2">
+                      <div className="h-4 w-48 rounded-full bg-white/80 mx-auto" />
+                      <div className="h-2.5 w-32 rounded-full bg-white/55 mx-auto" />
+                    </div>
+                    <div className="relative z-10 flex gap-3">
+                      <div className="h-8 w-24 rounded-full bg-white/30 shadow-md" />
+                      <div className="h-8 w-20 rounded-full bg-white/15 border border-white/40" />
+                    </div>
+                    {/* Decorative blobs */}
+                    <div className="absolute top-4 right-6 h-12 w-12 rounded-full bg-white/15 blur-sm" />
+                    <div className="absolute bottom-6 left-8 h-8 w-8 rotate-45 rounded-lg bg-white/10 blur-[2px]" />
+                  </div>
+                ) : (
+                  // Default: slide / presentation
+                  <div className="absolute inset-6 flex flex-col rounded-xl bg-white/12 p-5 backdrop-blur-sm gap-4">
+                    <div className="flex items-center justify-between">
+                      <div className="h-2 w-8 rounded-full bg-white/50" />
+                      <div className="flex gap-1">
+                        <div className="h-1.5 w-4 rounded-full bg-white/30" />
+                        <div className="h-1.5 w-4 rounded-full bg-white/30" />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="h-6 w-3/4 rounded bg-white/80" />
+                      <div className="h-2.5 w-1/2 rounded-full bg-white/50" />
+                    </div>
+                    <div className="flex flex-1 gap-4">
+                      <div className="flex-1 space-y-2 bg-white/10 rounded-lg p-3">
+                        {[1,.9,.85,.7,.8].map((w,i) => (
+                          <div key={i} className="h-2 rounded-full bg-white/45" style={{width:`${w*100}%`}} />
+                        ))}
+                      </div>
+                      <div className="flex-1 rounded-lg bg-white/20 flex items-end justify-around p-3 gap-1">
+                        {[65,45,80,55,70].map((h,i) => (
+                          <div key={i} className="w-4 rounded-t bg-white/60" style={{height:`${h}%`}} />
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex justify-center gap-1.5">
+                      {[0,1,2,3,4].map(i => (
+                        <div key={i} className={cn("h-1.5 rounded-full", i === 0 ? "w-4 bg-white/80" : "w-1.5 bg-white/30")} />
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Thumbnail strip */}
