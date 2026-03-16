@@ -53,47 +53,49 @@ function SlideReport({ color }: { color: string }) {
   const bars = [55,80,45,90,65,75,50,85]
   return (
     <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
-      <div className="absolute inset-3 rounded-xl bg-white/92 overflow-hidden shadow-xl flex flex-col">
-        {/* header */}
-        <div className="flex items-center gap-2 px-3 py-2 border-b border-gray-100">
-          <div className="h-2.5 w-2.5 rounded-sm bg-blue-600"/>
-          <div className="h-1.5 w-28 rounded-full bg-gray-700"/>
+      <div className="absolute inset-3 flex flex-col rounded-xl overflow-hidden shadow-2xl" style={{background:"rgba(0,0,0,0.28)"}}>
+        {/* slide header */}
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-black/20 border-b border-white/10">
+          <div className="h-2.5 w-2.5 rounded-sm bg-white/80"/>
+          <div className="h-1.5 w-24 rounded-full bg-white/60"/>
           <div className="flex-1"/>
-          <div className="h-1.5 w-10 rounded-full bg-gray-300"/>
-          <div className="h-1.5 w-8 rounded-full bg-gray-300"/>
+          <div className="h-1.5 w-10 rounded-full bg-white/30"/>
         </div>
         {/* kpi row */}
-        <div className="flex gap-2 px-3 py-2 border-b border-gray-100">
-          {[["$2.4M","Revenue"],["94%","NPS"],["12.3K","Users"],["↑28%","Growth"]].map(([v,l],i)=>(
-            <div key={i} className="flex-1 rounded-lg bg-blue-50 border border-blue-100 p-1.5">
-              <div className="h-2.5 w-full rounded bg-blue-700 mb-0.5"/>
-              <div className="h-1 w-3/4 rounded-full bg-gray-300"/>
+        <div className="flex gap-1.5 px-3 pt-2 pb-1">
+          {["$2.4M","94%","12K","↑28%"].map((v,i)=>(
+            <div key={i} className="flex-1 rounded-lg bg-white/12 border border-white/15 p-1.5 flex flex-col gap-0.5">
+              <div className="h-3 w-full rounded bg-white/85"/>
+              <div className="h-1 w-3/4 rounded-full bg-white/30"/>
             </div>
           ))}
         </div>
-        {/* chart area */}
-        <div className="flex-1 px-3 py-2 flex gap-2">
+        {/* chart + table */}
+        <div className="flex-1 px-3 py-1 flex gap-2">
           <div className="flex-1 flex flex-col gap-1">
-            <div className="h-1.5 w-20 rounded-full bg-gray-500 mb-1"/>
+            <div className="h-1.5 w-16 rounded-full bg-white/40 mb-0.5"/>
             <div className="flex-1 flex items-end gap-0.5">
               {bars.map((h,i)=>(
-                <div key={i} className="flex-1 rounded-t" style={{height:`${h}%`,background:i===3?"rgb(37,99,235)":"rgb(147,197,253)"}}/>
+                <div key={i} className="flex-1 rounded-t-sm" style={{height:`${h}%`,background:i===3?"rgba(255,255,255,0.85)":"rgba(255,255,255,0.3)"}}/>
               ))}
             </div>
           </div>
-          {/* data table */}
-          <div className="w-20 flex flex-col gap-0.5">
-            <div className="flex gap-1 bg-gray-100 rounded px-1 py-0.5">
-              <div className="h-1 flex-1 rounded-full bg-gray-400"/>
-              <div className="h-1 w-4 rounded-full bg-gray-400"/>
+          <div className="w-18 flex flex-col gap-0.5">
+            <div className="flex gap-1 rounded px-1 py-0.5 bg-white/15">
+              <div className="h-1 flex-1 rounded-full bg-white/60"/>
+              <div className="h-1 w-4 rounded-full bg-white/60"/>
             </div>
             {[1,2,3,4].map(r=>(
               <div key={r} className="flex gap-1 px-1 py-0.5">
-                <div className="h-1.5 flex-1 rounded-full bg-gray-200"/>
-                <div className="h-1.5 w-4 rounded-full bg-gray-200"/>
+                <div className="h-1.5 flex-1 rounded-full bg-white/25"/>
+                <div className="h-1.5 w-4 rounded-full bg-white/25"/>
               </div>
             ))}
           </div>
+        </div>
+        {/* slide dots */}
+        <div className="flex justify-center gap-1 pb-2">
+          {[0,1,2,3,4,5].map(i=><div key={i} className={cn("h-1 rounded-full",i===1?"w-5 bg-white/80":"w-1.5 bg-white/25")}/>)}
         </div>
       </div>
     </div>
@@ -103,28 +105,33 @@ function SlideReport({ color }: { color: string }) {
 function SlideMinimal({ color }: { color: string }) {
   return (
     <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
-      <div className="absolute inset-3 rounded-xl bg-white/96 overflow-hidden shadow-xl flex flex-col">
-        <div className="h-0.5 w-full bg-gradient-to-r from-transparent via-current to-transparent opacity-20"/>
-        <div className="flex flex-1 flex-col justify-center px-6 gap-3">
-          {/* eyebrow */}
-          <div className="h-1 w-12 rounded-full bg-gray-300"/>
-          {/* big title */}
-          <div className="h-7 w-4/5 rounded-xl bg-gray-900"/>
-          <div className="h-4 w-3/5 rounded-lg bg-gray-800 opacity-70"/>
-          {/* body lines */}
-          <div className="mt-1 flex flex-col gap-1.5">
-            {[0.9,0.75,0.85,0.65].map((w,i)=>(
-              <div key={i} className="h-1.5 rounded-full bg-gray-200" style={{width:`${w*100}%`}}/>
+      {/* clean semi-transparent overlay */}
+      <div className="absolute inset-0" style={{background:"rgba(0,0,0,0.15)"}}/>
+      {/* centered content */}
+      <div className="absolute inset-0 flex flex-col justify-between px-6 py-4">
+        {/* top eyebrow line */}
+        <div className="flex items-center gap-2">
+          <div className="h-px flex-1 bg-white/25"/>
+          <div className="h-1.5 w-16 rounded-full bg-white/50"/>
+          <div className="h-px flex-1 bg-white/25"/>
+        </div>
+        {/* hero text block */}
+        <div className="flex flex-col gap-3">
+          <div className="h-1 w-10 rounded-full bg-white/40"/>
+          <div className="h-8 w-5/6 rounded-2xl bg-white/88"/>
+          <div className="h-4 w-2/3 rounded-xl bg-white/60"/>
+          <div className="flex flex-col gap-1.5 mt-1">
+            {[0.85,0.7,0.9,0.6].map((w,i)=>(
+              <div key={i} className="h-1.5 rounded-full bg-white/30" style={{width:`${w*100}%`}}/>
             ))}
           </div>
-          {/* CTA button */}
-          <div className="mt-1 h-6 w-20 rounded-full bg-gray-900"/>
         </div>
-        {/* footer line */}
-        <div className="flex justify-between items-center px-4 py-2 border-t border-gray-100">
-          <div className="h-1 w-12 rounded-full bg-gray-200"/>
-          <div className="flex gap-1">{[0,1,2,3,4].map(i=><div key={i} className={cn("h-1 rounded-full",i===1?"w-4 bg-gray-700":"w-1.5 bg-gray-300")}/>)}</div>
-          <div className="h-1 w-8 rounded-full bg-gray-200"/>
+        {/* bottom — CTA + slide nav */}
+        <div className="flex items-center justify-between">
+          <div className="h-6 w-20 rounded-full bg-white/88"/>
+          <div className="flex gap-1">
+            {[0,1,2,3,4].map(i=><div key={i} className={cn("h-1 rounded-full",i===0?"w-5 bg-white/85":"w-1.5 bg-white/30")}/>)}
+          </div>
         </div>
       </div>
     </div>
@@ -199,31 +206,36 @@ function SlideBold({ color }: { color: string }) {
 function SlideElegant({ color }: { color: string }) {
   return (
     <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
-      <div className="absolute inset-3 rounded-xl bg-white/95 overflow-hidden shadow-xl flex">
-        {/* left accent stripe */}
-        <div className={cn("w-1.5 shrink-0 bg-gradient-to-b", color)}/>
-        <div className="flex-1 flex flex-col justify-center px-4 py-3 gap-2">
-          {/* overline */}
-          <div className="h-1 w-10 rounded-full bg-gray-300"/>
-          {/* title block */}
-          <div className="h-6 w-4/5 rounded-lg bg-gray-900"/>
-          <div className="h-3.5 w-3/5 rounded-md bg-gray-700"/>
-          {/* divider */}
-          <div className="h-px w-full bg-gray-200 my-1"/>
-          {/* content columns */}
-          <div className="flex gap-3">
-            <div className="flex-1 flex flex-col gap-1">
-              <div className="h-2 w-full rounded bg-gray-400 mb-0.5"/>
-              {[.9,.75,.85,.7].map((w,i)=><div key={i} className="h-1.5 rounded-full bg-gray-200" style={{width:`${w*100}%`}}/>)}
-            </div>
-            <div className="flex-1 flex flex-col gap-1">
-              <div className="h-2 w-full rounded bg-gray-400 mb-0.5"/>
-              {[.8,.9,.65,.8].map((w,i)=><div key={i} className="h-1.5 rounded-full bg-gray-200" style={{width:`${w*100}%`}}/>)}
-            </div>
+      <div className="absolute inset-3 rounded-xl overflow-hidden shadow-2xl flex" style={{background:"rgba(0,0,0,0.20)"}}>
+        {/* left: editorial text column */}
+        <div className="flex-1 flex flex-col justify-center px-4 py-4 gap-2.5">
+          {/* decorative line */}
+          <div className="h-0.5 w-8 rounded-full bg-white/70"/>
+          {/* big title */}
+          <div className="h-8 w-11/12 rounded-2xl bg-white/90"/>
+          <div className="h-4 w-4/5 rounded-xl bg-white/65"/>
+          {/* subtitle lines */}
+          <div className="flex flex-col gap-1.5 mt-1">
+            {[0.88,0.72,0.82].map((w,i)=>(
+              <div key={i} className="h-1.5 rounded-full bg-white/35" style={{width:`${w*100}%`}}/>
+            ))}
           </div>
-          {/* page # */}
-          <div className="flex justify-end mt-1">
-            <div className="h-1 w-6 rounded-full bg-gray-300"/>
+          {/* two-col stats */}
+          <div className="flex gap-3 mt-1">
+            {[["12","Years"],["98%","Rated"],["500+","Clients"]].map(([n,l],i)=>(
+              <div key={i} className="flex flex-col gap-0.5">
+                <div className="h-3 w-8 rounded bg-white/85"/>
+                <div className="h-1 w-6 rounded-full bg-white/35"/>
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* right: image placeholder */}
+        <div className="w-20 shrink-0 flex flex-col bg-white/8 border-l border-white/15 relative overflow-hidden">
+          <div className="absolute inset-2 rounded-lg bg-white/15"/>
+          <div className="absolute bottom-2 left-2 right-2 flex flex-col gap-1">
+            <div className="h-1.5 w-full rounded-full bg-white/40"/>
+            <div className="h-1 w-3/4 rounded-full bg-white/25"/>
           </div>
         </div>
       </div>
