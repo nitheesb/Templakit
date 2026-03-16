@@ -36,32 +36,46 @@ function SlidePitchDeck({ color }: { color: string }) {
 }
 
 function SlideReport({ color }: { color: string }) {
+  const bars = [55,80,45,90,65,75,50,85]
   return (
     <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
-      <div className="absolute inset-4 flex flex-col rounded-xl bg-white/90 overflow-hidden shadow-inner">
-        <div className={cn("flex items-center justify-between px-4 py-2.5 bg-gradient-to-r", color)}>
-          <div className="flex items-center gap-2"><div className="h-4 w-4 rounded-full bg-white/70" /><div className="h-2.5 w-20 rounded-full bg-white/60" /></div>
-          <div className="h-2.5 w-14 rounded-full bg-white/40" />
+      <div className="absolute inset-4 flex flex-col rounded-xl overflow-hidden shadow-2xl" style={{background:"rgba(0,0,0,0.28)"}}>
+        <div className="flex items-center gap-2 px-4 py-2 bg-black/20 border-b border-white/10">
+          <div className="h-3 w-3 rounded-sm bg-white/80"/><div className="h-2 w-28 rounded-full bg-white/60"/>
+          <div className="flex-1"/><div className="h-2 w-12 rounded-full bg-white/30"/>
         </div>
-        <div className="flex gap-2 px-4 pt-3">
-          {[["$2.4M","Revenue"],["↑34%","Growth"],["4.8K","Users"],["98%","NPS"]].map(([v,l],i)=>(
-            <div key={i} className="flex-1 rounded-lg border border-gray-100 bg-gray-50 p-2">
-              <div className="h-3.5 w-10 rounded bg-gray-700" /><div className="mt-1 h-2 w-12 rounded-full bg-gray-300" />
+        <div className="flex gap-1.5 px-4 pt-3 pb-1">
+          {["$2.4M","94%","12K","↑28%"].map((v,i)=>(
+            <div key={i} className="flex-1 rounded-lg bg-white/12 border border-white/15 p-1.5 flex flex-col gap-0.5">
+              <div className="h-3.5 w-full rounded bg-white/85"/>
+              <div className="h-1.5 w-3/4 rounded-full bg-white/30"/>
             </div>
           ))}
         </div>
-        <div className="flex flex-1 gap-3 px-4 pb-3 pt-2">
-          <div className="flex-1 rounded-lg border border-gray-100 bg-gray-50 p-3 flex flex-col justify-end">
-            <div className="flex items-end justify-around gap-1 h-full">
-              {[55,75,45,90,65,80,50,70].map((h,i)=><div key={i} className="flex-1 rounded-t bg-blue-400/60" style={{height:`${h}%`}} />)}
+        <div className="flex-1 px-4 py-2 flex gap-3">
+          <div className="flex-1 flex flex-col gap-1">
+            <div className="h-2 w-20 rounded-full bg-white/40 mb-0.5"/>
+            <div className="flex-1 flex items-end gap-0.5">
+              {bars.map((h,i)=>(
+                <div key={i} className="flex-1 rounded-t-sm" style={{height:`${h}%`,background:i===3?"rgba(255,255,255,0.85)":"rgba(255,255,255,0.3)"}}/>
+              ))}
             </div>
           </div>
-          <div className="w-32 flex flex-col gap-1 rounded-lg border border-gray-100 bg-gray-50 p-2.5">
-            <div className="h-2 w-full rounded-full bg-gray-300 mb-1" />
-            {[1,2,3,4,5].map(i=>(
-              <div key={i} className="flex gap-1"><div className="h-2 w-16 rounded-full bg-gray-200" /><div className="h-2 w-8 rounded-full bg-gray-200" /></div>
+          <div className="w-24 flex flex-col gap-0.5">
+            <div className="flex gap-1 rounded px-1 py-0.5 bg-white/15">
+              <div className="h-1.5 flex-1 rounded-full bg-white/60"/>
+              <div className="h-1.5 w-6 rounded-full bg-white/60"/>
+            </div>
+            {[1,2,3,4,5].map(r=>(
+              <div key={r} className="flex gap-1 px-1 py-0.5">
+                <div className="h-2 flex-1 rounded-full bg-white/25"/>
+                <div className="h-2 w-6 rounded-full bg-white/25"/>
+              </div>
             ))}
           </div>
+        </div>
+        <div className="flex justify-center gap-1.5 pb-2.5">
+          {[0,1,2,3,4,5].map(i=><div key={i} className={cn("h-1.5 rounded-full",i===1?"w-6 bg-white/80":"w-2 bg-white/25")}/>)}
         </div>
       </div>
     </div>
@@ -71,19 +85,28 @@ function SlideReport({ color }: { color: string }) {
 function SlideMinimal({ color }: { color: string }) {
   return (
     <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
-      <div className="absolute inset-4 flex flex-col rounded-xl bg-white/95 shadow-inner overflow-hidden">
-        <div className={cn("h-1.5 w-full bg-gradient-to-r", color)} />
-        <div className="flex flex-1 flex-col justify-center px-8 py-4 gap-3">
-          <div className="flex items-center gap-3"><div className="h-0.5 w-6 bg-gray-700" /><div className="h-2 w-10 rounded-full bg-gray-300" /></div>
-          <div className="h-7 w-3/4 rounded-lg bg-gray-800" />
-          <div className="h-3 w-1/2 rounded-full bg-gray-400" />
-          <div className="my-2 h-px w-full bg-gray-100" />
-          <div className="space-y-2">
-            {[1,.9,.95,.7,.8,.85,.65].map((w,i)=><div key={i} className="h-2 rounded-full bg-gray-200" style={{width:`${w*100}%`}} />)}
+      <div className="absolute inset-0" style={{background:"rgba(0,0,0,0.15)"}}/>
+      <div className="absolute inset-0 flex flex-col justify-between px-8 py-6">
+        <div className="flex items-center gap-2">
+          <div className="h-px flex-1 bg-white/25"/>
+          <div className="h-1.5 w-20 rounded-full bg-white/50"/>
+          <div className="h-px flex-1 bg-white/25"/>
+        </div>
+        <div className="flex flex-col gap-3">
+          <div className="h-1 w-12 rounded-full bg-white/40"/>
+          <div className="h-10 w-5/6 rounded-2xl bg-white/88"/>
+          <div className="h-5 w-2/3 rounded-xl bg-white/60"/>
+          <div className="flex flex-col gap-2 mt-1">
+            {[0.85,0.7,0.9,0.6].map((w,i)=>(
+              <div key={i} className="h-2 rounded-full bg-white/30" style={{width:`${w*100}%`}}/>
+            ))}
           </div>
         </div>
-        <div className="flex items-center justify-between border-t border-gray-100 px-6 py-2">
-          <div className="h-2 w-10 rounded-full bg-gray-200" /><div className="h-2 w-8 rounded-full bg-gray-300" /><div className="h-2 w-10 rounded-full bg-gray-200" />
+        <div className="flex items-center justify-between">
+          <div className="h-8 w-24 rounded-full bg-white/88"/>
+          <div className="flex gap-1.5">
+            {[0,1,2,3,4].map(i=><div key={i} className={cn("h-1.5 rounded-full",i===0?"w-6 bg-white/85":"w-2 bg-white/30")}/>)}
+          </div>
         </div>
       </div>
     </div>
@@ -145,25 +168,30 @@ function SlideBold({ color }: { color: string }) {
 function SlideElegant({ color }: { color: string }) {
   return (
     <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
-      <div className="absolute inset-4 flex rounded-xl overflow-hidden shadow-inner">
-        <div className="w-2/5 flex flex-col items-center justify-center bg-black/20 relative">
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30" />
-          <div className="relative z-10 flex flex-col items-center gap-2">
-            <div className="h-16 w-16 rounded-full bg-white/30" />
-            <div className="h-2.5 w-18 rounded-full bg-white/60" />
-            <div className="h-2 w-14 rounded-full bg-white/40" />
+      <div className="absolute inset-4 rounded-xl overflow-hidden shadow-2xl flex" style={{background:"rgba(0,0,0,0.20)"}}>
+        <div className="flex-1 flex flex-col justify-center px-6 py-5 gap-3">
+          <div className="h-0.5 w-10 rounded-full bg-white/70"/>
+          <div className="h-10 w-11/12 rounded-2xl bg-white/90"/>
+          <div className="h-5 w-4/5 rounded-xl bg-white/65"/>
+          <div className="flex flex-col gap-2 mt-1">
+            {[0.88,0.72,0.82].map((w,i)=>(
+              <div key={i} className="h-2 rounded-full bg-white/35" style={{width:`${w*100}%`}}/>
+            ))}
+          </div>
+          <div className="flex gap-4 mt-1">
+            {[["12","Years"],["98%","Rated"],["500+","Clients"]].map(([n,l],i)=>(
+              <div key={i} className="flex flex-col gap-0.5">
+                <div className="h-4 w-10 rounded bg-white/85"/>
+                <div className="h-1.5 w-8 rounded-full bg-white/35"/>
+              </div>
+            ))}
           </div>
         </div>
-        <div className="flex-1 flex flex-col justify-center bg-white/90 px-5 py-4 gap-3">
-          <div className={cn("h-1 w-8 rounded-full bg-gradient-to-r", color)} />
-          <div className="h-6 w-4/5 rounded bg-gray-800" />
-          <div className="h-2.5 w-3/5 rounded-full bg-gray-400" />
-          <div className="space-y-1.5">
-            {[.9,.75,.85,.7,.8].map((w,i)=><div key={i} className="h-2 rounded-full bg-gray-200" style={{width:`${w*100}%`}} />)}
-          </div>
-          <div className="flex items-center gap-2 mt-1">
-            <div className={cn("h-6 w-16 rounded-full bg-gradient-to-r opacity-80", color)} />
-            <div className="h-6 w-12 rounded-full border border-gray-200 bg-white" />
+        <div className="w-28 shrink-0 flex flex-col bg-white/8 border-l border-white/15 relative overflow-hidden">
+          <div className="absolute inset-3 rounded-lg bg-white/15"/>
+          <div className="absolute bottom-3 left-3 right-3 flex flex-col gap-1.5">
+            <div className="h-2 w-full rounded-full bg-white/40"/>
+            <div className="h-1.5 w-3/4 rounded-full bg-white/25"/>
           </div>
         </div>
       </div>
