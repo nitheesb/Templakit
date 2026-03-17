@@ -118,17 +118,26 @@ export default async function TemplatePage({ params }: TemplatePageProps) {
                 className="aspect-[16/10]"
               />
               {/* Thumbnail strip */}
-              <div className="mt-3 flex gap-2">
+              <div className="mt-3 flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
                 {[1, 2, 3, 4].map((i) => (
                   <button
                     key={i}
                     aria-label={`View slide ${i}`}
                     className={cn(
-                      "aspect-[16/10] w-20 overflow-hidden rounded-lg border-2 transition-all duration-150",
-                      i === 1 ? "border-primary shadow-sm shadow-primary/20" : "border-border/50 hover:border-primary/40"
+                      "relative aspect-[16/10] w-24 shrink-0 overflow-hidden rounded-lg border-2 transition-all duration-200",
+                      i === 1 
+                        ? "border-primary ring-2 ring-primary/20" 
+                        : "border-border/50 hover:border-primary/50 opacity-70 hover:opacity-100"
                     )}
                   >
-                    <div className={cn("h-full w-full bg-gradient-to-br opacity-80", template.previewColor)} />
+                    <div className="absolute inset-0 origin-top-left w-[400%] h-[400%] scale-25 pointer-events-none">
+                      <TemplatePreview
+                        tool={template.tool}
+                        style={template.style}
+                        color={template.previewColor}
+                        className="w-full h-full rounded-none shadow-none border-none"
+                      />
+                    </div>
                   </button>
                 ))}
               </div>
