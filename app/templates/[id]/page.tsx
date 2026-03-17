@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import Link from "next/link"
+import Image from "next/image"
 import { ArrowLeft, Download, Star, Tag, CheckCircle2, Shield } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
@@ -11,6 +12,8 @@ import { DownloadButton } from "@/components/download-button"
 import { BitcoinPayment } from "@/components/bitcoin-payment"
 import { getTemplateById, getRelatedTemplates, templates } from "@/lib/templates"
 import { cn } from "@/lib/utils"
+import { existsSync } from "fs"
+import { join } from "path"
 
 interface TemplatePageProps {
   params: Promise<{ id: string }>
@@ -74,6 +77,15 @@ export default async function TemplatePage({ params }: TemplatePageProps) {
     },
   }
 
+  // Check which slide preview images are available
+  const publicDir = join(process.cwd(), "public", "previews")
+  const slideImages = [1, 2, 3, 4].map(i => {
+    const file = i === 1 ? `${template.id}.webp` : `${template.id}-${i}.webp`
+    return existsSync(join(publicDir, file)) ? `/previews/${file}` : null
+  }).filter(Boolean) as string[]
+
+  const hasRealPreview = slideImages.length > 0
+
   return (
     <div className="flex min-h-screen flex-col">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -111,36 +123,49 @@ export default async function TemplatePage({ params }: TemplatePageProps) {
           <div className="grid gap-10 lg:grid-cols-5 lg:gap-16">
             {/* Preview */}
             <div className="lg:col-span-3">
-              <TemplatePreview
-                tool={template.tool}
-                style={template.style}
-                color={template.previewColor}
-                className="aspect-[16/10]"
-              />
+              {hasRealPreview ? (
+                <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-border/50 shadow-lg bg-secondary/10">
+                  <Image
+                    src={slideImages[0]}
+                    alt={`${template.title} preview`}
+                    fill
+                    className="object-cover object-top"
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 60vw"
+                  />
+                </div>
+              ) : (
+                <TemplatePreview
+                  tool={template.tool}
+                  style={template.style}
+                  color={template.previewColor}
+                  className="aspect-[16/10]"
+                />
+              )}
               {/* Thumbnail strip */}
-              <div className="mt-3 flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-                {[1, 2, 3, 4].map((i) => (
-                  <button
-                    key={i}
-                    aria-label={`View slide ${i}`}
-                    className={cn(
-                      "relative aspect-[16/10] w-24 shrink-0 overflow-hidden rounded-lg border-2 transition-all duration-200",
-                      i === 1 
-                        ? "border-primary ring-2 ring-primary/20" 
-                        : "border-border/50 hover:border-primary/50 opacity-70 hover:opacity-100"
-                    )}
-                  >
-                    <div className="absolute inset-0 origin-top-left w-[400%] h-[400%] scale-25 pointer-events-none">
-                      <TemplatePreview
-                        tool={template.tool}
-                        style={template.style}
-                        color={template.previewColor}
-                        className="w-full h-full rounded-none shadow-none border-none"
+              {slideImages.length > 1 && (
+                <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
+                  {slideImages.map((src, i) => (
+                    <div
+                      key={src}
+                      className={cn(
+                        "relative aspect-[16/10] w-24 shrink-0 overflow-hidden rounded-lg border-2 transition-all duration-200",
+                        i === 0
+                          ? "border-primary ring-2 ring-primary/20"
+                          : "border-border/50 opacity-75 hover:border-primary/50 hover:opacity-100"
+                      )}
+                    >
+                      <Image
+                        src={src}
+                        alt={`Slide ${i + 1}`}
+                        fill
+                        className="object-cover object-top"
+                        sizes="96px"
                       />
                     </div>
-                  </button>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Sidebar */}

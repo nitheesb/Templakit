@@ -1,18 +1,42 @@
 "use client"
 
-import type { ReactElement } from "react"
+import { useState } from "react"
+import Image from "next/image"
 import Link from "next/link"
 import { Star, Download, Eye, Flame, Sparkles } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import type { Template } from "@/lib/templates"
 import { formatDownloads } from "@/lib/templates"
-
 import { TemplatePreview } from "@/components/template-preview"
 
 interface TemplateCardProps {
   template: Template
   className?: string
+}
+
+function TemplateThumb({ template }: { template: Template }) {
+  const [imgError, setImgError] = useState(false)
+  if (!imgError) {
+    return (
+      <Image
+        src={`/previews/${template.id}.webp`}
+        alt={template.title}
+        fill
+        className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        onError={() => setImgError(true)}
+      />
+    )
+  }
+  return (
+    <TemplatePreview
+      tool={template.tool}
+      style={template.style}
+      color={template.previewColor}
+      className="h-full w-full rounded-none shadow-none border-none"
+    />
+  )
 }
 
 export function TemplateCard({ template, className }: TemplateCardProps) {
@@ -24,12 +48,7 @@ export function TemplateCard({ template, className }: TemplateCardProps) {
       )}>
         {/* Preview thumbnail */}
         <div className="relative aspect-[4/3] overflow-hidden rounded-t-2xl bg-secondary/20">
-          <TemplatePreview 
-            tool={template.tool} 
-            style={template.style} 
-            color={template.previewColor} 
-            className="h-full w-full rounded-none shadow-none border-none"
-          />
+          <TemplateThumb template={template} />
 
           {/* Hover overlay */}
           <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:bg-black/40 backdrop-blur-[2px]">
