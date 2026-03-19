@@ -42,6 +42,13 @@ function TemplatesContent() {
   const [search, setSearch]                     = useState("")
   const [selectedCategory, setSelectedCategory] = useState<string | null>(initialCategory)
   const [selectedStyle, setSelectedStyle]       = useState<string | null>(null)
+
+  // Sync selectedCategory when the URL query param changes (e.g. clicking
+  // a tool in the navbar strip while already on /templates)
+  useEffect(() => {
+    setSelectedCategory(searchParams.get("category"))
+    setPage(1)
+  }, [searchParams])
   const [freeOnly, setFreeOnly]                 = useState(false)
   const [sortBy, setSortBy]                     = useState("popular")
   const [showFilters, setShowFilters]           = useState(false)
