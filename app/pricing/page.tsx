@@ -8,7 +8,7 @@ import { PricingFAQ } from "@/components/pricing/pricing-faq"
 export const metadata: Metadata = {
   title: "Pricing — Download Premium Templates from $1",
   description:
-    "Browse 500+ free templates at no cost. Premium templates are just $1 flat — the most generous pricing anywhere. No subscription required.",
+    "Browse 180+ free templates at no cost. Premium templates are just $1 flat — the most generous pricing anywhere. No subscription required.",
   alternates: { canonical: "https://templakit.vercel.app/pricing" },
 }
 
@@ -29,7 +29,7 @@ export default function PricingPage() {
               <span className="gradient-text">Fair Pricing</span>
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-lg text-muted-foreground">
-              500+ templates are completely free. Every premium template is just{" "}
+              180+ templates are completely free. Every premium template is just{" "}
               <strong className="text-foreground">$1 flat</strong> — the most generous pricing anywhere.
               No subscription, no tricks, just $1.
             </p>

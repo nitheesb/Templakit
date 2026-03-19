@@ -6,44 +6,44 @@ import { cn } from "@/lib/utils"
 
 const faqs = [
   {
-    question: "Can I cancel my subscription at any time?",
+    question: "What's the difference between free and premium templates?",
     answer:
-      "Yes, you can cancel your subscription at any time. When you cancel, you'll continue to have access to your plan until the end of your current billing period. After that, your account will be downgraded to the Free plan.",
+      "Free templates are fully functional, fully editable, and yours to download instantly — no account required. Premium templates ($1 each) include more advanced slide layouts, extra design variants, all source file formats, and a full commercial use license that covers client and commercial work.",
   },
   {
     question: "What payment methods do you accept?",
     answer:
-      "We accept all major credit cards (Visa, Mastercard, American Express) as well as PayPal. For Team plans, we also offer invoice-based billing for annual subscriptions.",
+      "We accept all major credit and debit cards (Visa, Mastercard, Amex), Apple Pay, and Google Pay — all powered by Stripe. For crypto, you can also pay with Bitcoin and email us your transaction ID to receive your download link.",
   },
   {
-    question: "Can I switch between plans?",
+    question: "Is there a subscription or recurring charge?",
     answer:
-      "Absolutely! You can upgrade or downgrade your plan at any time. When you upgrade, you'll be charged the prorated difference. When you downgrade, the credit will be applied to your next billing cycle.",
+      "No — there are absolutely no subscriptions or recurring charges. Every premium template is a single $1 one-time payment. You pay once, you own the file forever, including all future updates.",
   },
   {
-    question: "What file formats are included?",
+    question: "Do I need an account to download?",
     answer:
-      "Free users get access to basic formats like PNG and PDF. Pro and Team users get access to all formats including PSD, AI, Figma, Sketch, PowerPoint, Google Slides, and more depending on the template.",
+      "No account is ever required. Free templates download instantly with one click. For premium templates ($1), you complete a quick Stripe checkout — no account needed, just your payment details.",
   },
   {
-    question: "Do templates come with a commercial license?",
+    question: "Can I use templates for client or commercial work?",
     answer:
-      "Pro and Team plans include a commercial license that allows you to use templates for client work and commercial projects. Free templates are for personal use only unless otherwise specified.",
+      "Free templates are licensed for personal, educational, and internal business use. For client deliverables and commercial projects, grab the premium version ($1) which includes a full commercial use license.",
   },
   {
-    question: "How does team collaboration work?",
+    question: "What file formats do I get?",
     answer:
-      "With the Team plan, you can invite up to 10 team members to your workspace. Team members can share templates, create shared collections, upload brand assets, and collaborate on projects together.",
+      "It depends on the tool: PowerPoint templates come as .PPTX + PDF; Excel as .XLSX; Figma as .fig files; Canva templates open via a direct Canva link; Word as .DOCX + PDF; Notion as a duplicate link; Google Slides and Google Docs as shareable copy links.",
   },
   {
-    question: "Is there a free trial for Pro plans?",
+    question: "What if I'm not satisfied with my purchase?",
     answer:
-      "Yes! We offer a 7-day free trial for the Pro plan. You can try all Pro features risk-free. If you decide it's not for you, simply cancel before the trial ends and you won't be charged.",
+      "We offer a no-questions-asked 30-day refund policy. Email nitheesbalaji@gmail.com with your Stripe receipt and we'll process a full refund within 2–3 business days.",
   },
   {
-    question: "What happens to my downloads if I cancel?",
+    question: "Are the templates fully editable?",
     answer:
-      "Any templates you've downloaded while on a paid plan are yours to keep forever. However, you won't be able to download new Pro templates after your subscription ends.",
+      "Yes — every template is 100% editable. Change colours, fonts, images, text, and layout to match your brand. No locked layers, no watermarks on downloaded files.",
   },
 ]
 
@@ -58,7 +58,7 @@ export function PricingFAQ() {
             Frequently Asked Questions
           </h2>
           <p className="mt-3 text-muted-foreground">
-            Got questions? We've got answers.
+            Everything you need to know about Templakit pricing.
           </p>
         </div>
 
@@ -93,6 +93,13 @@ export function PricingFAQ() {
             </div>
           ))}
         </div>
+
+        <p className="mt-8 text-center text-sm text-muted-foreground">
+          Still have questions?{" "}
+          <a href="mailto:nitheesbalaji@gmail.com" className="font-semibold text-primary hover:underline">
+            Email us — we reply within 24 hours.
+          </a>
+        </p>
       </div>
     </section>
   )

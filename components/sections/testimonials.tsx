@@ -52,7 +52,7 @@ const testimonials = [
     company: "Kreative Co.",
     avatar: "DK",
     avatarColor: "from-emerald-500 to-teal-500",
-    quote: "We manage 20+ clients and Templakit saves us thousands of hours monthly. The Excel financial models alone justified the Team plan ten times over.",
+    quote: "We manage 20+ clients and Templakit saves us thousands of hours monthly. The Excel financial models alone are worth it ten times over. Best $1 per template anywhere.",
     rating: 5,
   },
 ]

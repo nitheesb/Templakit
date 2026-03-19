@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Templakit — Free Professional Templates",
     short_name: "Templakit",
     description:
-      "500+ free professionally designed templates for PowerPoint, Google Slides, Canva, Excel, Figma, Word, Notion, and Google Docs.",
+      "400+ professionally designed templates for PowerPoint, Google Slides, Canva, Excel, Figma, Word, Notion, and Google Docs. 180+ free, premium templates just $1.",
     start_url: "/",
     display: "standalone",
     background_color: "#09090b",

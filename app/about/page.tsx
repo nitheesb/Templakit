@@ -17,7 +17,7 @@ const values = [
     icon: Heart,
     title: "Free First",
     description:
-      "Over 500 templates are completely free — no account, no watermarks, no tricks. We believe great design should be accessible to everyone, not just those who can afford expensive subscriptions.",
+      "Over 400 templates on Templakit — 180+ completely free, the rest just $1 each. No account, no watermarks, no tricks. We believe great design should be accessible to everyone, not just those who can afford expensive subscriptions.",
     color: "from-pink-500 to-rose-500",
   },
   {
@@ -44,10 +44,10 @@ const values = [
 ]
 
 const stats = [
-  { value: "500+", label: "Free Templates" },
-  { value: "8", label: "Tools Covered" },
-  { value: "120K+", label: "Downloads" },
-  { value: "$1", label: "Max Price" },
+  { value: "405",  label: "Total Templates" },
+  { value: "180+", label: "Free Templates" },
+  { value: "8",    label: "Tools Covered" },
+  { value: "$1",   label: "Max Price" },
 ]
 
 export default function AboutPage() {
@@ -86,7 +86,7 @@ export default function AboutPage() {
               free tier, or charged monthly subscriptions just to download a single file.
             </p>
             <p>
-              We built Templakit to be the antidote. 500+ templates, zero sign-up friction, zero watermarks,
+              We built Templakit to be the antidote. 400+ templates (180+ completely free), zero sign-up friction, zero watermarks,
               and a simple pricing model: if a template has advanced premium features, it costs exactly $1.
               Not $9/month. Not $19/month. One dollar, one time.
             </p>
@@ -163,7 +163,7 @@ export default function AboutPage() {
           <div className="mx-auto max-w-3xl px-4 py-12 text-center sm:px-6 lg:px-8">
             <p className="text-muted-foreground">Ready to find your next favourite template?</p>
             <Button asChild size="lg" className="mt-4 btn-gradient gap-2 rounded-xl text-white border-0">
-              <Link href="/templates">Browse 500+ Free Templates →</Link>
+              <Link href="/templates">Browse 400+ Templates →</Link>
             </Button>
           </div>
         </section>
