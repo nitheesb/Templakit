@@ -56,13 +56,15 @@ export function HowItWorks() {
             const Icon = step.icon
             return (
               <div key={step.number} className="relative flex flex-col items-center text-center">
-                <div className={cn(
-                  "relative flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br shadow-xl shadow-black/10",
-                  step.color
-                )}>
-                  <Icon className="h-7 w-7 text-white" />
-                  <div className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-background text-xs font-black ring-2 ring-border">
-                    {step.number}
+                <div className="relative pb-1 pr-2">
+                  <div className={cn(
+                    "relative flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br shadow-xl shadow-black/10",
+                    step.color
+                  )}>
+                    <Icon className="h-7 w-7 text-white" />
+                    <div className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-background text-xs font-black ring-2 ring-border shadow-sm">
+                      {step.number}
+                    </div>
                   </div>
                 </div>
 

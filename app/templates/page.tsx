@@ -120,14 +120,15 @@ function TemplatesContent() {
                   value={search}
                   onChange={e => { setSearch(e.target.value); setPage(1) }}
                   className="pl-10 rounded-xl"
+                  aria-label="Search templates"
                 />
               </div>
-              <div className="flex gap-2">
+              <div className="flex min-w-0 gap-2">
                 {/* Sort */}
-                <div className="relative" ref={sortRef}>
+                <div className="relative min-w-0 flex-1 sm:flex-none" ref={sortRef}>
                   <button
                     onClick={() => setShowSortMenu(!showSortMenu)}
-                    className="flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-medium hover:bg-secondary transition-colors"
+                    className="flex w-full items-center justify-between gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-medium hover:bg-secondary transition-colors sm:w-auto sm:justify-start"
                   >
                     {SORT_OPTIONS.find(o => o.value === sortBy)?.label}
                     <ChevronDown className={cn("h-4 w-4 text-muted-foreground transition-transform", showSortMenu && "rotate-180")} />

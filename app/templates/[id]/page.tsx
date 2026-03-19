@@ -91,19 +91,19 @@ export default async function TemplatePage({ params }: TemplatePageProps) {
         {/* Breadcrumb */}
         <div className="border-b border-border/40 bg-secondary/20">
           <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
-            <nav className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Link href="/" className="hover:text-foreground transition-colors">Home</Link>
-              <span>/</span>
-              <Link href="/templates" className="hover:text-foreground transition-colors">Templates</Link>
-              <span>/</span>
+            <nav className="flex min-w-0 items-center gap-2 overflow-hidden text-sm text-muted-foreground">
+              <Link href="/" className="hidden shrink-0 transition-colors hover:text-foreground sm:inline">Home</Link>
+              <span className="hidden shrink-0 sm:inline">/</span>
+              <Link href="/templates" className="shrink-0 transition-colors hover:text-foreground">Templates</Link>
+              <span className="shrink-0">/</span>
               <Link
                 href={`/templates?category=${encodeURIComponent(template.tool)}`}
-                className="hover:text-foreground transition-colors"
+                className="hidden shrink-0 transition-colors hover:text-foreground sm:inline"
               >
                 {template.tool}
               </Link>
-              <span>/</span>
-              <span className="truncate text-foreground font-medium max-w-48">{template.title}</span>
+              <span className="hidden shrink-0 sm:inline">/</span>
+              <span className="min-w-0 truncate font-medium text-foreground">{template.title}</span>
             </nav>
           </div>
         </div>
@@ -119,7 +119,7 @@ export default async function TemplatePage({ params }: TemplatePageProps) {
 
           <div className="grid gap-10 lg:grid-cols-5 lg:gap-16">
             {/* Preview — interactive gallery */}
-            <div className="lg:col-span-3">
+            <div className="min-w-0 lg:col-span-3">
               <ImageGallery
                 slideImages={slideImages}
                 title={template.title}
@@ -130,7 +130,7 @@ export default async function TemplatePage({ params }: TemplatePageProps) {
             </div>
 
             {/* Sidebar */}
-            <div className="lg:col-span-2">
+            <div className="min-w-0 lg:col-span-2">
               <div className="sticky top-24 space-y-6">
                 {/* Tool + style */}
                 <div className="flex items-center gap-2">
@@ -144,7 +144,7 @@ export default async function TemplatePage({ params }: TemplatePageProps) {
                 </h1>
 
                 {/* Rating row */}
-                <div className="flex items-center gap-4 text-sm">
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
                   <div className="flex items-center gap-1.5">
                     <div className="flex">
                       {[...Array(5)].map((_, i) => (

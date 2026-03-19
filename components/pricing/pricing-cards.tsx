@@ -38,7 +38,7 @@ export function PricingCards() {
       <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
 
         {/* Free tier */}
-        <div className="relative flex flex-col rounded-2xl border border-border bg-card p-8">
+        <div className="relative flex flex-col rounded-2xl border border-border bg-card p-6 sm:p-8">
           <div className="mb-2 flex items-center gap-2">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10">
               <Gift className="h-5 w-5 text-emerald-500" />
@@ -71,7 +71,7 @@ export function PricingCards() {
         </div>
 
         {/* Premium $1 tier */}
-        <div className="relative flex flex-col rounded-2xl border border-primary/40 bg-card p-8 ring-1 ring-primary/20 shadow-xl shadow-primary/5">
+        <div className="relative flex flex-col rounded-2xl border border-primary/40 bg-card p-6 ring-1 ring-primary/20 shadow-xl shadow-primary/5 sm:p-8">
           <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
             <Badge className="gap-1.5 border-0 bg-gradient-to-r from-primary to-violet-500 px-3 py-1 text-white shadow-lg">
               <Zap className="h-3 w-3" /> Most Popular

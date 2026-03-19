@@ -37,13 +37,13 @@ export function FeatureComparison() {
           </p>
         </div>
 
-        <div className="mt-10 overflow-hidden rounded-2xl border border-border">
-          <table className="w-full">
+        <div className="mt-10 overflow-x-auto rounded-2xl border border-border">
+          <table className="w-full min-w-[420px]">
             <thead>
               <tr className="border-b border-border bg-secondary/40">
-                <th className="px-6 py-4 text-left text-sm font-semibold">Feature</th>
-                <th className="px-6 py-4 text-center text-sm font-semibold text-emerald-600 dark:text-emerald-400">Free</th>
-                <th className="px-6 py-4 text-center text-sm font-semibold text-primary">
+                <th className="px-4 py-4 text-left text-sm font-semibold sm:px-6">Feature</th>
+                <th className="px-4 py-4 text-center text-sm font-semibold text-emerald-600 dark:text-emerald-400 sm:px-6">Free</th>
+                <th className="px-4 py-4 text-center text-sm font-semibold text-primary sm:px-6">
                   Premium <span className="ml-1 text-xs font-normal text-muted-foreground">($1)</span>
                 </th>
               </tr>
@@ -57,9 +57,9 @@ export function FeatureComparison() {
                     i % 2 === 0 ? "bg-transparent" : "bg-secondary/10"
                   )}
                 >
-                  <td className="px-6 py-3.5 text-sm text-foreground">{feature.name}</td>
-                  <td className="px-6 py-3.5 text-center"><Val value={feature.free} /></td>
-                  <td className="px-6 py-3.5 text-center"><Val value={feature.premium} /></td>
+                  <td className="px-4 py-3.5 text-sm text-foreground sm:px-6">{feature.name}</td>
+                  <td className="px-4 py-3.5 text-center sm:px-6"><Val value={feature.free} /></td>
+                  <td className="px-4 py-3.5 text-center sm:px-6"><Val value={feature.premium} /></td>
                 </tr>
               ))}
             </tbody>
