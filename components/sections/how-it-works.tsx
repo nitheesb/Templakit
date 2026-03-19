@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils"
 const steps = [
   {
     number: "01",
-    title: "Browse 1,200+ Templates",
+    title: "Browse 400+ Templates",
     description: "Search by tool (PowerPoint, Canva, Figma…), category, or style. Filter by free vs premium. Every template has a full preview so you know exactly what you're getting before you click.",
     icon: Search,
     color: "from-blue-500 to-indigo-600",

@@ -108,7 +108,7 @@ function TemplatesContent() {
             <p className="mt-1.5 text-muted-foreground">
               {selectedCategory
                 ? `Professionally designed ${selectedCategory} templates — free to browse, instant download`
-                : "1,200+ professionally designed templates for PowerPoint, Canva, Google Slides & more"}
+                : "400+ professionally designed templates for PowerPoint, Canva, Google Slides & more"}
             </p>
 
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">

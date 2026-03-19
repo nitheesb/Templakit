@@ -38,9 +38,9 @@ export function HeroSection() {
 
           {/* Subheading */}
           <p className="animate-slide-up delay-100 mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
-            Browse 500+ free professionally designed templates for{" "}
+            Browse 400+ professionally designed templates for{" "}
             <span className="font-semibold text-foreground">PowerPoint, Google Slides, Canva, Excel, Figma, Word, Notion</span>{" "}
-            and more. Download instantly.
+            and more. 180+ completely free, rest just $1.
           </p>
 
           {/* CTAs */}
@@ -85,15 +85,15 @@ export function HeroSection() {
             <span className="hidden text-border sm:block">|</span>
 
             <div className="flex items-center gap-6 text-sm text-muted-foreground">
-              <span><span className="font-bold text-foreground">500+</span> free templates</span>
-              <span><span className="font-bold text-foreground">50K+</span> downloads</span>
+              <span><span className="font-bold text-foreground">400+</span> templates</span>
+              <span><span className="font-bold text-foreground">180+</span> free</span>
               <span><span className="font-bold text-foreground">8</span> tools covered</span>
             </div>
           </div>
 
           {/* Trust line */}
           <p className="animate-fade-in delay-500 mt-4 text-xs text-muted-foreground/60">
-            Free to browse · 500+ templates free forever · Premium downloads just $1
+            Free to browse · 180+ templates free forever · Premium templates just $1
           </p>
         </div>
 

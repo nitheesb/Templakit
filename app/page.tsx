@@ -12,7 +12,7 @@ import { FAQSection } from "@/components/sections/faq"
 export const metadata: Metadata = {
   title: "Free PowerPoint, Canva, Google Slides & Figma Templates | Templakit",
   description:
-    "Download 500+ free professionally designed templates for PowerPoint, Google Slides, Canva, Excel, Figma, Word, Notion, and Google Docs. Free to browse, instant download. Premium downloads just $1.",
+    "Download 400+ professionally designed templates for PowerPoint, Google Slides, Canva, Excel, Figma, Word, Notion, and Google Docs. Free to browse, instant download. Premium downloads just $1.",
   alternates: {
     canonical: "https://templakit.vercel.app",
   },

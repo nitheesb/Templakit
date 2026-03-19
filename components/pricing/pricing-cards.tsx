@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 
 const freeIncludes = [
-  "500+ free templates — no account needed",
+  "400+ templates across 8 tools — no account needed",
   "PowerPoint, Google Slides, Canva, Excel, Figma, Word, Notion, Google Docs",
   "Instant download — no waiting",
   "PPTX, DOCX, XLSX, PDF, Figma, Canva & more formats",
@@ -45,7 +45,7 @@ export function PricingCards() {
             </div>
             <h3 className="text-xl font-black">Free Forever</h3>
           </div>
-          <p className="text-sm text-muted-foreground">Browse and download 500+ templates — zero cost, zero sign-up.</p>
+          <p className="text-sm text-muted-foreground">Browse and download 180+ free templates — zero cost, zero sign-up.</p>
 
           <div className="my-6 flex items-end gap-1">
             <span className="text-5xl font-black text-emerald-500">$0</span>

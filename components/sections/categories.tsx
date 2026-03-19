@@ -3,16 +3,21 @@ import {
   Presentation, Monitor, Palette, Table2,
   FileText, BookOpen, FileEdit, Figma, ArrowRight,
 } from "lucide-react"
+import { templates } from "@/lib/templates"
+
+// Compute counts from actual template data at build time
+const toolCounts: Record<string, number> = {}
+templates.forEach(t => { toolCounts[t.tool] = (toolCounts[t.tool] ?? 0) + 1 })
 
 const tools = [
-  { name: "PowerPoint",    icon: Presentation, count: 8,  iconColor: "text-orange-500",  bgColor: "bg-orange-500/10 hover:bg-orange-500/15",  desc: "Slides & presentations" },
-  { name: "Google Slides", icon: Monitor,      count: 7,  iconColor: "text-yellow-500",  bgColor: "bg-yellow-500/10 hover:bg-yellow-500/15",  desc: "Shareable slide decks" },
-  { name: "Canva",         icon: Palette,      count: 8,  iconColor: "text-violet-500",  bgColor: "bg-violet-500/10 hover:bg-violet-500/15",  desc: "Designs & social media" },
-  { name: "Excel",         icon: Table2,       count: 6,  iconColor: "text-green-500",   bgColor: "bg-green-500/10  hover:bg-green-500/15",   desc: "Spreadsheets & models" },
-  { name: "Figma",         icon: Figma,        count: 6,  iconColor: "text-pink-500",    bgColor: "bg-pink-500/10  hover:bg-pink-500/15",    desc: "UI kits & design files" },
-  { name: "Word",          icon: FileText,     count: 6,  iconColor: "text-blue-500",    bgColor: "bg-blue-500/10  hover:bg-blue-500/15",    desc: "Documents & resumes" },
-  { name: "Notion",        icon: BookOpen,     count: 5,  iconColor: "text-slate-400",   bgColor: "bg-slate-500/10 hover:bg-slate-500/15",   desc: "Pages & databases" },
-  { name: "Google Docs",   icon: FileEdit,     count: 4,  iconColor: "text-cyan-500",    bgColor: "bg-cyan-500/10  hover:bg-cyan-500/15",    desc: "Docs & proposals" },
+  { name: "PowerPoint",    icon: Presentation, count: toolCounts["PowerPoint"]    ?? 0, iconColor: "text-orange-500",  bgColor: "bg-orange-500/10 hover:bg-orange-500/15",  desc: "Slides & presentations" },
+  { name: "Google Slides", icon: Monitor,      count: toolCounts["Google Slides"] ?? 0, iconColor: "text-yellow-500",  bgColor: "bg-yellow-500/10 hover:bg-yellow-500/15",  desc: "Shareable slide decks" },
+  { name: "Canva",         icon: Palette,      count: toolCounts["Canva"]         ?? 0, iconColor: "text-violet-500",  bgColor: "bg-violet-500/10 hover:bg-violet-500/15",  desc: "Designs & social media" },
+  { name: "Excel",         icon: Table2,       count: toolCounts["Excel"]         ?? 0, iconColor: "text-green-500",   bgColor: "bg-green-500/10  hover:bg-green-500/15",   desc: "Spreadsheets & models" },
+  { name: "Figma",         icon: Figma,        count: toolCounts["Figma"]         ?? 0, iconColor: "text-pink-500",    bgColor: "bg-pink-500/10  hover:bg-pink-500/15",    desc: "UI kits & design files" },
+  { name: "Word",          icon: FileText,     count: toolCounts["Word"]          ?? 0, iconColor: "text-blue-500",    bgColor: "bg-blue-500/10  hover:bg-blue-500/15",    desc: "Documents & resumes" },
+  { name: "Notion",        icon: BookOpen,     count: toolCounts["Notion"]        ?? 0, iconColor: "text-slate-400",   bgColor: "bg-slate-500/10 hover:bg-slate-500/15",   desc: "Pages & databases" },
+  { name: "Google Docs",   icon: FileEdit,     count: toolCounts["Google Docs"]   ?? 0, iconColor: "text-cyan-500",    bgColor: "bg-cyan-500/10  hover:bg-cyan-500/15",    desc: "Docs & proposals" },
 ]
 
 export function CategoriesSection() {

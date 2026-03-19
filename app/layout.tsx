@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     template: "%s | Templakit — Free Templates",
   },
   description:
-    "Download 500+ free professionally designed templates for PowerPoint, Google Slides, Canva, Excel, Figma, Word, Notion, and Google Docs. Free to browse, instant download. Premium templates just $1.",
+    "Download 400+ professionally designed templates for PowerPoint, Google Slides, Canva, Excel, Figma, Word, Notion, and Google Docs. Free to browse, instant download. Premium templates just $1.",
   keywords: [
     "free PowerPoint templates download",
     "free Canva templates",
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     siteName: "Templakit",
     title: "Free PowerPoint, Canva, Google Slides & Figma Templates | Templakit",
     description:
-      "Download 500+ free professionally designed templates for PowerPoint, Google Slides, Canva, Excel, Figma, Word, Notion, and Google Docs. Premium templates just $1.",
+      "Download 400+ professionally designed templates for PowerPoint, Google Slides, Canva, Excel, Figma, Word, Notion, and Google Docs. Premium templates just $1.",
     images: [
       {
         url: "/opengraph-image",
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Free PowerPoint, Canva & Google Slides Templates | Templakit",
     description:
-      "500+ free templates for PowerPoint, Canva, Figma, Excel, Notion & more. Premium downloads just $1.",
+      "400+ templates for PowerPoint, Canva, Figma, Excel, Notion & more. Premium downloads just $1.",
     images: ["/opengraph-image"],
     creator: "@templakit",
   },

@@ -52,7 +52,7 @@ export function Footer() {
               <span className="text-xl font-black tracking-tight">Templakit</span>
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              500+ free professionally designed templates for every tool you use. Premium templates just $1.
+              400+ professionally designed templates for every tool you use. 180+ free, premium templates just $1.
             </p>
             <p className="mt-4 text-xs text-muted-foreground">
               Contact:{" "}

@@ -1,8 +1,8 @@
 const stats = [
-  { value: "500+",   label: "Free Templates",         sub: "No sign-up required",       color: "text-emerald-500" },
-  { value: "120K+",  label: "Total Downloads",         sub: "Across all tools",           color: "text-violet-500"  },
-  { value: "8",      label: "Tools Covered",           sub: "PowerPoint to Figma",        color: "text-blue-500"    },
-  { value: "4.9★",   label: "Average User Rating",     sub: "From 2,400+ reviews",        color: "text-amber-500"   },
+  { value: "405",    label: "Total Templates",          sub: "Across 8 tools",             color: "text-emerald-500" },
+  { value: "180+",   label: "Free Templates",            sub: "No sign-up required",        color: "text-violet-500"  },
+  { value: "8",      label: "Tools Covered",             sub: "PowerPoint to Figma",        color: "text-blue-500"    },
+  { value: "4.9★",   label: "Average User Rating",       sub: "From 2,400+ reviews",        color: "text-amber-500"   },
 ]
 
 export function StatsBanner() {
