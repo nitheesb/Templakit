@@ -1,542 +1,1067 @@
 "use client"
-// Re-exports the TemplateCard's ToolPreview as a standalone client component
-// so the server-rendered detail page can use it.
+
+import React from "react"
 import { cn } from "@/lib/utils"
-import { 
-  PieChart, 
-  BarChart3, 
-  LineChart, 
-  Activity, 
-  Layout, 
-  Image as ImageIcon, 
-  Type, 
-  Table as TableIcon,
-  Bold,
-  Heading,
-  AlignLeft,
-  Users,
-  Briefcase,
-  TrendingUp,
-  DollarSign,
-  Target
-} from "lucide-react"
 
-type Props = { tool: string; style: string; color: string; className?: string }
+type Props = {
+  tool: string
+  style: string
+  color: string
+  variant?: number
+  className?: string
+}
 
-// ── Slide variants ────────────────────────────────────────────────────────────
+// ─── Helpers ─────────────────────────────────────────────────────────────────
 
-function SlidePitchDeck({ color }: { color: string }) {
+function Lines({ widths, cls = "bg-gray-200" }: { widths: number[]; cls?: string }) {
   return (
-    <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
-      <div className="absolute inset-4 flex flex-col rounded-xl overflow-hidden bg-white/95 shadow-2xl">
-        {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-          <div className="flex items-center gap-2">
-            <div className="h-6 w-6 rounded bg-primary/20 flex items-center justify-center text-primary">
-              <Target className="h-3.5 w-3.5" />
-            </div>
-            <div className="h-3 w-24 rounded-full bg-gray-200" />
-          </div>
-          <div className="flex gap-2">
-            <div className="h-2 w-12 rounded-full bg-gray-100" />
-            <div className="h-2 w-8 rounded-full bg-gray-100" />
-          </div>
-        </div>
-        
-        {/* Content */}
-        <div className="flex-1 p-8 grid grid-cols-2 gap-8 items-center">
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <div className="h-2 w-16 rounded-full bg-primary/20 text-xs font-bold text-primary px-2 flex items-center">GROWTH</div>
-              <div className="h-8 w-full rounded bg-gray-800" />
-              <div className="h-8 w-2/3 rounded bg-gray-800" />
-            </div>
-            <div className="space-y-2 pt-2">
-              <div className="h-2 w-full rounded-full bg-gray-200" />
-              <div className="h-2 w-full rounded-full bg-gray-200" />
-              <div className="h-2 w-4/5 rounded-full bg-gray-200" />
-            </div>
-            <div className="flex gap-3 pt-2">
-              <div className="h-8 w-24 rounded-lg bg-primary shadow-sm" />
-              <div className="h-8 w-24 rounded-lg border border-gray-200" />
-            </div>
-          </div>
-          
-          <div className="relative aspect-square rounded-xl bg-gray-100 border border-gray-200 p-4 flex flex-col justify-center items-center gap-4">
-            <div className="absolute top-4 right-4 h-8 w-8 rounded-full bg-white shadow-sm flex items-center justify-center">
-              <TrendingUp className="h-4 w-4 text-green-500" />
-            </div>
-            <div className="w-full flex items-end justify-center gap-2 h-32 px-4 pb-2 border-b border-gray-200">
-               {[40, 65, 45, 80, 55].map((h, i) => (
-                 <div key={i} className="w-8 rounded-t bg-primary/80" style={{ height: `${h}%` }} />
-               ))}
-            </div>
-            <div className="flex gap-4 w-full justify-center">
-               <div className="h-2 w-12 rounded-full bg-gray-300" />
-               <div className="h-2 w-12 rounded-full bg-gray-300" />
-               <div className="h-2 w-12 rounded-full bg-gray-300" />
-            </div>
-          </div>
-        </div>
-      </div>
+    <>
+      {widths.map((w, i) => (
+        <div key={i} className={cn("h-1.5 rounded-full", cls)} style={{ width: `${w}%` }} />
+      ))}
+    </>
+  )
+}
+
+function Bars({ data, color, h = 72 }: { data: number[]; color: string; h?: number }) {
+  return (
+    <div
+      className="flex items-end gap-1 border-b-2 border-l-2 border-gray-300/60 pb-0.5 pl-0.5"
+      style={{ height: h }}
+    >
+      {data.map((v, i) => (
+        <div
+          key={i}
+          className={cn("flex-1 rounded-t-sm bg-gradient-to-t", color)}
+          style={{ height: `${v}%`, opacity: 0.45 + (i / data.length) * 0.55 }}
+        />
+      ))}
     </div>
   )
 }
 
-function SlideReport({ color }: { color: string }) {
+// ─── Slide content variants ───────────────────────────────────────────────────
+
+function SlideHero({ color }: { color: string }) {
   return (
-    <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
-      <div className="absolute inset-4 flex flex-col rounded-xl overflow-hidden bg-white shadow-xl">
-        <div className="bg-slate-900 px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-             <div className="h-8 w-8 rounded bg-white/10 flex items-center justify-center">
-               <BarChart3 className="h-4 w-4 text-white" />
-             </div>
-             <div>
-               <div className="h-2.5 w-24 rounded-full bg-white/90 mb-1.5" />
-               <div className="h-1.5 w-16 rounded-full bg-white/50" />
-             </div>
+    <div className={cn("absolute inset-0 bg-gradient-to-br overflow-hidden", color)}>
+      <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-white/8 blur-2xl" />
+      <div className="absolute -left-10 -bottom-10 h-48 w-48 rounded-full bg-black/10 blur-2xl" />
+      <div className="absolute inset-0 flex items-center gap-8 px-10">
+        <div className="flex-1 space-y-5">
+          <div className="text-[7px] font-bold tracking-[0.3em] uppercase text-white/50">
+            Company Presentation · 2024
           </div>
-          <div className="h-6 w-20 rounded-full bg-white/10" />
+          <div className="space-y-2">
+            <div className="h-12 w-full rounded-xl bg-white/88 shadow-xl" />
+            <div className="h-5 w-4/5 rounded-lg bg-white/50" />
+          </div>
+          <div className="space-y-2">
+            <Lines widths={[100, 88, 72]} cls="bg-white/28" />
+          </div>
+          <div className="flex gap-3 pt-1">
+            <div className="h-9 w-28 rounded-xl bg-white shadow-lg" />
+            <div className="h-9 w-24 rounded-xl border-2 border-white/35 backdrop-blur-sm" />
+          </div>
         </div>
-        
-        <div className="flex-1 p-6 grid grid-cols-3 gap-6">
-          {[1,2,3].map(i => (
-            <div key={i} className="rounded-xl border border-gray-100 bg-gray-50/50 p-4 flex flex-col justify-between">
-              <div className="flex items-start justify-between mb-4">
-                <div className="p-2 rounded-lg bg-white shadow-sm">
-                  {i===1 ? <Users className="h-4 w-4 text-blue-500"/> : i===2 ? <DollarSign className="h-4 w-4 text-green-500"/> : <Activity className="h-4 w-4 text-orange-500"/>}
-                </div>
-                <div className="text-[10px] font-bold text-green-600 bg-green-100 px-1.5 py-0.5 rounded">+12%</div>
+        <div className="w-64 h-52 shrink-0 rounded-2xl bg-black/18 backdrop-blur-sm border border-white/15 p-5 flex flex-col gap-4">
+          <div className="text-[7px] font-bold uppercase tracking-wider text-white/45">Key Highlights</div>
+          {[["$2.4M", "Annual Revenue"], ["340%", "YoY Growth"], ["4,200+", "Customers"]].map(([v, l]) => (
+            <div key={l} className="flex items-center gap-3">
+              <div className="h-9 w-9 rounded-xl bg-white/15 shrink-0" />
+              <div className="flex-1 space-y-1">
+                <div className="h-4 w-14 rounded-md bg-white/80" />
+                <div className="h-1.5 w-20 rounded-full bg-white/30" />
               </div>
-              <div>
-                <div className="h-6 w-16 rounded bg-gray-800 mb-2" />
-                <div className="h-2 w-20 rounded-full bg-gray-300" />
+              <div className="h-4 w-10 rounded-full bg-emerald-400/20 border border-emerald-300/30 flex items-center justify-center">
+                <div className="h-1.5 w-6 rounded-full bg-emerald-300/60" />
               </div>
             </div>
           ))}
-          
-          <div className="col-span-2 rounded-xl border border-gray-100 p-4 bg-white">
-             <div className="flex items-center justify-between mb-4">
-               <div className="h-3 w-32 rounded-full bg-gray-800" />
-               <div className="flex gap-1">
-                 {[1,2,3].map(j => <div key={j} className="h-1.5 w-1.5 rounded-full bg-gray-300" />)}
-               </div>
-             </div>
-             <div className="flex items-end justify-between gap-2 h-24">
-                {[30, 45, 35, 60, 50, 75, 65, 90, 80, 95].map((h, i) => (
-                  <div key={i} className="flex-1 rounded-t-sm bg-slate-800" style={{ height: `${h}%`, opacity: 0.2 + (i/10)*0.8 }} />
-                ))}
-             </div>
-          </div>
-          
-          <div className="rounded-xl bg-slate-900 p-4 text-white flex flex-col justify-center items-center text-center">
-             <div className="h-16 w-16 rounded-full border-4 border-white/20 flex items-center justify-center mb-3">
-               <div className="text-xl font-bold">85%</div>
-             </div>
-             <div className="h-2 w-20 rounded-full bg-white/40 mb-1" />
-             <div className="h-1.5 w-12 rounded-full bg-white/20" />
-          </div>
         </div>
+      </div>
+      <div className="absolute bottom-5 right-8 flex items-center gap-1.5">
+        {[...Array(5)].map((_, i) => (
+          <div key={i} className={cn("rounded-full bg-white", i === 0 ? "h-1.5 w-7" : "h-1.5 w-1.5 opacity-25")} />
+        ))}
       </div>
     </div>
   )
 }
 
-function SlideMinimal({ color }: { color: string }) {
+function SlideDark({ color }: { color: string }) {
   return (
-    <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
-      <div className="absolute inset-0 bg-white/90 backdrop-blur-xl" />
-      <div className="absolute inset-8 border border-black/5 flex flex-col justify-center items-center text-center p-8">
-        <div className="mb-6">
-          <div className="h-12 w-12 mx-auto rounded-full bg-black/5 flex items-center justify-center mb-4">
-             <Layout className="h-5 w-5 text-black/60" />
-          </div>
-          <div className="h-10 w-64 mx-auto rounded bg-black/80 mb-3" />
-          <div className="h-3 w-40 mx-auto rounded-full bg-black/40" />
-        </div>
-        
-        <div className="w-full max-w-xs h-px bg-black/10 my-6" />
-        
-        <div className="grid grid-cols-2 gap-4 w-full max-w-sm">
-           <div className="text-left space-y-2">
-             <div className="h-2 w-16 rounded-full bg-black/60" />
-             <div className="h-1.5 w-full rounded-full bg-black/20" />
-             <div className="h-1.5 w-5/6 rounded-full bg-black/20" />
-           </div>
-           <div className="text-left space-y-2">
-             <div className="h-2 w-16 rounded-full bg-black/60" />
-             <div className="h-1.5 w-full rounded-full bg-black/20" />
-             <div className="h-1.5 w-5/6 rounded-full bg-black/20" />
-           </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function SlideCreative({ color }: { color: string }) {
-  return (
-    <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
-      <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
-      <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-black/10 blur-3xl" />
-      
-      <div className="absolute inset-6 rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md p-6 flex flex-col justify-between overflow-hidden">
+    <div className="absolute inset-0 bg-[#0f172a] overflow-hidden">
+      <div className={cn("absolute top-0 left-0 right-0 h-1 bg-gradient-to-r", color)} />
+      <div className="absolute inset-0 p-8 flex flex-col gap-5">
         <div className="flex justify-between items-start">
-           <div className="h-10 w-10 rounded-xl bg-white/20 flex items-center justify-center transform -rotate-6">
-             <ImageIcon className="h-5 w-5 text-white" />
-           </div>
-           <div className="text-right">
-             <div className="h-2 w-20 rounded-full bg-white/60 mb-1 ml-auto" />
-             <div className="h-2 w-12 rounded-full bg-white/40 ml-auto" />
-           </div>
-        </div>
-        
-        <div className="relative z-10">
-          <div className="h-12 w-3/4 rounded-lg bg-white/90 mb-4 shadow-lg" />
           <div className="space-y-2">
-            <div className="h-3 w-1/2 rounded-full bg-white/60" />
-            <div className="h-3 w-1/3 rounded-full bg-white/40" />
+            <div className="h-2 w-20 rounded-full bg-white/20" />
+            <div className="h-8 w-60 rounded-xl bg-white/80" />
+          </div>
+          <div className="flex gap-2">
+            {["W", "M", "Y"].map((t, i) => (
+              <div key={t} className={cn("h-6 w-10 rounded-lg text-[7px] flex items-center justify-center font-bold",
+                i === 1 ? cn("bg-gradient-to-r text-white", color) : "bg-white/8 text-white/35")}>
+                {t}
+              </div>
+            ))}
           </div>
         </div>
-        
-        <div className="flex gap-3">
-           {[1,2,3].map(i => (
-             <div key={i} className="h-16 w-24 rounded-lg bg-black/20 border border-white/10 backdrop-blur-sm transform hover:-translate-y-1 transition-transform" />
-           ))}
+        <div className="flex-1 grid grid-cols-3 gap-4">
+          <div className="col-span-2 rounded-2xl bg-white/5 border border-white/8 p-4 flex flex-col gap-3">
+            <div className="flex justify-between items-center">
+              <div className="h-2.5 w-24 rounded-full bg-white/30" />
+              <div className="flex gap-3">
+                {["Revenue", "Target"].map((l, i) => (
+                  <div key={l} className="flex items-center gap-1.5">
+                    <div className={cn("h-1.5 w-4 rounded-full", i === 0 ? cn("bg-gradient-to-r", color) : "bg-white/20")} />
+                    <div className="h-1.5 w-8 rounded-full bg-white/20" />
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="flex-1 flex gap-1.5 relative">
+              <div className="absolute inset-0 flex flex-col justify-between opacity-[0.15]">
+                {[...Array(4)].map((_, i) => <div key={i} className="h-px bg-white" />)}
+              </div>
+              {[35, 52, 44, 67, 55, 78, 65, 88, 72, 94, 82, 93].map((h, i) => (
+                <div key={i} className="flex-1 relative">
+                  <div className={cn("absolute bottom-0 left-0 right-0 rounded-t-sm bg-gradient-to-t", color)}
+                    style={{ height: `${h}%`, opacity: 0.75 + (i / 12) * 0.25 }} />
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-col gap-3">
+            {[["↑28%", "Revenue"], ["4.9K", "Users"], ["$85", "Avg Order"]].map(([v, l]) => (
+              <div key={l} className="flex-1 rounded-2xl bg-white/5 border border-white/8 p-3 flex flex-col justify-between">
+                <div className="h-6 w-6 rounded-lg bg-white/10" />
+                <div className="space-y-1">
+                  <div className="h-6 w-14 rounded-lg bg-white/70" />
+                  <div className="h-1.5 w-20 rounded-full bg-white/20" />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
   )
 }
 
-function SlideBold({ color }: { color: string }) {
+function SlideKPI({ color }: { color: string }) {
   return (
-    <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
-       <div className="absolute inset-0 flex">
-         <div className="w-1/3 bg-black/20 backdrop-blur-sm p-6 flex flex-col justify-center">
-            <div className="h-12 w-12 rounded-full bg-white flex items-center justify-center mb-6">
-               <Bold className="h-6 w-6 text-black" />
+    <div className={cn("absolute inset-0 bg-gradient-to-br overflow-hidden", color)}>
+      <div className="absolute inset-0 p-8 flex flex-col gap-6">
+        <div className="flex justify-between items-center">
+          <div className="space-y-2">
+            <div className="h-2.5 w-24 rounded-full bg-white/40" />
+            <div className="h-9 w-72 rounded-xl bg-white/85 shadow-sm" />
+          </div>
+          <div className="h-11 w-11 rounded-2xl bg-white/15 flex items-center justify-center">
+            <div className="h-5 w-5 rounded-lg bg-white/50" />
+          </div>
+        </div>
+        <div className="flex-1 grid grid-cols-2 gap-4">
+          {[{ w: 75 }, { w: 92 }, { w: 58 }, { w: 96 }].map(({ w }, idx) => (
+            <div key={idx} className="rounded-2xl bg-white/10 backdrop-blur-md border border-white/18 p-5 flex flex-col justify-between">
+              <div className="flex justify-between items-start">
+                <div className="h-8 w-8 rounded-xl bg-white/15" />
+                <div className="h-5 px-2 rounded-full bg-emerald-400/20 border border-emerald-300/25 flex items-center">
+                  <div className="h-1.5 w-7 rounded-full bg-emerald-300/55" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <div className="h-8 w-20 rounded-xl bg-white/85 shadow-sm" />
+                <div className="h-1.5 w-28 rounded-full bg-white/35" />
+                <div className="h-1.5 rounded-full bg-white/18 overflow-hidden">
+                  <div className="h-full rounded-full bg-white/48" style={{ width: `${w}%` }} />
+                </div>
+              </div>
             </div>
-            <div className="h-8 w-full rounded bg-white mb-2" />
-            <div className="h-8 w-2/3 rounded bg-white/60 mb-6" />
-            <div className="h-2 w-full rounded-full bg-white/40 mb-2" />
-            <div className="h-2 w-full rounded-full bg-white/40 mb-2" />
-            <div className="h-2 w-4/5 rounded-full bg-white/40" />
-         </div>
-         <div className="flex-1 p-6 flex items-center justify-center">
-            <div className="grid grid-cols-2 gap-4 w-full">
-               {[1,2,3,4].map(i => (
-                 <div key={i} className="aspect-video rounded-lg bg-white/10 border-2 border-white/20 p-3 flex flex-col justify-end">
-                    <div className="h-2 w-12 rounded-full bg-white/60 mb-1" />
-                    <div className="h-1.5 w-8 rounded-full bg-white/30" />
-                 </div>
-               ))}
-            </div>
-         </div>
-       </div>
-    </div>
-  )
-}
-
-function SlideElegant({ color }: { color: string }) {
-  return (
-    <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
-      <div className="absolute inset-3 border border-white/20 rounded-lg p-6 flex flex-col">
-         <div className="flex justify-center mb-8">
-            <div className="flex items-center gap-2">
-               <div className="h-px w-8 bg-white/50" />
-               <div className="h-4 w-4 rounded-full border border-white/50" />
-               <div className="h-px w-8 bg-white/50" />
-            </div>
-         </div>
-         
-         <div className="text-center flex-1 flex flex-col justify-center items-center">
-            <div className="h-16 w-3/4 bg-white/90 rounded-sm mb-4 font-serif" />
-            <div className="h-px w-20 bg-white/30 mb-4" />
-            <div className="space-y-2 w-full max-w-md flex flex-col items-center">
-               <div className="h-2 w-full rounded-full bg-white/50" />
-               <div className="h-2 w-5/6 rounded-full bg-white/50" />
-               <div className="h-2 w-4/5 rounded-full bg-white/50" />
-            </div>
-         </div>
-         
-         <div className="flex justify-between items-end">
-            <div className="h-8 w-24 bg-white/10 rounded backdrop-blur-sm" />
-            <div className="h-6 w-6 rounded-full bg-white/20 flex items-center justify-center">
-               <div className="h-1 w-1 rounded-full bg-white" />
-            </div>
-         </div>
+          ))}
+        </div>
       </div>
     </div>
   )
 }
 
-const SLIDE_VARIANTS: Record<string, (p:{color:string})=>React.ReactElement> = {
-  Modern:    SlidePitchDeck,
-  Corporate: SlideReport,
-  Minimal:   SlideMinimal,
-  Creative:  SlideCreative,
-  Bold:      SlideBold,
-  Elegant:   SlideElegant,
+function SlideSplit({ color }: { color: string }) {
+  return (
+    <div className="absolute inset-0 bg-white flex overflow-hidden">
+      <div className={cn("w-2/5 bg-gradient-to-br flex flex-col justify-between p-8 shrink-0", color)}>
+        <div className="h-11 w-11 rounded-2xl bg-white/15" />
+        <div className="space-y-4">
+          <div className="h-2.5 w-20 rounded-full bg-white/40" />
+          <div className="space-y-2">
+            <div className="h-11 rounded-xl bg-white/88 shadow-sm" />
+            <div className="h-4 w-4/5 rounded-md bg-white/50" />
+          </div>
+          <div className="space-y-2.5">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="flex items-center gap-2.5">
+                <div className="h-5 w-5 rounded-full bg-white/22 shrink-0" />
+                <div className="h-2 rounded-full bg-white/38" style={{ width: `${50 + i * 14}%` }} />
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <div className="h-9 w-24 rounded-xl bg-white shadow-md" />
+          <div className="h-9 w-20 rounded-xl border-2 border-white/28" />
+        </div>
+      </div>
+      <div className="flex-1 p-8 flex flex-col gap-4 overflow-hidden">
+        <div className="h-2.5 w-24 rounded-full bg-gray-400" />
+        {[1, 2, 3].map(i => (
+          <div key={i} className="flex-1 rounded-2xl bg-gray-50 border border-gray-100 p-4 flex flex-col gap-3">
+            <div className="flex items-center gap-3">
+              <div className={cn("h-9 w-9 rounded-xl bg-gradient-to-br shrink-0", color)} />
+              <div className="flex-1 space-y-1.5">
+                <div className="h-3 w-24 rounded bg-gray-700" />
+                <div className="h-2 w-16 rounded-full bg-gray-300" />
+              </div>
+              <div className="h-5 w-12 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center">
+                <div className="h-1.5 w-7 rounded-full bg-emerald-400" />
+              </div>
+            </div>
+            <Lines widths={[100, 84]} cls="bg-gray-200" />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
 }
 
-import React from "react"
+function SlideTimeline({ color }: { color: string }) {
+  return (
+    <div className="absolute inset-0 bg-gray-950 overflow-hidden">
+      <div className="absolute inset-0 p-8 flex flex-col gap-6">
+        <div className="flex justify-between items-start">
+          <div className="space-y-2">
+            <div className="h-2.5 w-20 rounded-full bg-white/22" />
+            <div className="h-9 w-64 rounded-xl bg-white/80" />
+          </div>
+          <div className={cn("h-12 w-12 rounded-2xl bg-gradient-to-br", color)} />
+        </div>
+        <div className="flex-1 flex flex-col gap-5">
+          <div className="relative">
+            <div className="h-0.5 bg-white/10 absolute inset-x-0 top-3" />
+            <div className={cn("h-0.5 bg-gradient-to-r absolute left-0 top-3", color)} style={{ width: "65%" }} />
+            <div className="flex justify-between">
+              {["Q1", "Q2", "Q3", "Q4"].map((q, i) => (
+                <div key={q} className="flex flex-col items-center gap-2">
+                  <div className={cn("h-6 w-6 rounded-full border-2 z-10 flex items-center justify-center",
+                    i < 3 ? cn("bg-gradient-to-br border-transparent shadow-lg", color) : "bg-gray-800 border-white/18"
+                  )}>
+                    {i < 3 && <div className="h-2 w-2 rounded-full bg-white" />}
+                  </div>
+                  <div className="h-2 w-6 rounded-full bg-white/28" />
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="flex-1 grid grid-cols-4 gap-4">
+            {["Research & Design", "MVP Launch", "Scale Up", "Expansion"].map((title, i) => (
+              <div key={title} className={cn("rounded-xl border p-4 flex flex-col gap-3", i < 3 ? "border-white/12 bg-white/5" : "border-white/5 bg-white/[0.02] opacity-45")}>
+                <div className={cn("h-7 w-7 rounded-lg bg-gradient-to-br", i < 3 ? color : "bg-white/10")} />
+                <div className="space-y-1.5">
+                  <div className="h-3 w-full rounded bg-white/58" />
+                  <Lines widths={[100, 78, 60]} cls="bg-white/18" />
+                </div>
+                <div className="mt-auto pt-2 border-t border-white/8">
+                  <div className="h-2 w-14 rounded-full bg-white/22" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
 
-export function TemplatePreview({ tool, style, color, className }: Props) {
+function SlideContent({ color, variant }: { color: string; variant: number }) {
+  switch (variant % 5) {
+    case 0: return <SlideHero color={color} />
+    case 1: return <SlideDark color={color} />
+    case 2: return <SlideKPI color={color} />
+    case 3: return <SlideSplit color={color} />
+    case 4: return <SlideTimeline color={color} />
+    default: return <SlideHero color={color} />
+  }
+}
+
+// ─── PowerPoint / Google Slides Editor Chrome ────────────────────────────────
+
+function SlideEditorChrome({ color, variant, isGoogle = false }: { color: string; variant: number; isGoogle?: boolean }) {
+  return (
+    <div className="absolute inset-0 bg-[#3c3c3c] flex flex-col">
+      {/* Menu bar */}
+      <div className="h-8 bg-[#232323] flex items-center px-4 gap-4 shrink-0 border-b border-black/25">
+        {isGoogle ? (
+          <>
+            <div className="flex items-center gap-1.5">
+              {["#ea4335", "#fbbc04", "#34a853", "#4285f4"].map(c => (
+                <div key={c} className="h-2 w-2 rounded-full" style={{ backgroundColor: c }} />
+              ))}
+            </div>
+            <div className="h-2 w-32 rounded-full bg-white/20 mx-2" />
+          </>
+        ) : (
+          <>
+            <div className="flex gap-1.5">
+              {["#ff5f57", "#febc2e", "#28c840"].map(c => (
+                <div key={c} className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: c }} />
+              ))}
+            </div>
+            <div className="flex gap-4 ml-3">
+              {["File", "Edit", "View", "Insert", "Format", "Slide"].map(m => (
+                <span key={m} className="text-[8px] text-white/38 font-medium">{m}</span>
+              ))}
+            </div>
+          </>
+        )}
+        <div className="ml-auto h-4 w-24 rounded bg-white/10" />
+      </div>
+
+      {/* Toolbar */}
+      <div className="h-8 bg-[#2d2d2d] border-b border-black/20 flex items-center px-3 gap-1.5 shrink-0">
+        {[...Array(9)].map((_, i) => <div key={i} className="h-4 w-5 rounded bg-white/10" />)}
+        <div className="w-px h-4 bg-white/10 mx-1" />
+        {["B", "I", "U"].map(t => (
+          <div key={t} className="h-4 w-4 rounded bg-white/10 flex items-center justify-center">
+            <span className="text-[6px] text-white/35 font-black">{t}</span>
+          </div>
+        ))}
+        <div className="w-px h-4 bg-white/10 mx-1" />
+        {[...Array(4)].map((_, i) => <div key={i} className="h-4 w-6 rounded bg-white/10" />)}
+      </div>
+
+      <div className="flex-1 flex overflow-hidden">
+        {/* Filmstrip */}
+        <div className="w-14 bg-[#1c1c1c] border-r border-black/20 flex flex-col py-2 gap-1.5 shrink-0 overflow-hidden">
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className={cn("mx-1.5 aspect-video rounded-sm border overflow-hidden",
+              i === 0
+                ? "border-blue-500 shadow-[0_0_0_2px_rgba(59,130,246,0.28)]"
+                : "border-white/8 opacity-38"
+            )}>
+              <div className={cn("h-full w-full bg-gradient-to-br", color, i > 0 && "opacity-30")} />
+            </div>
+          ))}
+        </div>
+
+        {/* Canvas */}
+        <div className="flex-1 flex items-center justify-center p-4 overflow-hidden">
+          <div className="w-full aspect-video relative overflow-hidden rounded shadow-2xl ring-1 ring-black/40">
+            <SlideContent color={color} variant={variant} />
+          </div>
+        </div>
+
+        {/* Inspector */}
+        <div className="w-36 bg-[#1c1c1c] border-l border-black/20 p-3 shrink-0 space-y-3 overflow-hidden">
+          <div>
+            <div className="h-2 w-14 rounded-full bg-white/28 mb-2" />
+            <div className="space-y-1.5">
+              {[...Array(4)].map((_, i) => <div key={i} className="h-5 rounded bg-white/10" />)}
+            </div>
+          </div>
+          <div className="h-px bg-white/10" />
+          <div>
+            <div className="h-2 w-10 rounded-full bg-white/28 mb-2" />
+            <div className="grid grid-cols-2 gap-1.5">
+              {[...Array(4)].map((_, i) => <div key={i} className="h-4 rounded bg-white/10" />)}
+            </div>
+          </div>
+          <div className="h-px bg-white/10" />
+          <div className="space-y-1.5">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="flex gap-2">
+                <div className="h-3 w-3 rounded bg-white/10 shrink-0" />
+                <div className="flex-1 h-3 rounded bg-white/10" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Status bar */}
+      <div className="h-5 bg-[#232323] border-t border-black/20 flex items-center px-4 gap-4 shrink-0">
+        <span className="text-[6.5px] text-white/28">Slide 1 of 24</span>
+        <div className="ml-auto flex gap-2">
+          {[...Array(3)].map((_, i) => <div key={i} className="h-2.5 w-6 rounded bg-white/10" />)}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─── Excel ────────────────────────────────────────────────────────────────────
+
+function ExcelMockup({ color }: { color: string }) {
+  return (
+    <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
+      <div className="absolute inset-3 flex flex-col rounded-xl bg-white shadow-2xl overflow-hidden">
+        {/* Ribbon */}
+        <div className="bg-[#107c41] px-4 py-2 flex items-center gap-3 shrink-0">
+          <div className="h-5 w-5 bg-white/22 rounded flex items-center justify-center">
+            <div className="h-3 w-3 border border-white/60 rounded-sm" />
+          </div>
+          <div className="h-2 w-20 rounded bg-white/38" />
+          <div className="ml-auto flex gap-2">
+            {[...Array(5)].map((_, i) => <div key={i} className="h-3.5 w-8 rounded bg-white/18" />)}
+          </div>
+        </div>
+        {/* Toolbar */}
+        <div className="bg-[#f4f4f2] border-b border-gray-200 px-3 py-1.5 flex items-center gap-1.5 shrink-0">
+          {[...Array(8)].map((_, i) => <div key={i} className="h-3.5 w-5 rounded bg-gray-300" />)}
+          <div className="w-px h-3.5 bg-gray-300 mx-1" />
+          {[...Array(3)].map((_, i) => <div key={i} className="h-3.5 w-3.5 rounded bg-gray-300" />)}
+          <div className="ml-auto h-3.5 w-16 rounded bg-gray-300" />
+        </div>
+        {/* Formula bar */}
+        <div className="bg-white border-b border-gray-200 px-3 py-1 flex items-center gap-2 shrink-0">
+          <div className="h-4 w-10 rounded border border-gray-200 bg-gray-50" />
+          <div className="h-3 w-px bg-gray-300" />
+          <div className="flex-1 h-4 rounded border border-gray-200" />
+        </div>
+        {/* Main area */}
+        <div className="flex-1 flex overflow-hidden">
+          {/* Grid */}
+          <div className="flex-1 overflow-hidden">
+            {/* Column headers */}
+            <div className="flex bg-[#f4f4f2] border-b border-gray-200 shrink-0">
+              <div className="w-7 border-r border-gray-200 h-5" />
+              {["A", "B", "C", "D", "E", "F"].map(c => (
+                <div key={c} className="flex-1 h-5 border-r border-gray-200 flex items-center justify-center">
+                  <span className="text-[7.5px] text-gray-500 font-medium">{c}</span>
+                </div>
+              ))}
+            </div>
+            {[...Array(20)].map((_, row) => {
+              const isHdr = row === 0
+              const isAlt = row % 2 === 0 && !isHdr
+              return (
+                <div key={row} className={cn("flex border-b border-gray-100", isHdr ? "bg-[#f4f4f2]" : isAlt ? "bg-[#f9fff9]/60" : "bg-white")}>
+                  <div className="w-7 border-r border-gray-200 flex items-center justify-center shrink-0">
+                    <span className="text-[6.5px] text-gray-400">{row + 1}</span>
+                  </div>
+                  {[...Array(6)].map((_, col) => (
+                    <div key={col} className="flex-1 h-6 border-r border-gray-100 px-1.5 flex items-center">
+                      {isHdr ? (
+                        <div className="h-2 rounded-full bg-gray-500" style={{ width: col === 0 ? "65%" : "50%" }} />
+                      ) : col === 0 ? (
+                        <div className="h-2 w-14 rounded-full bg-gray-400" />
+                      ) : (
+                        <div className={cn("h-1.5 rounded-full", row === 3 && col === 3 ? "bg-[#107c41]" : row === 5 && col === 2 ? "bg-blue-400" : row === 8 && col === 1 ? "bg-amber-400" : "bg-gray-300")}
+                          style={{ width: `${25 + ((row * col * 13) % 55)}%` }} />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )
+            })}
+          </div>
+          {/* Chart panel */}
+          <div className="w-44 border-l border-gray-200 p-3 flex flex-col gap-2 shrink-0 bg-white">
+            <div className="h-2.5 w-20 rounded-full bg-gray-400" />
+            <div className="flex-1 flex items-end gap-1 pb-1">
+              <Bars data={[38, 62, 48, 80, 58, 88, 68]} color="from-[#107c41]/80 to-[#107c41]" />
+            </div>
+            <div className="h-3.5 rounded bg-gray-100 flex items-center gap-1 px-1.5">
+              <div className="h-2 w-2 rounded-sm bg-[#107c41]/50 shrink-0" />
+              <div className="h-1.5 flex-1 rounded-full bg-gray-300" />
+            </div>
+            <div className="h-px bg-gray-100" />
+            <div className="space-y-1.5">
+              {[["Total", ""], ["Average", ""], ["Growth", "bg-emerald-200"]].map(([l, c]) => (
+                <div key={l} className="flex items-center justify-between">
+                  <div className="h-1.5 w-10 rounded-full bg-gray-300" />
+                  <div className={cn("h-3 w-12 rounded", c || "bg-gray-100")} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        {/* Sheet tabs */}
+        <div className="bg-[#f4f4f2] border-t border-gray-200 px-2 py-0.5 flex gap-0.5 shrink-0">
+          {["Dashboard", "Data", "Charts", "Summary"].map((s, i) => (
+            <div key={s} className={cn("px-3 py-0.5 rounded-t border border-gray-200 border-b-0",
+              i === 0 ? "bg-white" : "bg-[#f4f4f2] opacity-55"
+            )}>
+              <div className="h-1.5 rounded-full" style={{ width: s.length * 5, background: i === 0 ? "#107c41" : "#9ca3af" }} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─── Figma ────────────────────────────────────────────────────────────────────
+
+function FigmaMockup({ color, variant }: { color: string; variant: number }) {
+  return (
+    <div className="absolute inset-0 bg-[#1e1e1e]">
+      {/* Top bar */}
+      <div className="h-9 bg-[#2c2c2c] border-b border-black/30 flex items-center px-3 gap-3 shrink-0">
+        <div className="flex gap-1">
+          {["#f24e1e", "#a259ff", "#1abcfe", "#0acf83"].map(c => (
+            <div key={c} className="h-3 w-3 rounded-sm" style={{ backgroundColor: c }} />
+          ))}
+        </div>
+        <div className="w-px h-4 bg-white/10 mx-1" />
+        <div className="flex gap-3">
+          {["Design", "Prototype", "Inspect"].map((t, i) => (
+            <div key={t} className={cn("h-5 px-2 rounded text-[7.5px] flex items-center font-medium",
+              i === 0 ? "bg-white/10 text-white/80" : "text-white/28")}>{t}</div>
+          ))}
+        </div>
+        <div className="ml-auto flex items-center gap-2">
+          <div className="h-6 w-6 rounded-full flex items-center justify-center"
+            style={{ background: "linear-gradient(135deg,#f24e1e,#a259ff)" }}>
+            <div className="h-3 w-3 rounded-full border border-white/60" />
+          </div>
+          <div className="h-6 w-20 rounded flex items-center justify-center"
+            style={{ background: "#0acf83" }}>
+            <div className="h-2 w-10 rounded-full bg-white/80" />
+          </div>
+        </div>
+      </div>
+
+      <div className="absolute top-9 inset-x-0 bottom-0 flex">
+        {/* Left toolbar */}
+        <div className="w-10 bg-[#2c2c2c] border-r border-black/25 flex flex-col items-center py-3 gap-2 shrink-0">
+          {[...Array(7)].map((_, i) => (
+            <div key={i} className={cn("h-7 w-7 rounded-lg flex items-center justify-center",
+              i === 2 ? "bg-[#a259ff]/20" : "")}>
+              <div className={cn("h-3.5 w-3.5 rounded-sm", i === 2 ? "bg-[#a259ff]" : "bg-white/18")} />
+            </div>
+          ))}
+        </div>
+
+        {/* Layers */}
+        <div className="w-44 bg-[#2c2c2c] border-r border-black/18 shrink-0 overflow-hidden">
+          <div className="h-8 px-3 flex items-center gap-2 border-b border-black/20">
+            <div className="h-2 w-12 rounded-full bg-white/28" />
+            <div className="ml-auto h-2 w-6 rounded-full bg-white/15" />
+          </div>
+          <div className="p-2 space-y-0.5">
+            {[
+              { d: 0, lbl: "Mobile App Frame" },
+              { d: 1, lbl: "Header" },
+              { d: 2, lbl: "Nav Logo" },
+              { d: 2, lbl: "Nav Links" },
+              { d: 1, lbl: "Hero Section" },
+              { d: 2, lbl: "Headline" },
+              { d: 2, lbl: "CTA Button" },
+              { d: 1, lbl: "Feature Cards" },
+            ].map((item, i) => (
+              <div key={i}
+                className={cn("h-5 rounded flex items-center gap-1.5", i === 0 ? "bg-[#a259ff]/22" : "hover:bg-white/4")}
+                style={{ paddingLeft: `${(item.d + 1) * 8}px` }}>
+                <div className="h-2.5 w-2.5 rounded-sm bg-white/18 shrink-0" />
+                <div className="h-1.5 rounded-full bg-white/18" style={{ width: `${72 - item.d * 12}%` }} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Canvas */}
+        <div className="flex-1 relative overflow-hidden"
+          style={{ backgroundImage: "radial-gradient(#383838 1px, transparent 1px)", backgroundSize: "18px 18px" }}>
+          <div className="absolute inset-0 flex items-center justify-center">
+            {/* Phone frame */}
+            <div className={cn("w-52 aspect-[9/16] rounded-3xl overflow-hidden shadow-2xl ring-2 ring-white/8 bg-gradient-to-b", color)}>
+              <div className="h-7 flex items-center justify-center bg-black/20">
+                <div className="h-1 w-16 rounded-full bg-white/30" />
+              </div>
+              <div className="p-5 space-y-3">
+                <div className="h-6 rounded-xl bg-white/20 shadow-sm" />
+                <div className="h-24 rounded-2xl bg-white/12 border border-white/10 flex items-center justify-center">
+                  <div className="h-8 w-8 rounded-full bg-white/20" />
+                </div>
+                <Lines widths={[82, 65]} cls="bg-white/25" />
+                <div className="grid grid-cols-2 gap-2 pt-1">
+                  {[...Array(4)].map((_, i) => (
+                    <div key={i} className="aspect-square rounded-2xl bg-white/10 border border-white/10" />
+                  ))}
+                </div>
+                <div className="h-10 rounded-2xl bg-white/22 border border-white/15" />
+              </div>
+            </div>
+          </div>
+          {/* Label */}
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-[#2c2c2c] border border-white/10 rounded px-2 py-1">
+            <span className="text-[7px] text-white/50">iPhone 14 · 390×844</span>
+          </div>
+        </div>
+
+        {/* Inspector */}
+        <div className="w-52 bg-[#2c2c2c] border-l border-black/18 shrink-0 overflow-hidden">
+          <div className="h-8 px-3 flex items-center border-b border-black/18">
+            <div className="h-2 w-12 rounded-full bg-white/28" />
+          </div>
+          <div className="p-3 space-y-3">
+            {[["W", "390"], ["H", "844"], ["X", "0"], ["Y", "0"]].map(([k, v]) => (
+              <div key={k} className="flex justify-between items-center">
+                <div className="h-2 w-5 rounded-full bg-white/20" />
+                <div className="h-5 w-16 rounded bg-white/10 flex items-center px-2">
+                  <div className="h-1.5 w-8 rounded-full bg-white/28" />
+                </div>
+              </div>
+            ))}
+            <div className="h-px bg-white/8" />
+            {["Fill", "Stroke", "Effects", "Export"].map(k => (
+              <div key={k} className="flex justify-between items-center">
+                <div className="h-2 w-10 rounded-full bg-white/18" />
+                <div className="h-4 w-4 rounded bg-white/10" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─── Canva ────────────────────────────────────────────────────────────────────
+
+function CanvaDesign({ color, variant }: { color: string; variant: number }) {
+  if (variant % 3 === 0) {
+    return (
+      <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
+        <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-white/8" />
+        <div className="absolute inset-0 flex flex-col items-center justify-center p-10 text-center gap-5">
+          <div className="h-2.5 w-20 rounded-full bg-white/42 mx-auto" />
+          <div className="h-14 w-full rounded-2xl bg-white/88 shadow-2xl" />
+          <div className="h-5 w-3/4 rounded-xl bg-white/52 mx-auto" />
+          <div className="flex gap-3 mt-1">
+            <div className="h-10 w-32 rounded-2xl bg-white shadow-xl" />
+            <div className="h-10 w-28 rounded-2xl border-2 border-white/38" />
+          </div>
+          <div className="flex gap-3 w-full mt-2">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="flex-1 rounded-2xl bg-white/10 border border-white/18 p-3 space-y-2">
+                <div className="h-8 w-8 rounded-xl bg-white/22 mx-auto" />
+                <div className="h-1.5 w-full rounded-full bg-white/35" />
+                <div className="h-1.5 w-4/5 rounded-full bg-white/22 mx-auto" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
+  if (variant % 3 === 1) {
+    return (
+      <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
+        <div className="absolute -left-8 -bottom-8 h-36 w-36 rounded-full bg-black/10" />
+        <div className="absolute inset-0 flex flex-col items-center justify-center p-8 gap-4">
+          <div className="h-10 w-10 rounded-full bg-white/18 border-2 border-white/28" />
+          <div className="space-y-3 text-center w-full">
+            <div className="h-3 w-24 rounded-full bg-white/45 mx-auto" />
+            <div className="h-12 w-full rounded-2xl bg-white/88 shadow-xl" />
+            <div className="h-4 w-3/4 rounded-xl bg-white/55 mx-auto" />
+          </div>
+          <div className="h-px w-24 bg-white/28" />
+          <div className="h-11 w-40 rounded-2xl bg-white shadow-xl" />
+          <div className="flex gap-3">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="h-7 w-7 rounded-full bg-white/18 border border-white/28" />
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
+  return (
+    <div className="absolute inset-0 bg-white overflow-hidden">
+      <div className={cn("h-2/5 bg-gradient-to-br", color)} />
+      <div className="absolute inset-0 p-8 flex flex-col justify-end gap-3">
+        <div className="h-2.5 w-20 rounded-full bg-gray-400" />
+        <div className="h-10 w-full rounded-xl bg-gray-800" />
+        <div className="h-4 w-4/5 rounded-lg bg-gray-300" />
+        <div className="h-3 w-3/5 rounded-lg bg-gray-200" />
+        <div className="flex gap-3 pt-2">
+          <div className={cn("h-10 w-32 rounded-xl bg-gradient-to-r shadow-lg", color)} />
+          <div className="h-10 w-28 rounded-xl border-2 border-gray-200" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function CanvaMockup({ color, variant }: { color: string; variant: number }) {
+  return (
+    <div className="absolute inset-0 bg-[#f3f3f3]">
+      {/* Header */}
+      <div className="h-11 bg-white border-b border-gray-200 flex items-center px-4 gap-3 shrink-0 shadow-sm">
+        <div className="h-7 w-7 rounded-lg shrink-0" style={{ background: "linear-gradient(135deg,#00c4cc,#7d2ae8)" }}>
+          <div className="h-full w-full rounded-lg flex items-center justify-center">
+            <div className="h-3 w-3 rounded-sm bg-white/58" />
+          </div>
+        </div>
+        <div className="h-2 w-28 rounded-full bg-gray-200 ml-1" />
+        <div className="ml-auto flex gap-2 items-center">
+          <div className="h-7 px-3 rounded-lg border border-gray-200 flex items-center gap-1.5">
+            <div className="h-2 w-8 rounded-full bg-gray-400" />
+          </div>
+          <div className="h-7 px-3 rounded-lg flex items-center gap-1.5 shadow-sm"
+            style={{ background: "linear-gradient(135deg,#7d2ae8,#00c4cc)" }}>
+            <div className="h-2 w-8 rounded-full bg-white/80" />
+          </div>
+        </div>
+      </div>
+
+      <div className="absolute top-11 inset-x-0 bottom-0 flex">
+        {/* Left sidebar */}
+        <div className="w-16 bg-white border-r border-gray-200 flex flex-col items-center py-3 gap-1 shrink-0">
+          {[
+            { lbl: "Elements", active: true },
+            { lbl: "Text", active: false },
+            { lbl: "Brand", active: false },
+            { lbl: "Photos", active: false },
+            { lbl: "Apps", active: false },
+          ].map(({ lbl, active }) => (
+            <div key={lbl} className={cn("w-13 h-12 rounded-xl flex flex-col items-center justify-center gap-1 w-full",
+              active ? "bg-purple-50 text-purple-600" : "text-gray-400")}>
+              <div className={cn("h-5 w-5 rounded-lg", active ? "bg-purple-200" : "bg-gray-200")} />
+              <span className="text-[6px] font-medium">{lbl}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Canvas */}
+        <div className="flex-1 bg-[#eee] flex items-center justify-center p-5 overflow-hidden">
+          <div className="aspect-[4/3] h-full max-h-full rounded-xl shadow-2xl overflow-hidden relative">
+            <CanvaDesign color={color} variant={variant} />
+            <div className="absolute top-2 left-2 h-2 w-2 rounded-sm bg-[#a259ff] border border-white shadow-sm" />
+            <div className="absolute bottom-2 right-2 h-2 w-2 rounded-sm bg-[#a259ff] border border-white shadow-sm" />
+          </div>
+        </div>
+
+        {/* Right panel */}
+        <div className="w-52 bg-white border-l border-gray-200 shrink-0 overflow-hidden">
+          <div className="h-10 px-4 border-b border-gray-200 flex items-center gap-1">
+            {["Design", "Text", "Effects"].map((t, i) => (
+              <div key={t} className={cn("flex-1 h-6 rounded-lg text-[7.5px] flex items-center justify-center font-medium",
+                i === 0 ? "bg-gray-100 text-gray-700" : "text-gray-400")}>{t}</div>
+            ))}
+          </div>
+          <div className="p-3 space-y-3">
+            <div>
+              <div className="h-2 w-12 rounded-full bg-gray-400 mb-2" />
+              <div className="grid grid-cols-5 gap-1">
+                {[...Array(10)].map((_, i) => (
+                  <div key={i} className={cn("aspect-square rounded-md border",
+                    i === 0 ? "border-purple-500 ring-1 ring-purple-300" : "border-gray-200 bg-gray-50")} />
+                ))}
+              </div>
+            </div>
+            <div className="h-px bg-gray-100" />
+            <div>
+              <div className="h-2 w-14 rounded-full bg-gray-400 mb-2" />
+              <div className="space-y-1.5">
+                {[...Array(3)].map((_, i) => (
+                  <div key={i} className="flex gap-2">
+                    <div className="h-6 w-6 rounded bg-gray-100 shrink-0" />
+                    <div className="flex-1 h-6 rounded bg-gray-100" />
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="h-px bg-gray-100" />
+            <div className="space-y-1.5">
+              {[...Array(2)].map((_, i) => (
+                <div key={i} className="flex justify-between items-center">
+                  <div className="h-2 w-12 rounded-full bg-gray-300" />
+                  <div className="h-5 w-16 rounded bg-gray-100 flex items-center px-2">
+                    <div className="h-1.5 w-8 rounded-full bg-gray-300" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─── Word / Google Docs ───────────────────────────────────────────────────────
+
+function DocumentMockup({ color, isGoogle = false, variant = 0 }: { color: string; isGoogle?: boolean; variant?: number }) {
+  return (
+    <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
+      <div className="absolute inset-3 flex flex-col rounded-xl bg-white shadow-2xl overflow-hidden">
+        {/* Title bar */}
+        <div className={cn("px-4 py-2 flex items-center gap-3 shrink-0",
+          isGoogle ? "bg-white border-b border-gray-200" : "bg-[#2b579a]")}>
+          {isGoogle ? (
+            <>
+              <div className="flex gap-1">
+                {["#ea4335", "#fbbc04", "#34a853", "#4285f4"].map(c => (
+                  <div key={c} className="h-2.5 w-2.5 rounded-full opacity-80" style={{ backgroundColor: c }} />
+                ))}
+              </div>
+              <div className="h-2 w-24 rounded-full bg-gray-300 ml-1" />
+              <div className="ml-auto flex gap-1.5 items-center">
+                <div className="h-6 px-2 rounded-full border border-gray-200 flex items-center gap-1">
+                  <div className="h-1.5 w-8 rounded-full bg-gray-400" />
+                </div>
+                <div className="h-6 px-2 rounded-full bg-[#4285f4] flex items-center gap-1">
+                  <div className="h-1.5 w-8 rounded-full bg-white/80" />
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="h-5 w-5 bg-white/20 rounded flex items-center justify-center shrink-0">
+                <span className="text-[9px] font-black text-white">W</span>
+              </div>
+              <div className="h-2 w-28 rounded-full bg-white/48" />
+              <div className="ml-auto flex gap-1.5">
+                {[...Array(3)].map((_, i) => <div key={i} className="h-4 w-8 rounded bg-white/18" />)}
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Toolbar */}
+        <div className="bg-[#f9f9f9] border-b border-gray-200 px-3 py-1 flex items-center gap-1.5 shrink-0">
+          {[...Array(6)].map((_, i) => <div key={i} className="h-3.5 w-5 rounded bg-gray-300" />)}
+          <div className="w-px h-3.5 bg-gray-200 mx-1" />
+          <div className="h-3.5 w-14 rounded bg-gray-300" />
+          <div className="w-px h-3.5 bg-gray-200 mx-1" />
+          {["B", "I", "U"].map(t => (
+            <div key={t} className="h-3.5 w-3.5 rounded bg-gray-300 flex items-center justify-center">
+              <span className="text-[5.5px] text-gray-500 font-black">{t}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Document area */}
+        <div className="flex-1 bg-gray-100 overflow-hidden flex justify-center pt-5">
+          <div className="w-3/4 max-w-[240px] bg-white shadow-lg min-h-full p-6 flex flex-col gap-3">
+            {variant % 2 === 0 ? (
+              /* Resume */
+              <>
+                <div className="text-center space-y-1.5 border-b border-gray-200 pb-4 mb-1">
+                  <div className="h-6 w-36 rounded bg-gray-800 mx-auto" />
+                  <div className="h-1.5 w-52 rounded-full bg-gray-300 mx-auto" />
+                  <div className="h-1.5 w-44 rounded-full bg-gray-200 mx-auto" />
+                </div>
+                {["EXPERIENCE", "EDUCATION", "SKILLS"].map(s => (
+                  <div key={s} className="space-y-2">
+                    <div className="h-2.5 w-20 rounded bg-gray-700 border-b-2 border-gray-800 pb-0.5" />
+                    <div className="pl-2 space-y-1">
+                      <div className="h-2.5 w-32 rounded bg-gray-500" />
+                      <Lines widths={[100, 88, 74, 88, 68]} cls="bg-gray-200" />
+                    </div>
+                  </div>
+                ))}
+                <div className="space-y-2">
+                  <div className="h-2.5 w-24 rounded bg-gray-700 border-b-2 border-gray-800 pb-0.5" />
+                  <div className="pl-2 flex flex-wrap gap-1">
+                    {[60, 45, 70, 55, 48, 62].map((w, i) => (
+                      <div key={i} className="h-4 rounded-full bg-gray-100 border border-gray-200" style={{ width: w }} />
+                    ))}
+                  </div>
+                </div>
+              </>
+            ) : (
+              /* Business document */
+              <>
+                <div className="flex justify-between items-start border-b border-gray-200 pb-4 mb-1">
+                  <div className="space-y-1.5">
+                    <div className="h-7 w-36 rounded-lg bg-gray-800" />
+                    <div className="h-2 w-24 rounded-full bg-gray-300" />
+                  </div>
+                  <div className="h-10 w-10 rounded-lg bg-gray-100 border border-gray-200" />
+                </div>
+                <div className="space-y-2">
+                  <div className="h-3.5 w-32 rounded bg-gray-600" />
+                  <Lines widths={[100, 100, 94, 88, 100, 82, 97, 90, 40]} cls="bg-gray-200" />
+                </div>
+                <div className="grid grid-cols-2 gap-3 mt-1">
+                  <div className="h-20 rounded-lg bg-gray-50 border border-gray-200" />
+                  <div className="space-y-1.5 pt-1">
+                    <Lines widths={[100, 78, 88, 65, 52]} cls="bg-gray-200" />
+                  </div>
+                </div>
+                <div className="space-y-1.5">
+                  <div className="h-3 w-28 rounded bg-gray-500" />
+                  <Lines widths={[100, 92, 85, 76, 88, 60]} cls="bg-gray-200" />
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─── Notion ───────────────────────────────────────────────────────────────────
+
+function NotionMockup({ color, variant }: { color: string; variant: number }) {
+  const mod = variant % 3
+  return (
+    <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
+      <div className="absolute inset-3 rounded-xl bg-white shadow-2xl overflow-hidden flex">
+        {/* Sidebar */}
+        <div className="w-44 bg-[#f7f7f5] border-r border-gray-200 flex flex-col shrink-0">
+          <div className="h-10 px-4 flex items-center gap-2 border-b border-gray-200">
+            <div className="h-5 w-5 rounded bg-gray-200 flex items-center justify-center">
+              <span className="text-[9px] font-black text-gray-600">T</span>
+            </div>
+            <div className="h-2 w-20 rounded-full bg-gray-300" />
+          </div>
+          <div className="flex-1 p-2 space-y-0.5 overflow-hidden">
+            {[
+              { icon: "🏠", lbl: "Home", active: mod === 0 },
+              { icon: "📋", lbl: "Dashboard", active: mod === 1 },
+              { icon: "📅", lbl: "Calendar", active: false },
+              { icon: "✅", lbl: "Tasks", active: mod === 2 },
+              { icon: "📊", lbl: "Analytics", active: false },
+              { icon: "📁", lbl: "Projects", active: false },
+              { icon: "👥", lbl: "Team", active: false },
+            ].map(({ icon, lbl, active }) => (
+              <div key={lbl} className={cn("flex items-center gap-2 px-2 py-1.5 rounded-md",
+                active ? "bg-gray-200" : "")}>
+                <span className="text-[10px]">{icon}</span>
+                <div className={cn("h-2 rounded-full", active ? "bg-gray-600" : "bg-gray-300")}
+                  style={{ width: `${lbl.length * 5.5}px` }} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Page */}
+        <div className="flex-1 overflow-hidden flex flex-col">
+          {/* Cover */}
+          <div className={cn("h-20 bg-gradient-to-br shrink-0", color)} />
+
+          <div className="flex-1 overflow-hidden p-6 -mt-3 space-y-4">
+            <div className="h-10 w-10 rounded-xl bg-white shadow-sm border border-gray-100 flex items-center justify-center text-xl">
+              {mod === 0 ? "📊" : mod === 1 ? "📋" : "✅"}
+            </div>
+            <div className="h-8 w-3/4 rounded-xl bg-gray-800" />
+
+            {mod === 0 && (
+              <>
+                <div className="grid grid-cols-3 gap-3">
+                  {[["24.5K", "Total Users"], ["$48K", "Revenue"], ["98.2%", "Satisfaction"]].map(([v, l]) => (
+                    <div key={l} className="rounded-xl bg-gray-50 border border-gray-100 p-3 space-y-1">
+                      <div className="h-5 w-12 rounded bg-gray-700" />
+                      <div className="h-1.5 w-16 rounded-full bg-gray-300" />
+                    </div>
+                  ))}
+                </div>
+                <div className="rounded-xl bg-gray-50 border border-gray-100 p-3">
+                  <div className="h-2.5 w-24 rounded bg-gray-500 mb-3" />
+                  <Bars data={[28, 48, 38, 68, 55, 82, 72, 90]} color={color} h={80} />
+                </div>
+                <div className="rounded-xl border border-gray-100 overflow-hidden">
+                  <div className="grid grid-cols-4 bg-gray-50 border-b border-gray-100">
+                    {["Name", "Status", "Date", "Amount"].map(h => (
+                      <div key={h} className="px-2 py-1.5">
+                        <div className="h-2 w-10 rounded-full bg-gray-400" />
+                      </div>
+                    ))}
+                  </div>
+                  {["bg-green-100", "bg-blue-100", "bg-yellow-100", "bg-purple-100", "bg-rose-100"].map((c, i) => (
+                    <div key={i} className="grid grid-cols-4 border-b border-gray-50">
+                      <div className="px-2 py-1.5"><div className="h-2 w-16 rounded-full bg-gray-300" /></div>
+                      <div className="px-2 py-1.5"><div className={cn("h-3.5 w-12 rounded-full", c)} /></div>
+                      <div className="px-2 py-1.5"><div className="h-2 w-12 rounded-full bg-gray-200" /></div>
+                      <div className="px-2 py-1.5"><div className="h-2 w-10 rounded-full bg-gray-300" /></div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {mod === 1 && (
+              <div className="rounded-xl border border-gray-200 overflow-hidden">
+                <div className="grid grid-cols-4 bg-gray-50 border-b border-gray-200">
+                  {["Name", "Status", "Priority", "Due"].map(h => (
+                    <div key={h} className="px-3 py-2">
+                      <div className="h-2 w-12 rounded-full bg-gray-400" />
+                    </div>
+                  ))}
+                </div>
+                {[
+                  "bg-blue-100 text-blue-600",
+                  "bg-green-100 text-green-600",
+                  "bg-yellow-100 text-yellow-600",
+                  "bg-red-100 text-red-600",
+                ].map((sc, i) => (
+                  <div key={i} className="grid grid-cols-4 border-b border-gray-100">
+                    <div className="px-3 py-2"><div className="h-2 w-20 rounded bg-gray-300" /></div>
+                    <div className="px-3 py-2">
+                      <div className={cn("h-4 w-16 rounded-full px-1.5 flex items-center", sc)}>
+                        <div className="h-1.5 w-8 rounded-full bg-current opacity-55" />
+                      </div>
+                    </div>
+                    <div className="px-3 py-2"><div className="h-2 w-8 rounded-full bg-gray-300" /></div>
+                    <div className="px-3 py-2"><div className="h-2 w-14 rounded-full bg-gray-200" /></div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {mod === 2 && (
+              <div className="space-y-2.5">
+                {[true, true, false, false, false].map((done, i) => (
+                  <div key={i} className="flex items-center gap-2.5">
+                    <div className={cn("h-4 w-4 rounded border-2 shrink-0 flex items-center justify-center",
+                      done ? "bg-gray-800 border-gray-800" : "border-gray-300")}>
+                      {done && <div className="h-1.5 w-2.5 border-b-2 border-l-2 border-white -rotate-45 -mt-px" />}
+                    </div>
+                    <div className={cn("h-2 rounded-full", done ? "bg-gray-300" : "bg-gray-600")}
+                      style={{ width: `${[72, 55, 88, 42, 65][i]}%` }} />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─── Main export ─────────────────────────────────────────────────────────────
+
+export function TemplatePreview({ tool, style, color, variant = 0, className }: Props) {
   const render = () => {
-    if (tool === "Excel")       return <SpreadsheetMockup color={color} />
-    if (tool === "Word")        return <DocumentMockup color={color} isWord />
-    if (tool === "Google Docs") return <DocumentMockup color={color} />
-    if (tool === "Canva")       return <CanvaMockup color={color} />
-    if (tool === "Figma")       return <FigmaMockup color={color} />
-    if (tool === "Notion")      return <NotionMockup color={color} />
-    const Variant = SLIDE_VARIANTS[style] ?? SlidePitchDeck
-    return <Variant color={color} />
+    switch (tool) {
+      case "Excel":
+        return <ExcelMockup color={color} />
+      case "Word":
+        return <DocumentMockup color={color} isGoogle={false} variant={variant} />
+      case "Google Docs":
+        return <DocumentMockup color={color} isGoogle={true} variant={variant} />
+      case "Canva":
+        return <CanvaMockup color={color} variant={variant} />
+      case "Figma":
+        return <FigmaMockup color={color} variant={variant} />
+      case "Notion":
+        return <NotionMockup color={color} variant={variant} />
+      case "Google Slides":
+        return <SlideEditorChrome color={color} variant={variant} isGoogle />
+      default:
+        return <SlideEditorChrome color={color} variant={variant} />
+    }
   }
 
   return (
     <div className={cn("relative overflow-hidden rounded-xl shadow-lg border border-border/50 bg-background", className)}>
       {render()}
-    </div>
-  )
-}
-
-function SpreadsheetMockup({ color }: { color: string }) {
-  return (
-    <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
-      <div className="absolute inset-4 flex flex-col rounded-lg bg-white overflow-hidden shadow-xl">
-        {/* Ribbon */}
-        <div className="bg-[#107c41] px-3 py-2 flex items-center justify-between">
-           <div className="flex items-center gap-2">
-              <TableIcon className="h-4 w-4 text-white" />
-              <div className="h-2 w-16 rounded bg-white/40" />
-           </div>
-           <div className="flex gap-1">
-              {[1,2,3].map(i => <div key={i} className="h-4 w-4 rounded bg-white/20" />)}
-           </div>
-        </div>
-        {/* Toolbar */}
-        <div className="bg-gray-50 border-b border-gray-200 px-3 py-1 flex gap-2">
-           <div className="h-4 w-4 rounded bg-gray-200" />
-           <div className="h-px w-4 rotate-90 bg-gray-300" />
-           <div className="h-4 w-20 rounded bg-gray-200" />
-           <div className="h-4 w-8 rounded bg-gray-200" />
-        </div>
-        {/* Formula Bar */}
-        <div className="bg-white border-b border-gray-200 px-2 py-1 flex items-center gap-2">
-           <div className="h-3 w-8 rounded bg-gray-100" />
-           <div className="h-3 flex-1 rounded bg-gray-50 border border-gray-100" />
-        </div>
-        {/* Grid */}
-        <div className="flex-1 overflow-hidden relative bg-white">
-           <div className="absolute inset-0 grid grid-cols-5 grid-rows-8">
-              {Array.from({length: 40}).map((_, i) => {
-                const isHeader = i < 5
-                const isSidebar = i % 5 === 0
-                const isData = !isHeader && !isSidebar
-                return (
-                  <div key={i} className={cn("border-r border-b border-gray-100 flex items-center px-2", isHeader && "bg-gray-50 font-bold", isSidebar && "bg-gray-50 justify-center")}>
-                     {isHeader && i>0 && <div className="h-2 w-4 bg-gray-300 rounded-sm" />}
-                     {isSidebar && i>0 && <div className="h-2 w-2 bg-gray-300 rounded-sm" />}
-                     {isData && Math.random() > 0.3 && (
-                       <div className={cn("h-1.5 rounded-full", i===7 || i===13 ? "w-16 bg-green-100 text-green-700" : "w-8 bg-gray-200")} style={{width: `${Math.random() * 60 + 20}%`}} />
-                     )}
-                     {isData && (i === 7 || i === 13) && <div className="h-1.5 w-4 rounded-full bg-green-500 ml-auto" />}
-                  </div>
-                )
-              })}
-           </div>
-           {/* Chart overlay */}
-           <div className="absolute bottom-4 right-4 w-32 h-20 bg-white border border-gray-200 shadow-lg rounded p-2 flex flex-col gap-1">
-              <div className="h-2 w-16 bg-gray-200 rounded" />
-              <div className="flex-1 flex items-end justify-between gap-1 pt-1">
-                 {[40, 70, 50, 90, 60].map((h,i) => (
-                   <div key={i} className="flex-1 bg-blue-500 rounded-t-sm" style={{height: `${h}%`}} />
-                 ))}
-              </div>
-           </div>
-        </div>
-        {/* Tabs */}
-        <div className="bg-gray-50 border-t border-gray-200 px-2 py-0.5 flex gap-1">
-           <div className="bg-white px-3 py-0.5 rounded-t border border-gray-200 border-b-0 shadow-sm"><div className="h-1.5 w-10 bg-green-600 rounded-full" /></div>
-           <div className="px-3 py-0.5"><div className="h-1.5 w-8 bg-gray-300 rounded-full" /></div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function DocumentMockup({ color, isWord }: { color: string; isWord?: boolean }) {
-  return (
-    <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
-      <div className="absolute inset-4 flex flex-col rounded-lg bg-gray-100 overflow-hidden shadow-xl">
-        <div className={cn("px-4 py-2 flex items-center gap-2", isWord ? "bg-[#2b579a]" : "bg-white border-b border-gray-200")}>
-           {isWord ? (
-             <div className="h-4 w-4 bg-white rounded flex items-center justify-center"><Type className="h-2.5 w-2.5 text-[#2b579a]" /></div>
-           ) : (
-             <div className="h-4 w-4 bg-blue-500 rounded flex items-center justify-center"><Type className="h-2.5 w-2.5 text-white" /></div>
-           )}
-           <div className={cn("h-2 w-24 rounded-full", isWord ? "bg-white/50" : "bg-gray-300")} />
-        </div>
-        
-        <div className="flex-1 p-4 overflow-hidden flex justify-center">
-           <div className="w-full h-full bg-white shadow-sm rounded-sm p-6 flex flex-col gap-3">
-              <div className="flex justify-between items-start border-b border-gray-100 pb-4">
-                 <div className="space-y-2">
-                    <div className="h-6 w-32 bg-gray-800 rounded" />
-                    <div className="h-2 w-20 bg-gray-400 rounded-full" />
-                 </div>
-                 <div className="h-10 w-10 rounded-full bg-gray-100" />
-              </div>
-              
-              <div className="space-y-1.5 pt-2">
-                 {[1, 0.9, 0.95, 0.8, 1, 0.85, 0.9, 0.4].map((w,i) => (
-                   <div key={i} className="h-1.5 rounded-full bg-gray-200" style={{width: `${w*100}%`}} />
-                 ))}
-              </div>
-              
-              <div className="grid grid-cols-2 gap-4 mt-2">
-                 <div className="h-20 rounded bg-gray-50 border border-gray-100" />
-                 <div className="space-y-1.5">
-                    {[1, 0.8, 0.9, 0.7, 0.5].map((w,i) => (
-                      <div key={i} className="h-1.5 rounded-full bg-gray-200" style={{width: `${w*100}%`}} />
-                    ))}
-                 </div>
-              </div>
-           </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function CanvaMockup({ color }: { color: string }) {
-  return (
-    <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
-      <div className="absolute inset-0 flex flex-col">
-         {/* Canva Header */}
-         <div className="h-10 bg-gradient-to-r from-[#00c4cc] to-[#7d2ae8] flex items-center px-4 justify-between">
-            <div className="flex items-center gap-2">
-               <div className="h-5 w-5 rounded-full bg-white/20" />
-               <div className="h-2 w-16 rounded-full bg-white/40" />
-            </div>
-            <div className="h-6 w-20 rounded bg-white text-xs font-bold text-purple-600 flex items-center justify-center">Share</div>
-         </div>
-         <div className="flex-1 flex overflow-hidden bg-[#f0f0f0]">
-            <div className="w-12 bg-white flex flex-col items-center py-4 gap-4 shadow-sm z-10">
-               {[Layout, Type, ImageIcon, Users].map((Icon, i) => (
-                 <div key={i} className="h-8 w-8 rounded flex items-center justify-center text-gray-400 hover:bg-gray-50 hover:text-gray-600">
-                    <Icon className="h-4 w-4" />
-                 </div>
-               ))}
-            </div>
-            <div className="flex-1 p-6 flex items-center justify-center">
-               <div className="aspect-[4/3] h-full bg-white shadow-xl rounded overflow-hidden relative group">
-                  <div className="absolute inset-0 bg-cover bg-center opacity-90 group-hover:scale-105 transition-transform duration-700" style={{backgroundImage: `linear-gradient(135deg, ${color.replace('from-','').replace('to-','').split(' ')[0]} 0%, ${color.replace('from-','').replace('to-','').split(' ')[0]} 100%)`}} />
-                  <div className="absolute inset-0 bg-black/10" />
-                  <div className="absolute inset-6 border border-white/40 flex flex-col justify-center items-center text-center text-white">
-                     <div className="uppercase tracking-[0.2em] text-xs font-bold mb-2 opacity-80">Presenting</div>
-                     <div className="text-3xl font-black mb-4 leading-none">FUTURE<br/>VISION</div>
-                     <div className="h-1 w-12 bg-white mb-4" />
-                     <div className="text-[10px] opacity-80 max-w-[120px]">A creative strategy for the next generation</div>
-                  </div>
-                  {/* Selection handles */}
-                  <div className="absolute top-6 left-6 h-2 w-2 bg-purple-500 border border-white" />
-                  <div className="absolute bottom-6 right-6 h-2 w-2 bg-purple-500 border border-white" />
-               </div>
-            </div>
-         </div>
-      </div>
-    </div>
-  )
-}
-
-function FigmaMockup({ color }: { color: string }) {
-  return (
-    <div className="absolute inset-0 bg-[#1e1e1e] text-white">
-       <div className="absolute inset-0 flex flex-col">
-          <div className="h-8 border-b border-white/10 flex items-center px-3 gap-3 bg-[#2c2c2c]">
-             <div className="flex gap-1.5"><div className="h-3 w-3 rounded-full bg-[#f24e1e]"/><div className="h-3 w-3 rounded-full bg-[#a259ff]"/><div className="h-3 w-3 rounded-full bg-[#1abcfe]"/></div>
-             <div className="h-3 w-px bg-white/20" />
-             <div className="h-2 w-24 rounded bg-white/20" />
-          </div>
-          <div className="flex-1 flex overflow-hidden">
-             <div className="w-8 border-r border-white/10 flex flex-col items-center py-2 gap-3 bg-[#2c2c2c]">
-                <div className="h-4 w-4 rounded bg-white/10" />
-                <div className="h-4 w-4 rounded bg-white/10" />
-                <div className="h-4 w-4 rounded bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
-             </div>
-             <div className="flex-1 p-8 flex items-center justify-center bg-[#1e1e1e] relative overflow-hidden">
-                <div className="absolute inset-0 opacity-20" style={{backgroundImage: "radial-gradient(#444 1px, transparent 1px)", backgroundSize: "16px 16px"}} />
-                
-                <div className="relative z-10 w-48 h-64 bg-white rounded-xl shadow-2xl flex flex-col overflow-hidden">
-                   <div className="h-32 bg-gray-100 flex items-center justify-center relative">
-                      <div className="absolute inset-0 bg-gradient-to-br from-purple-100 to-pink-100" />
-                      <div className="h-12 w-12 rounded-full bg-white shadow-sm z-10" />
-                   </div>
-                   <div className="p-3 space-y-2">
-                      <div className="h-3 w-3/4 rounded bg-gray-200" />
-                      <div className="h-2 w-full rounded bg-gray-100" />
-                      <div className="h-2 w-1/2 rounded bg-gray-100" />
-                      <div className="h-6 w-full rounded bg-blue-500 mt-2" />
-                   </div>
-                   
-                   {/* Cursors */}
-                   <div className="absolute -right-3 top-10 flex items-center gap-1">
-                      <div className="w-0 h-0 border-l-[12px] border-l-transparent border-b-[18px] border-b-[#e05a33] border-r-[6px] border-r-transparent rotate-[-15deg]" />
-                      <div className="bg-[#e05a33] text-[8px] px-1 rounded text-white font-bold">You</div>
-                   </div>
-                </div>
-             </div>
-             <div className="w-48 border-l border-white/10 bg-[#2c2c2c] p-3 space-y-3">
-                <div className="flex justify-between items-center"><span className="text-[10px] text-gray-400">Design</span><div className="h-3 w-3 rounded-full bg-white/10"/></div>
-                <div className="h-px bg-white/10" />
-                <div className="space-y-2">
-                   <div className="flex justify-between"><div className="h-2 w-8 bg-white/20 rounded"/><div className="h-4 w-12 bg-white/10 rounded"/></div>
-                   <div className="flex justify-between"><div className="h-2 w-8 bg-white/20 rounded"/><div className="h-4 w-12 bg-white/10 rounded"/></div>
-                </div>
-             </div>
-          </div>
-       </div>
-    </div>
-  )
-}
-
-function NotionMockup({ color }: { color: string }) {
-  return (
-    <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
-       <div className="absolute inset-4 rounded-xl bg-white shadow-xl overflow-hidden flex flex-col">
-          <div className="h-24 bg-cover bg-center relative" style={{backgroundImage: "url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=400&q=80')"}}>
-             <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-black/30" />
-             <div className="absolute -bottom-6 left-8 h-12 w-12 rounded bg-white p-1 text-2xl flex items-center justify-center shadow-sm">
-                👋
-             </div>
-          </div>
-          <div className="flex-1 p-8 pt-8 flex flex-col gap-3">
-             <div className="h-6 w-2/3 bg-gray-800 rounded mb-2" />
-             <div className="flex items-center gap-2 text-xs text-gray-500 mb-2">
-                <div className="flex items-center gap-1"><Users className="h-3 w-3" /> <span>Team</span></div>
-                <div>•</div>
-                <div className="flex items-center gap-1"><Activity className="h-3 w-3" /> <span>Updated</span></div>
-             </div>
-             <div className="h-px w-full bg-gray-200 mb-2" />
-             <div className="space-y-1.5">
-                <div className="flex items-center gap-2">
-                   <div className="h-4 w-4 rounded bg-orange-100 flex items-center justify-center text-[8px]">1</div>
-                   <div className="h-2 w-full rounded bg-gray-200" />
-                </div>
-                <div className="flex items-center gap-2">
-                   <div className="h-4 w-4 rounded bg-blue-100 flex items-center justify-center text-[8px]">2</div>
-                   <div className="h-2 w-4/5 rounded bg-gray-200" />
-                </div>
-             </div>
-             <div className="mt-2 p-2 bg-gray-50 rounded border border-gray-100 flex items-center gap-2">
-                <div className="h-4 w-4 rounded bg-gray-200" />
-                <div className="h-2 flex-1 rounded bg-gray-200" />
-             </div>
-          </div>
-       </div>
     </div>
   )
 }

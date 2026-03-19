@@ -34,6 +34,7 @@ function TemplateThumb({ template }: { template: Template }) {
       tool={template.tool}
       style={template.style}
       color={template.previewColor}
+      variant={parseInt(template.id) % 5}
       className="h-full w-full rounded-none shadow-none border-none"
     />
   )

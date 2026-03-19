@@ -11,9 +11,10 @@ interface ImageGalleryProps {
   tool: string
   style: string
   previewColor: string
+  variant?: number
 }
 
-export function ImageGallery({ slideImages, title, tool, style, previewColor }: ImageGalleryProps) {
+export function ImageGallery({ slideImages, title, tool, style, previewColor, variant = 0 }: ImageGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0)
   const hasRealPreview = slideImages.length > 0
 
@@ -36,6 +37,7 @@ export function ImageGallery({ slideImages, title, tool, style, previewColor }: 
             tool={tool}
             style={style}
             color={previewColor}
+            variant={variant}
             className="h-full w-full rounded-none shadow-none border-none"
           />
         )}

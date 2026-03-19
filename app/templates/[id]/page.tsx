@@ -126,6 +126,7 @@ export default async function TemplatePage({ params }: TemplatePageProps) {
                 tool={template.tool}
                 style={template.style}
                 previewColor={template.previewColor}
+                variant={parseInt(template.id) % 5}
               />
             </div>
 
