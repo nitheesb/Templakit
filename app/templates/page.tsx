@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo, Suspense } from "react"
+import { useState, useMemo, useEffect, useRef, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import { Search, SlidersHorizontal, X, ChevronDown, Flame, Sparkles, Gift } from "lucide-react"
 import { Navbar } from "@/components/navbar"
@@ -47,6 +47,19 @@ function TemplatesContent() {
   const [showFilters, setShowFilters]           = useState(false)
   const [showSortMenu, setShowSortMenu]         = useState(false)
   const [page, setPage]                         = useState(1)
+  const sortRef                                 = useRef<HTMLDivElement>(null)
+
+  // Close sort dropdown when clicking outside
+  useEffect(() => {
+    if (!showSortMenu) return
+    function handler(e: MouseEvent) {
+      if (sortRef.current && !sortRef.current.contains(e.target as Node)) {
+        setShowSortMenu(false)
+      }
+    }
+    document.addEventListener("mousedown", handler)
+    return () => document.removeEventListener("mousedown", handler)
+  }, [showSortMenu])
 
   const filtered = useMemo(() => {
     let r = templates.filter(t => {
@@ -111,7 +124,7 @@ function TemplatesContent() {
               </div>
               <div className="flex gap-2">
                 {/* Sort */}
-                <div className="relative">
+                <div className="relative" ref={sortRef}>
                   <button
                     onClick={() => setShowSortMenu(!showSortMenu)}
                     className="flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-medium hover:bg-secondary transition-colors"

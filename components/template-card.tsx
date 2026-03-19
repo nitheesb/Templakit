@@ -71,6 +71,19 @@ export function TemplateCard({ template, className }: TemplateCardProps) {
               </span>
             )}
           </div>
+
+          {/* Price badge — top right */}
+          <div className="absolute right-2.5 top-2.5">
+            {template.price === 0 ? (
+              <span className="rounded-full bg-emerald-500 px-2.5 py-0.5 text-[10px] font-bold text-white shadow-lg">
+                FREE
+              </span>
+            ) : (
+              <span className="rounded-full bg-primary px-2.5 py-0.5 text-[10px] font-bold text-white shadow-lg">
+                $1
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Card body */}

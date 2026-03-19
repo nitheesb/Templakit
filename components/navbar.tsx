@@ -129,10 +129,15 @@ export function Navbar() {
             Pricing
           </Link>
           <Link
-            href="#"
-            className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+            href="/about"
+            className={cn(
+              "rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+              isActive("/about")
+                ? "bg-primary/10 text-primary"
+                : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+            )}
           >
-            Blog
+            About
           </Link>
         </nav>
 
@@ -146,8 +151,12 @@ export function Navbar() {
             <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
             <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           </button>
-          <Button variant="ghost" size="sm" className="text-sm">Sign In</Button>
-          <Button size="sm" className="shadow-lg shadow-primary/20">Get Started</Button>
+          <Button variant="ghost" size="sm" className="text-sm" asChild>
+            <a href="mailto:nitheesbalaji@gmail.com">Contact</a>
+          </Button>
+          <Button size="sm" className="shadow-lg shadow-primary/20" asChild>
+            <Link href="/templates">Browse Templates</Link>
+          </Button>
         </div>
 
         {/* Mobile controls */}
@@ -208,13 +217,17 @@ export function Navbar() {
           <Link href="/pricing" className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">
             Pricing
           </Link>
-          <Link href="#" className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">
-            Blog
+          <Link href="/about" className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">
+            About
           </Link>
 
           <div className="mt-3 flex flex-col gap-2 border-t border-border/50 pt-3">
-            <Button variant="outline" className="w-full">Sign In</Button>
-            <Button className="w-full shadow-lg shadow-primary/20">Get Started Free</Button>
+            <Button variant="outline" className="w-full" asChild>
+              <a href="mailto:nitheesbalaji@gmail.com">Contact Us</a>
+            </Button>
+            <Button className="w-full shadow-lg shadow-primary/20" asChild>
+              <Link href="/templates">Browse Templates Free</Link>
+            </Button>
           </div>
         </nav>
       </div>

@@ -1,15 +1,14 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import Link from "next/link"
-import Image from "next/image"
 import { ArrowLeft, Download, Star, Tag, CheckCircle2, Shield } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { Badge } from "@/components/ui/badge"
 import { TemplateCard } from "@/components/template-card"
-import { TemplatePreview } from "@/components/template-preview"
 import { DownloadButton } from "@/components/download-button"
 import { BitcoinPayment } from "@/components/bitcoin-payment"
+import { ImageGallery } from "@/components/image-gallery"
 import { getTemplateById, getRelatedTemplates, templates } from "@/lib/templates"
 import { cn } from "@/lib/utils"
 import { existsSync } from "fs"
@@ -84,8 +83,6 @@ export default async function TemplatePage({ params }: TemplatePageProps) {
     return existsSync(join(publicDir, file)) ? `/previews/${file}` : null
   }).filter(Boolean) as string[]
 
-  const hasRealPreview = slideImages.length > 0
-
   return (
     <div className="flex min-h-screen flex-col">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
@@ -121,51 +118,15 @@ export default async function TemplatePage({ params }: TemplatePageProps) {
           </Link>
 
           <div className="grid gap-10 lg:grid-cols-5 lg:gap-16">
-            {/* Preview */}
+            {/* Preview — interactive gallery */}
             <div className="lg:col-span-3">
-              {hasRealPreview ? (
-                <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-border/50 shadow-lg bg-secondary/10">
-                  <Image
-                    src={slideImages[0]}
-                    alt={`${template.title} preview`}
-                    fill
-                    className="object-cover object-top"
-                    priority
-                    sizes="(max-width: 1024px) 100vw, 60vw"
-                  />
-                </div>
-              ) : (
-                <TemplatePreview
-                  tool={template.tool}
-                  style={template.style}
-                  color={template.previewColor}
-                  className="aspect-[16/10]"
-                />
-              )}
-              {/* Thumbnail strip */}
-              {slideImages.length > 1 && (
-                <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
-                  {slideImages.map((src, i) => (
-                    <div
-                      key={src}
-                      className={cn(
-                        "relative aspect-[16/10] w-24 shrink-0 overflow-hidden rounded-lg border-2 transition-all duration-200",
-                        i === 0
-                          ? "border-primary ring-2 ring-primary/20"
-                          : "border-border/50 opacity-75 hover:border-primary/50 hover:opacity-100"
-                      )}
-                    >
-                      <Image
-                        src={src}
-                        alt={`Slide ${i + 1}`}
-                        fill
-                        className="object-cover object-top"
-                        sizes="96px"
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
+              <ImageGallery
+                slideImages={slideImages}
+                title={template.title}
+                tool={template.tool}
+                style={template.style}
+                previewColor={template.previewColor}
+              />
             </div>
 
             {/* Sidebar */}

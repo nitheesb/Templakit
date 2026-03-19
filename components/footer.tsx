@@ -26,16 +26,15 @@ const popularLinks = [
 const companyLinks = [
   { label: "All Templates",  href: "/templates" },
   { label: "Pricing",        href: "/pricing" },
-  { label: "Blog",           href: "#" },
-  { label: "About",          href: "#" },
+  { label: "About",          href: "/about" },
   { label: "Contact",        href: "mailto:nitheesbalaji@gmail.com" },
 ]
 
 const legalLinks = [
-  { label: "Privacy Policy", href: "#" },
-  { label: "Terms of Use",   href: "#" },
-  { label: "License",        href: "#" },
-  { label: "Refund Policy",  href: "#" },
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms of Use",   href: "/terms" },
+  { label: "License",        href: "/terms#license" },
+  { label: "Refund Policy",  href: "/terms#refund" },
 ]
 
 export function Footer() {
