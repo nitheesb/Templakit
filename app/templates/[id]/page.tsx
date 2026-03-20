@@ -141,7 +141,15 @@ export default async function TemplatePage({ params }: TemplatePageProps) {
 
                 {/* Title */}
                 <h1 className="text-2xl font-black tracking-tight leading-tight text-pretty sm:text-3xl">
-                  {template.title}
+                  {template.title.includes(" — ") ? (
+                    <>
+                      {template.title.split(" — ")[0]}
+                      {" "}
+                      <span className="whitespace-nowrap">
+                        — {template.title.split(" — ").slice(1).join(" — ")}
+                      </span>
+                    </>
+                  ) : template.title}
                 </h1>
 
                 {/* Rating row */}
