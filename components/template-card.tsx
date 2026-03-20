@@ -94,7 +94,7 @@ export function TemplateCard({ template, className }: TemplateCardProps) {
             <span className="text-[11px] text-muted-foreground">{template.style}</span>
           </div>
 
-          <h3 className="line-clamp-1 text-sm font-semibold leading-snug text-foreground transition-colors duration-150 group-hover:text-primary">
+          <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-foreground transition-colors duration-150 group-hover:text-primary">
             {template.title}
           </h3>
 

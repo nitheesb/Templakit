@@ -140,7 +140,7 @@ export default async function TemplatePage({ params }: TemplatePageProps) {
                 </div>
 
                 {/* Title */}
-                <h1 className="text-2xl font-black tracking-tight leading-tight sm:text-3xl">
+                <h1 className="text-2xl font-black tracking-tight leading-tight text-pretty sm:text-3xl">
                   {template.title}
                 </h1>
 
