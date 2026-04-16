@@ -69,6 +69,11 @@ export default function OGImage() {
         {/* Headline */}
         <div
           style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            gap: 12,
             fontSize: 60,
             fontWeight: 900,
             color: "white",
@@ -78,7 +83,7 @@ export default function OGImage() {
             maxWidth: 900,
           }}
         >
-          Free Templates for{" "}
+          <span>Free Templates for</span>
           <span
             style={{
               background: "linear-gradient(90deg, #a855f7, #ec4899)",
