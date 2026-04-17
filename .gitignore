@@ -36,3 +36,4 @@ yarn-error.log*
 
 # Playwright MCP
 .playwright-mcp/
+scripts/cleanup-templates.mjs
