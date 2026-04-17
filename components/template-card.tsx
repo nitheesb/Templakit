@@ -23,6 +23,7 @@ function TemplateThumb({ template }: { template: Template }) {
         src={`/previews/${template.id}.webp`}
         alt={template.title}
         fill
+        unoptimized
         className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         onError={() => setImgError(true)}

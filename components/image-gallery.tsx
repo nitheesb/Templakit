@@ -28,6 +28,7 @@ export function ImageGallery({ slideImages, title, tool, style, previewColor, va
             src={slideImages[activeIndex]}
             alt={`${title} — slide ${activeIndex + 1}`}
             fill
+            unoptimized
             className="object-cover object-top transition-opacity duration-200"
             priority={activeIndex === 0}
             sizes="(max-width: 1024px) 100vw, 60vw"
@@ -62,6 +63,7 @@ export function ImageGallery({ slideImages, title, tool, style, previewColor, va
                 src={src}
                 alt={`Slide ${i + 1}`}
                 fill
+                unoptimized
                 className="object-cover object-top"
                 sizes="96px"
               />
