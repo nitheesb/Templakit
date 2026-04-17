@@ -400,7 +400,337 @@ function SlideEditorChrome({ color, variant, isGoogle = false }: { color: string
 
 // ─── Excel ────────────────────────────────────────────────────────────────────
 
-function ExcelMockup({ color }: { color: string }) {
+function ExcelGrid({ variant, color }: { variant: number; color: string }) {
+  const mod = variant % 5
+  const cols = ["A", "B", "C", "D", "E", "F"]
+  const green = "#107c41"
+
+  // Variant 0: Dashboard with charts
+  if (mod === 0) return (
+    <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 overflow-hidden">
+        <div className="flex bg-[#f4f4f2] border-b border-gray-200 shrink-0">
+          <div className="w-7 border-r border-gray-200 h-5" />
+          {cols.map(c => (
+            <div key={c} className="flex-1 h-5 border-r border-gray-200 flex items-center justify-center">
+              <span className="text-[7.5px] text-gray-500 font-medium">{c}</span>
+            </div>
+          ))}
+        </div>
+        {[...Array(6)].map((_, row) => (
+          <div key={row} className={cn("flex border-b border-gray-100", row === 0 ? "bg-[#e2efda]" : row % 2 === 0 ? "bg-[#f9fff9]/60" : "bg-white")}>
+            <div className="w-7 border-r border-gray-200 flex items-center justify-center shrink-0">
+              <span className="text-[6.5px] text-gray-400">{row + 1}</span>
+            </div>
+            {cols.map((_, col) => (
+              <div key={col} className="flex-1 h-6 border-r border-gray-100 px-1.5 flex items-center">
+                {row === 0 ? <div className="h-2 rounded-full bg-[#107c41]" style={{ width: "70%" }} />
+                  : <div className={cn("h-1.5 rounded-full", col === 1 ? "bg-emerald-400" : col === 3 ? "bg-blue-400" : "bg-gray-300")} style={{ width: `${30 + ((row * col * 17) % 50)}%` }} />}
+              </div>
+            ))}
+          </div>
+        ))}
+        {/* Inline chart area */}
+        <div className="p-3 border-b border-gray-100">
+          <Bars data={[38, 62, 48, 80, 58, 88, 68]} color="from-[#107c41]/80 to-[#107c41]" h={64} />
+        </div>
+        {[...Array(8)].map((_, row) => (
+          <div key={row} className={cn("flex border-b border-gray-100", row % 2 === 0 ? "bg-[#f9fff9]/60" : "bg-white")}>
+            <div className="w-7 border-r border-gray-200 flex items-center justify-center shrink-0">
+              <span className="text-[6.5px] text-gray-400">{row + 8}</span>
+            </div>
+            {cols.map((_, col) => (
+              <div key={col} className="flex-1 h-6 border-r border-gray-100 px-1.5 flex items-center">
+                <div className="h-1.5 rounded-full bg-gray-300" style={{ width: `${25 + ((row * col * 13) % 55)}%` }} />
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+      <div className="w-44 border-l border-gray-200 p-3 flex flex-col gap-2 shrink-0 bg-white">
+        <div className="h-2.5 w-20 rounded-full bg-gray-400" />
+        <div className="flex-1 flex items-end gap-1 pb-1">
+          <Bars data={[38, 62, 48, 80, 58, 88, 68]} color="from-[#107c41]/80 to-[#107c41]" />
+        </div>
+        <div className="h-3.5 rounded bg-gray-100 flex items-center gap-1 px-1.5">
+          <div className="h-2 w-2 rounded-sm bg-[#107c41]/50 shrink-0" />
+          <div className="h-1.5 flex-1 rounded-full bg-gray-300" />
+        </div>
+        <div className="h-px bg-gray-100" />
+        <div className="space-y-1.5">
+          {[["Total", ""], ["Average", ""], ["Growth", "bg-emerald-200"]].map(([l, c]) => (
+            <div key={l} className="flex items-center justify-between">
+              <div className="h-1.5 w-10 rounded-full bg-gray-300" />
+              <div className={cn("h-3 w-12 rounded", c || "bg-gray-100")} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+
+  // Variant 1: Budget tracker with colored categories
+  if (mod === 1) {
+    const cats = [
+      { label: "Housing", pct: 85, clr: "bg-red-400" },
+      { label: "Food", pct: 62, clr: "bg-orange-400" },
+      { label: "Transport", pct: 45, clr: "bg-blue-400" },
+      { label: "Utilities", pct: 38, clr: "bg-purple-400" },
+      { label: "Savings", pct: 72, clr: "bg-emerald-400" },
+      { label: "Entertainment", pct: 28, clr: "bg-pink-400" },
+    ]
+    return (
+      <div className="flex-1 flex overflow-hidden">
+        <div className="flex-1 overflow-hidden">
+          <div className="flex bg-[#e2efda] border-b border-gray-200 shrink-0">
+            <div className="w-7 border-r border-gray-200 h-5" />
+            {["Category", "Budget", "Spent", "Remaining", "%", "Status"].map(c => (
+              <div key={c} className="flex-1 h-5 border-r border-gray-200 flex items-center justify-center">
+                <div className="h-2 rounded-full bg-[#107c41]" style={{ width: "70%" }} />
+              </div>
+            ))}
+          </div>
+          {cats.map((cat, row) => (
+            <div key={row} className={cn("flex border-b border-gray-100", row % 2 === 0 ? "bg-[#f9fff9]/60" : "bg-white")}>
+              <div className="w-7 border-r border-gray-200 flex items-center justify-center shrink-0">
+                <span className="text-[6.5px] text-gray-400">{row + 2}</span>
+              </div>
+              <div className="flex-1 h-6 border-r border-gray-100 px-1.5 flex items-center gap-1">
+                <div className={cn("h-2.5 w-2.5 rounded-sm shrink-0", cat.clr)} />
+                <div className="h-2 w-14 rounded-full bg-gray-400" />
+              </div>
+              {[...Array(3)].map((_, c) => (
+                <div key={c} className="flex-1 h-6 border-r border-gray-100 px-1.5 flex items-center">
+                  <div className="h-1.5 rounded-full bg-gray-300" style={{ width: `${40 + c * 15}%` }} />
+                </div>
+              ))}
+              <div className="flex-1 h-6 border-r border-gray-100 px-1.5 flex items-center">
+                <div className="h-2 w-full rounded-full bg-gray-100 overflow-hidden">
+                  <div className={cn("h-full rounded-full", cat.clr)} style={{ width: `${cat.pct}%` }} />
+                </div>
+              </div>
+              <div className="flex-1 h-6 border-r border-gray-100 px-1.5 flex items-center">
+                <div className={cn("h-3.5 w-12 rounded-full", cat.pct > 70 ? "bg-red-100" : cat.pct > 50 ? "bg-yellow-100" : "bg-green-100")} />
+              </div>
+            </div>
+          ))}
+          <div className="flex border-b border-gray-200 bg-[#e2efda]">
+            <div className="w-7 border-r border-gray-200 h-6" />
+            <div className="flex-1 h-6 border-r border-gray-100 px-1.5 flex items-center">
+              <div className="h-2.5 w-12 rounded-full bg-[#107c41]" />
+            </div>
+            {[...Array(5)].map((_, c) => (
+              <div key={c} className="flex-1 h-6 border-r border-gray-100 px-1.5 flex items-center">
+                <div className="h-2 rounded-full bg-[#107c41]/60" style={{ width: "60%" }} />
+              </div>
+            ))}
+          </div>
+          {[...Array(10)].map((_, row) => (
+            <div key={row} className="flex border-b border-gray-50 bg-white">
+              <div className="w-7 border-r border-gray-200 flex items-center justify-center shrink-0">
+                <span className="text-[6.5px] text-gray-400">{row + 9}</span>
+              </div>
+              {[...Array(6)].map((_, col) => (
+                <div key={col} className="flex-1 h-6 border-r border-gray-50" />
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  // Variant 2: Project planner / Gantt-like
+  if (mod === 2) {
+    const tasks = [
+      { w: 35, off: 0, clr: "bg-blue-400" },
+      { w: 25, off: 10, clr: "bg-indigo-400" },
+      { w: 40, off: 20, clr: "bg-emerald-400" },
+      { w: 20, off: 35, clr: "bg-amber-400" },
+      { w: 30, off: 45, clr: "bg-rose-400" },
+      { w: 25, off: 55, clr: "bg-purple-400" },
+      { w: 20, off: 70, clr: "bg-teal-400" },
+    ]
+    return (
+      <div className="flex-1 flex overflow-hidden">
+        <div className="flex-1 overflow-hidden">
+          <div className="flex bg-[#e2efda] border-b border-gray-200 shrink-0">
+            <div className="w-7 border-r border-gray-200 h-5" />
+            <div className="w-24 h-5 border-r border-gray-200 flex items-center px-1.5">
+              <div className="h-2 w-12 rounded-full bg-[#107c41]" />
+            </div>
+            {["W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8"].map(w => (
+              <div key={w} className="flex-1 h-5 border-r border-gray-200 flex items-center justify-center">
+                <span className="text-[6px] text-gray-500 font-medium">{w}</span>
+              </div>
+            ))}
+          </div>
+          {tasks.map((t, row) => (
+            <div key={row} className={cn("flex border-b border-gray-100", row % 2 === 0 ? "bg-[#f9fff9]/60" : "bg-white")}>
+              <div className="w-7 border-r border-gray-200 flex items-center justify-center shrink-0">
+                <span className="text-[6.5px] text-gray-400">{row + 2}</span>
+              </div>
+              <div className="w-24 h-7 border-r border-gray-200 px-1.5 flex items-center">
+                <div className="h-2 w-16 rounded-full bg-gray-400" />
+              </div>
+              <div className="flex-1 h-7 relative flex items-center px-0.5">
+                <div className={cn("h-4 rounded-md shadow-sm", t.clr)} style={{ width: `${t.w}%`, marginLeft: `${t.off}%` }} />
+              </div>
+            </div>
+          ))}
+          {[...Array(10)].map((_, row) => (
+            <div key={row} className="flex border-b border-gray-50 bg-white">
+              <div className="w-7 border-r border-gray-200 flex items-center justify-center shrink-0">
+                <span className="text-[6.5px] text-gray-400">{row + 9}</span>
+              </div>
+              <div className="w-24 h-6 border-r border-gray-200" />
+              <div className="flex-1 h-6" />
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  // Variant 3: Data analysis with pivot-like layout
+  if (mod === 3) {
+    const regions = ["North", "South", "East", "West"]
+    return (
+      <div className="flex-1 flex overflow-hidden">
+        <div className="flex-1 overflow-hidden">
+          <div className="flex bg-[#e2efda] border-b border-gray-200 shrink-0">
+            <div className="w-7 border-r border-gray-200 h-5" />
+            {["Region", "Q1", "Q2", "Q3", "Q4", "Total"].map(c => (
+              <div key={c} className="flex-1 h-5 border-r border-gray-200 flex items-center justify-center">
+                <div className="h-2 rounded-full bg-[#107c41]" style={{ width: "65%" }} />
+              </div>
+            ))}
+          </div>
+          {regions.map((_, row) => (
+            <div key={row} className={cn("flex border-b border-gray-100", row % 2 === 0 ? "bg-[#f9fff9]/60" : "bg-white")}>
+              <div className="w-7 border-r border-gray-200 flex items-center justify-center shrink-0">
+                <span className="text-[6.5px] text-gray-400">{row + 2}</span>
+              </div>
+              <div className="flex-1 h-6 border-r border-gray-100 px-1.5 flex items-center">
+                <div className="h-2 w-10 rounded-full bg-gray-500" />
+              </div>
+              {[...Array(4)].map((_, col) => (
+                <div key={col} className="flex-1 h-6 border-r border-gray-100 px-1.5 flex items-center">
+                  <div className={cn("h-1.5 rounded-full", col === row ? "bg-[#107c41]" : "bg-gray-300")} style={{ width: `${35 + ((row + col) * 15) % 50}%` }} />
+                </div>
+              ))}
+              <div className="flex-1 h-6 border-r border-gray-100 px-1.5 flex items-center">
+                <div className="h-2 rounded-full bg-[#107c41]/70" style={{ width: "70%" }} />
+              </div>
+            </div>
+          ))}
+          <div className="flex border-b border-gray-200 bg-[#e2efda]">
+            <div className="w-7 border-r border-gray-200 h-6" />
+            {[...Array(6)].map((_, c) => (
+              <div key={c} className="flex-1 h-6 border-r border-gray-100 px-1.5 flex items-center">
+                <div className="h-2 rounded-full bg-[#107c41]" style={{ width: "60%" }} />
+              </div>
+            ))}
+          </div>
+          {/* Empty rows */}
+          <div className="flex border-b border-gray-50 bg-white h-2" />
+          {/* Pie-like chart area */}
+          <div className="px-4 py-3 flex gap-4">
+            <div className="flex-1 rounded-lg border border-gray-200 p-2 flex items-center justify-center">
+              <div className="h-16 w-16 rounded-full border-[6px] border-[#107c41] border-t-blue-400 border-r-amber-400" />
+            </div>
+            <div className="flex-1 rounded-lg border border-gray-200 p-2">
+              <Bars data={[65, 48, 82, 55]} color="from-[#107c41]/80 to-[#107c41]" h={56} />
+            </div>
+          </div>
+          {[...Array(6)].map((_, row) => (
+            <div key={row} className="flex border-b border-gray-50 bg-white">
+              <div className="w-7 border-r border-gray-200 flex items-center justify-center shrink-0">
+                <span className="text-[6.5px] text-gray-400">{row + 12}</span>
+              </div>
+              {[...Array(6)].map((_, col) => (
+                <div key={col} className="flex-1 h-6 border-r border-gray-50" />
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  // Variant 4: Inventory tracker with status indicators
+  const items = [
+    { stock: 92, status: "bg-green-100" },
+    { stock: 15, status: "bg-red-100" },
+    { stock: 67, status: "bg-green-100" },
+    { stock: 8, status: "bg-red-100" },
+    { stock: 45, status: "bg-yellow-100" },
+    { stock: 88, status: "bg-green-100" },
+    { stock: 23, status: "bg-yellow-100" },
+    { stock: 5, status: "bg-red-100" },
+  ]
+  return (
+    <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 overflow-hidden">
+        <div className="flex bg-[#e2efda] border-b border-gray-200 shrink-0">
+          <div className="w-7 border-r border-gray-200 h-5" />
+          {["SKU", "Product", "Stock", "Price", "Status", "Reorder"].map(c => (
+            <div key={c} className="flex-1 h-5 border-r border-gray-200 flex items-center justify-center">
+              <div className="h-2 rounded-full bg-[#107c41]" style={{ width: "65%" }} />
+            </div>
+          ))}
+        </div>
+        {items.map((item, row) => (
+          <div key={row} className={cn("flex border-b border-gray-100", row % 2 === 0 ? "bg-[#f9fff9]/60" : "bg-white")}>
+            <div className="w-7 border-r border-gray-200 flex items-center justify-center shrink-0">
+              <span className="text-[6.5px] text-gray-400">{row + 2}</span>
+            </div>
+            <div className="flex-1 h-6 border-r border-gray-100 px-1.5 flex items-center">
+              <div className="h-1.5 w-10 rounded-full bg-gray-400" />
+            </div>
+            <div className="flex-1 h-6 border-r border-gray-100 px-1.5 flex items-center">
+              <div className="h-2 w-14 rounded-full bg-gray-400" />
+            </div>
+            <div className="flex-1 h-6 border-r border-gray-100 px-1.5 flex items-center">
+              <div className="h-2 w-full rounded-full bg-gray-100 overflow-hidden">
+                <div className={cn("h-full rounded-full", item.stock > 50 ? "bg-emerald-400" : item.stock > 20 ? "bg-amber-400" : "bg-red-400")} style={{ width: `${item.stock}%` }} />
+              </div>
+            </div>
+            <div className="flex-1 h-6 border-r border-gray-100 px-1.5 flex items-center">
+              <div className="h-1.5 w-8 rounded-full bg-gray-300" />
+            </div>
+            <div className="flex-1 h-6 border-r border-gray-100 px-1.5 flex items-center">
+              <div className={cn("h-3.5 w-12 rounded-full", item.status)} />
+            </div>
+            <div className="flex-1 h-6 border-r border-gray-100 px-1.5 flex items-center">
+              {item.stock < 20 && <div className="h-3 w-10 rounded bg-[#107c41]/15 border border-[#107c41]/30" />}
+            </div>
+          </div>
+        ))}
+        {[...Array(8)].map((_, row) => (
+          <div key={row} className="flex border-b border-gray-50 bg-white">
+            <div className="w-7 border-r border-gray-200 flex items-center justify-center shrink-0">
+              <span className="text-[6.5px] text-gray-400">{row + 10}</span>
+            </div>
+            {[...Array(6)].map((_, col) => (
+              <div key={col} className="flex-1 h-6 border-r border-gray-50" />
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function ExcelMockup({ color, variant = 0 }: { color: string; variant?: number }) {
+  const mod = variant % 5
+  const tabs = [
+    ["Dashboard", "Data", "Charts", "Summary"],
+    ["Budget", "Expenses", "Income", "Summary"],
+    ["Timeline", "Tasks", "Resources", "Report"],
+    ["Pivot", "Raw Data", "Charts", "Notes"],
+    ["Inventory", "Orders", "Suppliers", "Reports"],
+  ][mod]
   return (
     <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
       <div className="absolute inset-3 flex flex-col rounded-xl bg-white shadow-2xl overflow-hidden">
@@ -428,66 +758,10 @@ function ExcelMockup({ color }: { color: string }) {
           <div className="flex-1 h-4 rounded border border-gray-200" />
         </div>
         {/* Main area */}
-        <div className="flex-1 flex overflow-hidden">
-          {/* Grid */}
-          <div className="flex-1 overflow-hidden">
-            {/* Column headers */}
-            <div className="flex bg-[#f4f4f2] border-b border-gray-200 shrink-0">
-              <div className="w-7 border-r border-gray-200 h-5" />
-              {["A", "B", "C", "D", "E", "F"].map(c => (
-                <div key={c} className="flex-1 h-5 border-r border-gray-200 flex items-center justify-center">
-                  <span className="text-[7.5px] text-gray-500 font-medium">{c}</span>
-                </div>
-              ))}
-            </div>
-            {[...Array(20)].map((_, row) => {
-              const isHdr = row === 0
-              const isAlt = row % 2 === 0 && !isHdr
-              return (
-                <div key={row} className={cn("flex border-b border-gray-100", isHdr ? "bg-[#f4f4f2]" : isAlt ? "bg-[#f9fff9]/60" : "bg-white")}>
-                  <div className="w-7 border-r border-gray-200 flex items-center justify-center shrink-0">
-                    <span className="text-[6.5px] text-gray-400">{row + 1}</span>
-                  </div>
-                  {[...Array(6)].map((_, col) => (
-                    <div key={col} className="flex-1 h-6 border-r border-gray-100 px-1.5 flex items-center">
-                      {isHdr ? (
-                        <div className="h-2 rounded-full bg-gray-500" style={{ width: col === 0 ? "65%" : "50%" }} />
-                      ) : col === 0 ? (
-                        <div className="h-2 w-14 rounded-full bg-gray-400" />
-                      ) : (
-                        <div className={cn("h-1.5 rounded-full", row === 3 && col === 3 ? "bg-[#107c41]" : row === 5 && col === 2 ? "bg-blue-400" : row === 8 && col === 1 ? "bg-amber-400" : "bg-gray-300")}
-                          style={{ width: `${25 + ((row * col * 13) % 55)}%` }} />
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )
-            })}
-          </div>
-          {/* Chart panel */}
-          <div className="w-44 border-l border-gray-200 p-3 flex flex-col gap-2 shrink-0 bg-white">
-            <div className="h-2.5 w-20 rounded-full bg-gray-400" />
-            <div className="flex-1 flex items-end gap-1 pb-1">
-              <Bars data={[38, 62, 48, 80, 58, 88, 68]} color="from-[#107c41]/80 to-[#107c41]" />
-            </div>
-            <div className="h-3.5 rounded bg-gray-100 flex items-center gap-1 px-1.5">
-              <div className="h-2 w-2 rounded-sm bg-[#107c41]/50 shrink-0" />
-              <div className="h-1.5 flex-1 rounded-full bg-gray-300" />
-            </div>
-            <div className="h-px bg-gray-100" />
-            <div className="space-y-1.5">
-              {[["Total", ""], ["Average", ""], ["Growth", "bg-emerald-200"]].map(([l, c]) => (
-                <div key={l} className="flex items-center justify-between">
-                  <div className="h-1.5 w-10 rounded-full bg-gray-300" />
-                  <div className={cn("h-3 w-12 rounded", c || "bg-gray-100")} />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        <ExcelGrid variant={variant} color={color} />
         {/* Sheet tabs */}
         <div className="bg-[#f4f4f2] border-t border-gray-200 px-2 py-0.5 flex gap-0.5 shrink-0">
-          {["Dashboard", "Data", "Charts", "Summary"].map((s, i) => (
+          {tabs.map((s, i) => (
             <div key={s} className={cn("px-3 py-0.5 rounded-t border border-gray-200 border-b-0",
               i === 0 ? "bg-white" : "bg-[#f4f4f2] opacity-55"
             )}>
@@ -502,7 +776,213 @@ function ExcelMockup({ color }: { color: string }) {
 
 // ─── Figma ────────────────────────────────────────────────────────────────────
 
+function FigmaCanvas({ color, variant }: { color: string; variant: number }) {
+  const mod = variant % 5
+
+  // Variant 0: Mobile app screen
+  if (mod === 0) return (
+    <div className="absolute inset-0 flex items-center justify-center">
+      <div className={cn("w-52 aspect-[9/16] rounded-3xl overflow-hidden shadow-2xl ring-2 ring-white/8 bg-gradient-to-b", color)}>
+        <div className="h-7 flex items-center justify-center bg-black/20">
+          <div className="h-1 w-16 rounded-full bg-white/30" />
+        </div>
+        <div className="p-5 space-y-3">
+          <div className="h-6 rounded-xl bg-white/20 shadow-sm" />
+          <div className="h-24 rounded-2xl bg-white/12 border border-white/10 flex items-center justify-center">
+            <div className="h-8 w-8 rounded-full bg-white/20" />
+          </div>
+          <Lines widths={[82, 65]} cls="bg-white/25" />
+          <div className="grid grid-cols-2 gap-2 pt-1">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="aspect-square rounded-2xl bg-white/10 border border-white/10" />
+            ))}
+          </div>
+          <div className="h-10 rounded-2xl bg-white/22 border border-white/15" />
+        </div>
+      </div>
+      <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-[#2c2c2c] border border-white/10 rounded px-2 py-1">
+        <span className="text-[7px] text-white/50">iPhone 14 · 390×844</span>
+      </div>
+    </div>
+  )
+
+  // Variant 1: Web dashboard
+  if (mod === 1) return (
+    <div className="absolute inset-0 flex items-center justify-center p-8">
+      <div className="w-full h-full rounded-xl overflow-hidden shadow-2xl ring-2 ring-white/8 bg-white">
+        {/* Browser bar */}
+        <div className="h-6 bg-gray-100 border-b border-gray-200 flex items-center px-2 gap-1.5">
+          <div className="flex gap-1">{["bg-red-400", "bg-yellow-400", "bg-green-400"].map(c => <div key={c} className={cn("h-1.5 w-1.5 rounded-full", c)} />)}</div>
+          <div className="flex-1 h-3 mx-4 rounded bg-gray-200" />
+        </div>
+        <div className="flex h-[calc(100%-24px)]">
+          {/* Sidebar */}
+          <div className="w-12 bg-gray-50 border-r border-gray-200 flex flex-col items-center py-2 gap-2">
+            <div className={cn("h-5 w-5 rounded-lg bg-gradient-to-br", color)} />
+            {[...Array(5)].map((_, i) => <div key={i} className="h-4 w-4 rounded bg-gray-200" />)}
+          </div>
+          {/* Content */}
+          <div className="flex-1 p-3 space-y-2">
+            <div className="h-3 w-20 rounded bg-gray-700" />
+            <div className="grid grid-cols-3 gap-2">
+              {[...Array(3)].map((_, i) => (
+                <div key={i} className="rounded-lg bg-gray-50 border border-gray-100 p-2 space-y-1">
+                  <div className={cn("h-5 w-5 rounded bg-gradient-to-br", color)} />
+                  <div className="h-4 w-10 rounded bg-gray-700" />
+                  <div className="h-1.5 w-full rounded-full bg-gray-200" />
+                </div>
+              ))}
+            </div>
+            <div className="rounded-lg bg-gray-50 border border-gray-100 p-2 space-y-1.5 flex-1">
+              <div className="h-2 w-16 rounded-full bg-gray-400" />
+              <div className="h-14 flex items-end gap-0.5">
+                {[35, 52, 44, 67, 55, 78, 65, 88, 72, 60].map((h, i) => (
+                  <div key={i} className={cn("flex-1 rounded-t-sm bg-gradient-to-t", color)} style={{ height: `${h}%`, opacity: 0.5 + (i / 10) * 0.5 }} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+
+  // Variant 2: Landing page
+  if (mod === 2) return (
+    <div className="absolute inset-0 flex items-center justify-center p-6">
+      <div className="w-full h-full rounded-xl overflow-hidden shadow-2xl ring-2 ring-white/8">
+        <div className={cn("h-full bg-gradient-to-br", color)}>
+          <div className="h-6 bg-black/15 flex items-center px-3 gap-4">
+            <div className="h-3 w-12 rounded bg-white/40" />
+            <div className="ml-auto flex gap-3">{[...Array(4)].map((_, i) => <div key={i} className="h-1.5 w-8 rounded-full bg-white/30" />)}</div>
+          </div>
+          <div className="p-6 flex gap-6 items-center h-[calc(100%-24px)]">
+            <div className="flex-1 space-y-3">
+              <div className="h-8 w-full rounded-xl bg-white/85 shadow-lg" />
+              <div className="h-4 w-4/5 rounded-lg bg-white/45" />
+              <Lines widths={[100, 88, 65]} cls="bg-white/25" />
+              <div className="flex gap-2 pt-2">
+                <div className="h-8 w-24 rounded-xl bg-white shadow-lg" />
+                <div className="h-8 w-20 rounded-xl border-2 border-white/35" />
+              </div>
+            </div>
+            <div className="w-2/5 aspect-square rounded-2xl bg-white/12 border border-white/15 flex items-center justify-center">
+              <div className="h-12 w-12 rounded-xl bg-white/20" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+
+  // Variant 3: Design system / component library
+  if (mod === 3) return (
+    <div className="absolute inset-0 flex items-center justify-center p-6">
+      <div className="w-full h-full rounded-xl overflow-hidden shadow-2xl ring-2 ring-white/8 bg-white">
+        <div className="h-5 bg-gray-50 border-b border-gray-200 flex items-center px-2">
+          <div className="h-1.5 w-20 rounded-full bg-gray-300" />
+        </div>
+        <div className="p-4 space-y-3">
+          <div className="h-3 w-24 rounded bg-gray-700" />
+          {/* Color palette */}
+          <div className="flex gap-1.5">
+            {["bg-blue-500", "bg-purple-500", "bg-emerald-500", "bg-amber-500", "bg-rose-500", "bg-gray-800", "bg-gray-400", "bg-gray-200"].map(c => (
+              <div key={c} className={cn("h-6 flex-1 rounded-md", c)} />
+            ))}
+          </div>
+          {/* Typography */}
+          <div className="space-y-1">
+            <div className="h-4 w-32 rounded bg-gray-800" />
+            <div className="h-3 w-28 rounded bg-gray-600" />
+            <div className="h-2.5 w-24 rounded bg-gray-400" />
+            <div className="h-2 w-20 rounded bg-gray-300" />
+          </div>
+          {/* Buttons */}
+          <div className="flex gap-2">
+            <div className={cn("h-6 w-16 rounded-lg bg-gradient-to-r shadow", color)} />
+            <div className="h-6 w-16 rounded-lg border-2 border-gray-300" />
+            <div className="h-6 w-16 rounded-lg bg-gray-100" />
+          </div>
+          {/* Cards */}
+          <div className="grid grid-cols-3 gap-2">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="rounded-lg border border-gray-200 p-2 space-y-1.5">
+                <div className={cn("h-8 rounded bg-gradient-to-br", color, i > 0 && "opacity-50")} />
+                <div className="h-2 w-14 rounded bg-gray-600" />
+                <div className="h-1.5 w-full rounded-full bg-gray-200" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+
+  // Variant 4: Wireframe kit
+  return (
+    <div className="absolute inset-0 flex items-center justify-center p-6">
+      <div className="w-full h-full rounded-xl overflow-hidden shadow-2xl ring-2 ring-white/8 bg-white">
+        <div className="h-6 bg-gray-50 border-b border-gray-200 flex items-center justify-between px-3">
+          <div className="h-3 w-8 rounded bg-gray-300" />
+          <div className="flex gap-3">{[...Array(4)].map((_, i) => <div key={i} className="h-1.5 w-8 rounded-full bg-gray-300" />)}</div>
+          <div className="h-4 w-12 rounded bg-gray-200" />
+        </div>
+        <div className="p-4 space-y-3">
+          {/* Hero wireframe */}
+          <div className="flex gap-4 items-center">
+            <div className="flex-1 space-y-2">
+              <div className="h-5 w-full rounded bg-gray-200 border border-dashed border-gray-300" />
+              <div className="h-3 w-3/4 rounded bg-gray-100 border border-dashed border-gray-300" />
+              <div className="flex gap-2">
+                <div className="h-5 w-16 rounded bg-gray-300 border border-dashed border-gray-400" />
+                <div className="h-5 w-14 rounded bg-gray-100 border border-dashed border-gray-300" />
+              </div>
+            </div>
+            <div className="w-1/3 aspect-video rounded bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center">
+              <div className="text-[8px] text-gray-400">IMG</div>
+            </div>
+          </div>
+          {/* Feature cards wireframe */}
+          <div className="grid grid-cols-3 gap-2">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="rounded border border-dashed border-gray-300 p-2 space-y-1.5">
+                <div className="h-5 w-5 rounded border border-dashed border-gray-300 bg-gray-50" />
+                <div className="h-2 w-12 rounded bg-gray-200" />
+                <div className="h-1.5 w-full rounded-full bg-gray-100" />
+                <div className="h-1.5 w-3/4 rounded-full bg-gray-100" />
+              </div>
+            ))}
+          </div>
+          {/* Table wireframe */}
+          <div className="rounded border border-dashed border-gray-300 overflow-hidden">
+            {[...Array(4)].map((_, r) => (
+              <div key={r} className={cn("flex border-b border-dashed border-gray-200", r === 0 && "bg-gray-50")}>
+                {[...Array(4)].map((_, c) => (
+                  <div key={c} className="flex-1 h-5 border-r border-dashed border-gray-200 px-1 flex items-center">
+                    <div className={cn("h-1.5 rounded-full", r === 0 ? "bg-gray-400" : "bg-gray-200")} style={{ width: `${50 + c * 10}%` }} />
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function FigmaMockup({ color, variant }: { color: string; variant: number }) {
+  const mod = variant % 5
+  const layerSets = [
+    [{ d: 0, lbl: "Mobile App Frame" }, { d: 1, lbl: "Header" }, { d: 2, lbl: "Nav Logo" }, { d: 2, lbl: "Nav Links" }, { d: 1, lbl: "Hero Section" }, { d: 2, lbl: "Headline" }, { d: 2, lbl: "CTA Button" }, { d: 1, lbl: "Feature Cards" }],
+    [{ d: 0, lbl: "Web Dashboard" }, { d: 1, lbl: "Sidebar" }, { d: 2, lbl: "Logo" }, { d: 2, lbl: "Nav Items" }, { d: 1, lbl: "Content Area" }, { d: 2, lbl: "KPI Cards" }, { d: 2, lbl: "Chart" }, { d: 2, lbl: "Table" }],
+    [{ d: 0, lbl: "Landing Page" }, { d: 1, lbl: "Navigation" }, { d: 1, lbl: "Hero" }, { d: 2, lbl: "Headline" }, { d: 2, lbl: "CTA" }, { d: 2, lbl: "Image" }, { d: 1, lbl: "Features" }, { d: 1, lbl: "Footer" }],
+    [{ d: 0, lbl: "Design System" }, { d: 1, lbl: "Colors" }, { d: 1, lbl: "Typography" }, { d: 1, lbl: "Buttons" }, { d: 2, lbl: "Primary" }, { d: 2, lbl: "Secondary" }, { d: 1, lbl: "Cards" }, { d: 1, lbl: "Inputs" }],
+    [{ d: 0, lbl: "Wireframe Kit" }, { d: 1, lbl: "Header" }, { d: 1, lbl: "Hero Section" }, { d: 2, lbl: "Title" }, { d: 2, lbl: "Subtitle" }, { d: 1, lbl: "Card Grid" }, { d: 1, lbl: "Data Table" }, { d: 1, lbl: "Footer" }],
+  ]
+  const labels = ["iPhone 14 · 390×844", "Dashboard · 1440×900", "Landing · 1280×720", "System · Components", "Wireframe · Desktop"]
+  const layers = layerSets[mod]
+
   return (
     <div className="absolute inset-0 bg-[#1e1e1e]">
       {/* Top bar */}
@@ -549,16 +1029,7 @@ function FigmaMockup({ color, variant }: { color: string; variant: number }) {
             <div className="ml-auto h-2 w-6 rounded-full bg-white/15" />
           </div>
           <div className="p-2 space-y-0.5">
-            {[
-              { d: 0, lbl: "Mobile App Frame" },
-              { d: 1, lbl: "Header" },
-              { d: 2, lbl: "Nav Logo" },
-              { d: 2, lbl: "Nav Links" },
-              { d: 1, lbl: "Hero Section" },
-              { d: 2, lbl: "Headline" },
-              { d: 2, lbl: "CTA Button" },
-              { d: 1, lbl: "Feature Cards" },
-            ].map((item, i) => (
+            {layers.map((item, i) => (
               <div key={i}
                 className={cn("h-5 rounded flex items-center gap-1.5", i === 0 ? "bg-[#a259ff]/22" : "hover:bg-white/4")}
                 style={{ paddingLeft: `${(item.d + 1) * 8}px` }}>
@@ -572,31 +1043,7 @@ function FigmaMockup({ color, variant }: { color: string; variant: number }) {
         {/* Canvas */}
         <div className="flex-1 relative overflow-hidden"
           style={{ backgroundImage: "radial-gradient(#383838 1px, transparent 1px)", backgroundSize: "18px 18px" }}>
-          <div className="absolute inset-0 flex items-center justify-center">
-            {/* Phone frame */}
-            <div className={cn("w-52 aspect-[9/16] rounded-3xl overflow-hidden shadow-2xl ring-2 ring-white/8 bg-gradient-to-b", color)}>
-              <div className="h-7 flex items-center justify-center bg-black/20">
-                <div className="h-1 w-16 rounded-full bg-white/30" />
-              </div>
-              <div className="p-5 space-y-3">
-                <div className="h-6 rounded-xl bg-white/20 shadow-sm" />
-                <div className="h-24 rounded-2xl bg-white/12 border border-white/10 flex items-center justify-center">
-                  <div className="h-8 w-8 rounded-full bg-white/20" />
-                </div>
-                <Lines widths={[82, 65]} cls="bg-white/25" />
-                <div className="grid grid-cols-2 gap-2 pt-1">
-                  {[...Array(4)].map((_, i) => (
-                    <div key={i} className="aspect-square rounded-2xl bg-white/10 border border-white/10" />
-                  ))}
-                </div>
-                <div className="h-10 rounded-2xl bg-white/22 border border-white/15" />
-              </div>
-            </div>
-          </div>
-          {/* Label */}
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-[#2c2c2c] border border-white/10 rounded px-2 py-1">
-            <span className="text-[7px] text-white/50">iPhone 14 · 390×844</span>
-          </div>
+          <FigmaCanvas color={color} variant={variant} />
         </div>
 
         {/* Inspector */}
@@ -630,7 +1077,10 @@ function FigmaMockup({ color, variant }: { color: string; variant: number }) {
 // ─── Canva ────────────────────────────────────────────────────────────────────
 
 function CanvaDesign({ color, variant }: { color: string; variant: number }) {
-  if (variant % 3 === 0) {
+  const mod = variant % 5
+
+  // Variant 0: Social media hero
+  if (mod === 0) {
     return (
       <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
         <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-white/8" />
@@ -655,7 +1105,9 @@ function CanvaDesign({ color, variant }: { color: string; variant: number }) {
       </div>
     )
   }
-  if (variant % 3 === 1) {
+
+  // Variant 1: Centered CTA
+  if (mod === 1) {
     return (
       <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
         <div className="absolute -left-8 -bottom-8 h-36 w-36 rounded-full bg-black/10" />
@@ -677,17 +1129,82 @@ function CanvaDesign({ color, variant }: { color: string; variant: number }) {
       </div>
     )
   }
+
+  // Variant 2: Split cover + content
+  if (mod === 2) {
+    return (
+      <div className="absolute inset-0 bg-white overflow-hidden">
+        <div className={cn("h-2/5 bg-gradient-to-br", color)} />
+        <div className="absolute inset-0 p-8 flex flex-col justify-end gap-3">
+          <div className="h-2.5 w-20 rounded-full bg-gray-400" />
+          <div className="h-10 w-full rounded-xl bg-gray-800" />
+          <div className="h-4 w-4/5 rounded-lg bg-gray-300" />
+          <div className="h-3 w-3/5 rounded-lg bg-gray-200" />
+          <div className="flex gap-3 pt-2">
+            <div className={cn("h-10 w-32 rounded-xl bg-gradient-to-r shadow-lg", color)} />
+            <div className="h-10 w-28 rounded-xl border-2 border-gray-200" />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Variant 3: Instagram story layout (vertical)
+  if (mod === 3) {
+    return (
+      <div className={cn("absolute inset-0 bg-gradient-to-b", color)}>
+        <div className="absolute inset-0 flex flex-col p-6 gap-3">
+          {/* Top badge */}
+          <div className="flex justify-center">
+            <div className="h-8 w-8 rounded-full bg-white/20 border-2 border-white/40" />
+          </div>
+          <div className="flex-1 flex flex-col items-center justify-center gap-4">
+            <div className="h-3 w-16 rounded-full bg-white/40 mx-auto" />
+            <div className="h-10 w-full rounded-2xl bg-white/85 shadow-xl" />
+            <div className="h-4 w-3/4 rounded-xl bg-white/50 mx-auto" />
+            {/* Photo grid */}
+            <div className="grid grid-cols-2 gap-2 w-full">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="aspect-square rounded-xl bg-white/15 border border-white/20" />
+              ))}
+            </div>
+          </div>
+          {/* Swipe up */}
+          <div className="flex flex-col items-center gap-1">
+            <div className="h-1 w-8 rounded-full bg-white/40" />
+            <div className="h-2 w-14 rounded-full bg-white/30" />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Variant 4: Business card layout
   return (
     <div className="absolute inset-0 bg-white overflow-hidden">
-      <div className={cn("h-2/5 bg-gradient-to-br", color)} />
-      <div className="absolute inset-0 p-8 flex flex-col justify-end gap-3">
-        <div className="h-2.5 w-20 rounded-full bg-gray-400" />
-        <div className="h-10 w-full rounded-xl bg-gray-800" />
-        <div className="h-4 w-4/5 rounded-lg bg-gray-300" />
-        <div className="h-3 w-3/5 rounded-lg bg-gray-200" />
-        <div className="flex gap-3 pt-2">
-          <div className={cn("h-10 w-32 rounded-xl bg-gradient-to-r shadow-lg", color)} />
-          <div className="h-10 w-28 rounded-xl border-2 border-gray-200" />
+      <div className={cn("absolute top-0 left-0 w-1/3 h-full bg-gradient-to-b", color)} />
+      <div className="absolute inset-0 flex items-center px-8 gap-6">
+        <div className="w-1/3 flex flex-col items-center gap-3">
+          <div className="h-16 w-16 rounded-full bg-white/25 border-3 border-white/50 shadow-lg" />
+          <div className="h-1.5 w-16 rounded-full bg-white/50" />
+        </div>
+        <div className="flex-1 space-y-3 pl-4">
+          <div className="h-8 w-full rounded-xl bg-gray-800" />
+          <div className="h-3 w-2/3 rounded-lg bg-gray-400" />
+          <div className="h-px w-full bg-gray-200" />
+          <div className="space-y-2">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="flex items-center gap-2">
+                <div className={cn("h-4 w-4 rounded-md bg-gradient-to-br shrink-0", color)} />
+                <div className="h-1.5 rounded-full bg-gray-300" style={{ width: `${60 + i * 12}%` }} />
+              </div>
+            ))}
+          </div>
+          <div className="flex gap-2 pt-1">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className={cn("h-5 w-5 rounded-full bg-gradient-to-br", color)} style={{ opacity: 0.6 + i * 0.15 }} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -846,7 +1363,7 @@ function DocumentMockup({ color, isGoogle = false, variant = 0 }: { color: strin
         {/* Document area */}
         <div className="flex-1 bg-gray-100 overflow-hidden flex justify-center pt-5">
           <div className="w-3/4 max-w-[240px] bg-white shadow-lg min-h-full p-6 flex flex-col gap-3">
-            {variant % 2 === 0 ? (
+            {variant % 5 === 0 ? (
               /* Resume */
               <>
                 <div className="text-center space-y-1.5 border-b border-gray-200 pb-4 mb-1">
@@ -872,8 +1389,8 @@ function DocumentMockup({ color, isGoogle = false, variant = 0 }: { color: strin
                   </div>
                 </div>
               </>
-            ) : (
-              /* Business document */
+            ) : variant % 5 === 1 ? (
+              /* Business letter */
               <>
                 <div className="flex justify-between items-start border-b border-gray-200 pb-4 mb-1">
                   <div className="space-y-1.5">
@@ -882,19 +1399,115 @@ function DocumentMockup({ color, isGoogle = false, variant = 0 }: { color: strin
                   </div>
                   <div className="h-10 w-10 rounded-lg bg-gray-100 border border-gray-200" />
                 </div>
-                <div className="space-y-2">
-                  <div className="h-3.5 w-32 rounded bg-gray-600" />
-                  <Lines widths={[100, 100, 94, 88, 100, 82, 97, 90, 40]} cls="bg-gray-200" />
+                <div className="space-y-1.5">
+                  <div className="h-2 w-20 rounded-full bg-gray-400" />
+                  <div className="h-2 w-28 rounded-full bg-gray-300" />
+                  <div className="h-2 w-16 rounded-full bg-gray-300" />
                 </div>
-                <div className="grid grid-cols-2 gap-3 mt-1">
-                  <div className="h-20 rounded-lg bg-gray-50 border border-gray-200" />
-                  <div className="space-y-1.5 pt-1">
-                    <Lines widths={[100, 78, 88, 65, 52]} cls="bg-gray-200" />
+                <div className="space-y-2 mt-2">
+                  <div className="h-3 w-16 rounded bg-gray-600" />
+                  <Lines widths={[100, 100, 94, 88, 100, 82, 97, 90, 100, 75, 88, 60]} cls="bg-gray-200" />
+                </div>
+                <div className="space-y-1.5 mt-2">
+                  <Lines widths={[100, 92, 85, 76, 88, 60]} cls="bg-gray-200" />
+                </div>
+                <div className="mt-auto pt-4 space-y-1">
+                  <div className="h-2 w-20 rounded-full bg-gray-400" />
+                  <div className="h-4 w-24 rounded bg-gray-300 italic" />
+                </div>
+              </>
+            ) : variant % 5 === 2 ? (
+              /* Report with charts */
+              <>
+                <div className="text-center border-b border-gray-200 pb-3 mb-1 space-y-1">
+                  <div className="h-5 w-40 rounded bg-gray-800 mx-auto" />
+                  <div className="h-2 w-28 rounded-full bg-gray-400 mx-auto" />
+                  <div className="h-1.5 w-20 rounded-full bg-gray-300 mx-auto" />
+                </div>
+                <div className="space-y-1">
+                  <div className="h-3 w-28 rounded bg-gray-700" />
+                  <Lines widths={[100, 88, 75, 92]} cls="bg-gray-200" />
+                </div>
+                {/* Mini chart */}
+                <div className="rounded-lg border border-gray-200 p-2">
+                  <div className="h-2 w-16 rounded-full bg-gray-500 mb-2" />
+                  <div className="h-12 flex items-end gap-0.5">
+                    {[35, 55, 42, 68, 52, 78, 60].map((h, i) => (
+                      <div key={i} className="flex-1 rounded-t-sm bg-gray-400" style={{ height: `${h}%` }} />
+                    ))}
                   </div>
                 </div>
+                <div className="space-y-1">
+                  <div className="h-3 w-24 rounded bg-gray-700" />
+                  <Lines widths={[100, 92, 80, 88, 70]} cls="bg-gray-200" />
+                </div>
+                {/* Mini table */}
+                <div className="rounded border border-gray-200 overflow-hidden">
+                  {[...Array(4)].map((_, r) => (
+                    <div key={r} className={cn("flex border-b border-gray-100", r === 0 && "bg-gray-50")}>
+                      {[...Array(3)].map((_, c) => (
+                        <div key={c} className="flex-1 h-4 border-r border-gray-100 px-1 flex items-center">
+                          <div className={cn("h-1.5 rounded-full", r === 0 ? "bg-gray-500" : "bg-gray-200")} style={{ width: `${50 + c * 15}%` }} />
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </>
+            ) : variant % 5 === 3 ? (
+              /* Contract / Legal */
+              <>
+                <div className="text-center border-b-2 border-gray-800 pb-3 mb-2">
+                  <div className="h-5 w-44 rounded bg-gray-800 mx-auto" />
+                </div>
                 <div className="space-y-1.5">
-                  <div className="h-3 w-28 rounded bg-gray-500" />
-                  <Lines widths={[100, 92, 85, 76, 88, 60]} cls="bg-gray-200" />
+                  <div className="h-2.5 w-20 rounded bg-gray-700" />
+                  <Lines widths={[100, 100, 94, 88, 100, 82]} cls="bg-gray-200" />
+                </div>
+                <div className="space-y-1.5">
+                  <div className="h-2.5 w-24 rounded bg-gray-700" />
+                  <Lines widths={[100, 92, 100, 85, 100, 78, 65]} cls="bg-gray-200" />
+                </div>
+                <div className="space-y-1.5">
+                  <div className="h-2.5 w-28 rounded bg-gray-700" />
+                  <Lines widths={[100, 88, 100, 92, 40]} cls="bg-gray-200" />
+                </div>
+                <div className="mt-auto pt-4 flex justify-between">
+                  <div className="space-y-1">
+                    <div className="h-px w-24 bg-gray-800" />
+                    <div className="h-1.5 w-20 rounded-full bg-gray-300" />
+                  </div>
+                  <div className="space-y-1">
+                    <div className="h-px w-24 bg-gray-800" />
+                    <div className="h-1.5 w-20 rounded-full bg-gray-300" />
+                  </div>
+                </div>
+              </>
+            ) : (
+              /* Newsletter */
+              <>
+                <div className={cn("rounded-lg p-3 text-center space-y-1.5 bg-gradient-to-r", color)}>
+                  <div className="h-4 w-28 rounded bg-white/80 mx-auto" />
+                  <div className="h-1.5 w-20 rounded-full bg-white/50 mx-auto" />
+                </div>
+                <div className="space-y-1.5">
+                  <div className="h-3 w-32 rounded bg-gray-700" />
+                  <Lines widths={[100, 88, 74]} cls="bg-gray-200" />
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className={cn("rounded-lg h-16 bg-gradient-to-br", color)} />
+                  <div className="space-y-1.5 flex flex-col justify-center">
+                    <div className="h-2.5 w-full rounded bg-gray-600" />
+                    <Lines widths={[100, 80]} cls="bg-gray-200" />
+                  </div>
+                </div>
+                <div className="h-px bg-gray-200" />
+                <div className="space-y-1.5">
+                  <div className="h-3 w-24 rounded bg-gray-700" />
+                  <Lines widths={[100, 92, 85, 76]} cls="bg-gray-200" />
+                </div>
+                <div className={cn("rounded-lg h-6 flex items-center justify-center bg-gradient-to-r", color)}>
+                  <div className="h-2 w-16 rounded-full bg-white/80" />
                 </div>
               </>
             )}
@@ -908,7 +1521,17 @@ function DocumentMockup({ color, isGoogle = false, variant = 0 }: { color: strin
 // ─── Notion ───────────────────────────────────────────────────────────────────
 
 function NotionMockup({ color, variant }: { color: string; variant: number }) {
-  const mod = variant % 3
+  const mod = variant % 5
+  const sidebarItems = [
+    { icon: "🏠", lbl: "Home", active: mod === 0 },
+    { icon: "📋", lbl: "Dashboard", active: mod === 1 },
+    { icon: "📅", lbl: "Calendar", active: mod === 4 },
+    { icon: "✅", lbl: "Tasks", active: mod === 2 },
+    { icon: "📊", lbl: "Analytics", active: false },
+    { icon: "📁", lbl: "Projects", active: mod === 3 },
+    { icon: "👥", lbl: "Team", active: false },
+  ]
+  const pageIcons = ["📊", "📋", "✅", "📁", "📅"]
   return (
     <div className={cn("absolute inset-0 bg-gradient-to-br", color)}>
       <div className="absolute inset-3 rounded-xl bg-white shadow-2xl overflow-hidden flex">
@@ -921,15 +1544,7 @@ function NotionMockup({ color, variant }: { color: string; variant: number }) {
             <div className="h-2 w-20 rounded-full bg-gray-300" />
           </div>
           <div className="flex-1 p-2 space-y-0.5 overflow-hidden">
-            {[
-              { icon: "🏠", lbl: "Home", active: mod === 0 },
-              { icon: "📋", lbl: "Dashboard", active: mod === 1 },
-              { icon: "📅", lbl: "Calendar", active: false },
-              { icon: "✅", lbl: "Tasks", active: mod === 2 },
-              { icon: "📊", lbl: "Analytics", active: false },
-              { icon: "📁", lbl: "Projects", active: false },
-              { icon: "👥", lbl: "Team", active: false },
-            ].map(({ icon, lbl, active }) => (
+            {sidebarItems.map(({ icon, lbl, active }) => (
               <div key={lbl} className={cn("flex items-center gap-2 px-2 py-1.5 rounded-md",
                 active ? "bg-gray-200" : "")}>
                 <span className="text-[10px]">{icon}</span>
@@ -947,10 +1562,11 @@ function NotionMockup({ color, variant }: { color: string; variant: number }) {
 
           <div className="flex-1 overflow-hidden p-6 -mt-3 space-y-4">
             <div className="h-10 w-10 rounded-xl bg-white shadow-sm border border-gray-100 flex items-center justify-center text-xl">
-              {mod === 0 ? "📊" : mod === 1 ? "📋" : "✅"}
+              {pageIcons[mod]}
             </div>
             <div className="h-8 w-3/4 rounded-xl bg-gray-800" />
 
+            {/* Variant 0: Dashboard with KPIs + chart + table */}
             {mod === 0 && (
               <>
                 <div className="grid grid-cols-3 gap-3">
@@ -985,6 +1601,7 @@ function NotionMockup({ color, variant }: { color: string; variant: number }) {
               </>
             )}
 
+            {/* Variant 1: Table / database view */}
             {mod === 1 && (
               <div className="rounded-xl border border-gray-200 overflow-hidden">
                 <div className="grid grid-cols-4 bg-gray-50 border-b border-gray-200">
@@ -1014,6 +1631,7 @@ function NotionMockup({ color, variant }: { color: string; variant: number }) {
               </div>
             )}
 
+            {/* Variant 2: Checklist / task list */}
             {mod === 2 && (
               <div className="space-y-2.5">
                 {[true, true, false, false, false].map((done, i) => (
@@ -1028,6 +1646,77 @@ function NotionMockup({ color, variant }: { color: string; variant: number }) {
                 ))}
               </div>
             )}
+
+            {/* Variant 3: Wiki / docs page */}
+            {mod === 3 && (
+              <>
+                <div className="flex items-center gap-2 text-[8px] text-gray-400">
+                  <div className="h-1.5 w-12 rounded-full bg-gray-300" />
+                  <span>/</span>
+                  <div className="h-1.5 w-16 rounded-full bg-gray-300" />
+                  <span>/</span>
+                  <div className="h-1.5 w-20 rounded-full bg-gray-400" />
+                </div>
+                <div className="space-y-2">
+                  <Lines widths={[100, 92, 85, 78]} cls="bg-gray-200" />
+                </div>
+                <div className="rounded-lg bg-blue-50 border-l-4 border-blue-400 p-3 space-y-1">
+                  <div className="h-2 w-8 rounded-full bg-blue-400" />
+                  <Lines widths={[100, 80]} cls="bg-blue-200" />
+                </div>
+                <div className="space-y-2">
+                  <div className="h-3 w-28 rounded bg-gray-700" />
+                  <Lines widths={[100, 88, 94, 70]} cls="bg-gray-200" />
+                </div>
+                <div className="rounded-lg bg-gray-50 border border-gray-200 p-2 space-y-1">
+                  <div className="h-2 w-40 rounded bg-gray-500 font-mono" />
+                  <div className="h-2 w-32 rounded bg-gray-400" />
+                  <div className="h-2 w-36 rounded bg-gray-400" />
+                </div>
+                <div className="space-y-1">
+                  <Lines widths={[100, 75, 88]} cls="bg-gray-200" />
+                </div>
+              </>
+            )}
+
+            {/* Variant 4: Calendar / Kanban board */}
+            {mod === 4 && (
+              <>
+                <div className="flex gap-2 mb-1">
+                  {["Board", "Calendar", "List"].map((t, i) => (
+                    <div key={t} className={cn("h-5 px-2 rounded text-[7px] flex items-center font-medium",
+                      i === 0 ? "bg-gray-200 text-gray-700" : "text-gray-400")}>{t}</div>
+                  ))}
+                </div>
+                <div className="grid grid-cols-3 gap-3 flex-1">
+                  {[
+                    { title: "To Do", items: 3, clr: "bg-gray-200" },
+                    { title: "In Progress", items: 2, clr: "bg-blue-200" },
+                    { title: "Done", items: 2, clr: "bg-green-200" },
+                  ].map(col => (
+                    <div key={col.title} className="space-y-2">
+                      <div className="flex items-center gap-1.5">
+                        <div className={cn("h-2 w-2 rounded-full", col.clr)} />
+                        <div className="h-2 w-14 rounded-full bg-gray-500" />
+                        <div className="h-3 w-4 rounded bg-gray-100 flex items-center justify-center">
+                          <span className="text-[6px] text-gray-400">{col.items}</span>
+                        </div>
+                      </div>
+                      {[...Array(col.items)].map((_, i) => (
+                        <div key={i} className="rounded-lg border border-gray-200 bg-white p-2 space-y-1.5 shadow-sm">
+                          <div className="h-2 w-full rounded-full bg-gray-600" />
+                          <div className="h-1.5 w-3/4 rounded-full bg-gray-200" />
+                          <div className="flex gap-1">
+                            <div className={cn("h-3 w-10 rounded-full", ["bg-purple-100", "bg-blue-100", "bg-green-100"][i % 3])} />
+                            <div className="h-3 w-3 rounded-full bg-gray-200" />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -1041,7 +1730,7 @@ export function TemplatePreview({ tool, style, color, variant = 0, className }: 
   const render = () => {
     switch (tool) {
       case "Excel":
-        return <ExcelMockup color={color} />
+        return <ExcelMockup color={color} variant={variant} />
       case "Word":
         return <DocumentMockup color={color} isGoogle={false} variant={variant} />
       case "Google Docs":
