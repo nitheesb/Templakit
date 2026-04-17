@@ -5,15 +5,15 @@ const steps = [
   {
     number: "01",
     title: "Browse 400+ Templates",
-    description: "Search by tool (PowerPoint, Canva, Figma…), category, or style. Filter by free vs premium. Every template has a full preview so you know exactly what you're getting before you click.",
+    description: "Search by tool (PowerPoint, Excel, Word…), category, or style. Filter by free vs premium. Every template has a full preview so you know exactly what you're getting before you click.",
     icon: Search,
     color: "from-blue-500 to-indigo-600",
-    detail: "500+ free templates · 8 tools covered",
+    detail: "500+ free templates · 5 tools covered",
   },
   {
     number: "02",
     title: "Customise in Your Tool",
-    description: "Open directly in PowerPoint, Canva, Figma, Excel, Word, Notion, or Google Docs. Change colours, fonts, and content in the tool you already know — no new software to learn.",
+    description: "Open directly in PowerPoint, Google Slides, Excel, Word, or Google Docs. Change colours, fonts, and content in the tool you already know — no new software to learn.",
     icon: Palette,
     color: "from-violet-500 to-purple-600",
     detail: "Works with tools you already use",

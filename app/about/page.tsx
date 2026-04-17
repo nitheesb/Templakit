@@ -91,8 +91,8 @@ export default function AboutPage() {
               Not $9/month. Not $19/month. One dollar, one time.
             </p>
             <p>
-              We cover every major design and productivity tool — PowerPoint, Google Slides, Canva, Excel,
-              Figma, Word, Notion, and Google Docs — so no matter what you&apos;re building, we have a template
+              We cover every major productivity tool — PowerPoint, Google Slides, Excel,
+              Word, and Google Docs — so no matter what you&apos;re building, we have a template
               that works in the tool you already know.
             </p>
           </div>

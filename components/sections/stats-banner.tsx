@@ -1,7 +1,7 @@
 const stats = [
   { value: "405",    label: "Total Templates",          sub: "Across 8 tools",             color: "text-emerald-500" },
   { value: "180+",   label: "Free Templates",            sub: "No sign-up required",        color: "text-violet-500"  },
-  { value: "8",      label: "Tools Covered",             sub: "PowerPoint to Figma",        color: "text-blue-500"    },
+  { value: "5",      label: "Tools Covered",             sub: "PowerPoint to Google Docs",  color: "text-blue-500"    },
   { value: "4.9★",   label: "Average User Rating",       sub: "From 2,400+ reviews",        color: "text-amber-500"   },
 ]
 

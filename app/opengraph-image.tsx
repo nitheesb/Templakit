@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og"
 
 export const runtime = "edge"
-export const alt = "Templakit — Free Professional Templates for PowerPoint, Canva, Figma & more"
+export const alt = "Templakit — Free Professional Templates for PowerPoint, Excel, Word & more"
 export const size = { width: 1200, height: 630 }
 export const contentType = "image/png"
 
@@ -105,7 +105,7 @@ export default function OGImage() {
             maxWidth: 780,
           }}
         >
-          PowerPoint · Google Slides · Canva · Excel · Figma · Word · Notion · Google Docs
+          PowerPoint · Google Slides · Excel · Word · Google Docs
         </div>
 
         {/* Bottom badges */}
@@ -116,7 +116,7 @@ export default function OGImage() {
             gap: 16,
           }}
         >
-          {["500+ Free Templates", "8 Tools Covered", "Premium from $1"].map((b) => (
+          {["500+ Free Templates", "5 Tools Covered", "Premium from $1"].map((b) => (
             <div
               key={b}
               style={{

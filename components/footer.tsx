@@ -4,21 +4,18 @@ import { Sparkles } from "lucide-react"
 const toolLinks = [
   { label: "Free PowerPoint Templates",    href: "/templates?category=PowerPoint" },
   { label: "Free Google Slides Templates", href: "/templates?category=Google+Slides" },
-  { label: "Free Canva Templates",         href: "/templates?category=Canva" },
   { label: "Free Excel Templates",         href: "/templates?category=Excel" },
-  { label: "Free Figma Templates",         href: "/templates?category=Figma" },
   { label: "Free Word Templates",          href: "/templates?category=Word" },
-  { label: "Free Notion Templates",        href: "/templates?category=Notion" },
   { label: "Free Google Docs Templates",   href: "/templates?category=Google+Docs" },
 ]
 
 const popularLinks = [
   { label: "Free Pitch Deck Templates",         href: "/templates?category=PowerPoint" },
   { label: "Free Resume Templates",              href: "/templates?category=Word" },
-  { label: "Free Instagram Templates Canva",     href: "/templates?category=Canva" },
+  { label: "Free Budget Tracker Excel",          href: "/templates?category=Excel" },
   { label: "Free Financial Model Excel",         href: "/templates?category=Excel" },
-  { label: "Free UI Kit Figma",                  href: "/templates?category=Figma" },
-  { label: "Free YouTube Thumbnail Templates",   href: "/templates?category=Canva" },
+  { label: "Free Business Proposal Docs",        href: "/templates?category=Google+Docs" },
+  { label: "Free Project Plan Slides",           href: "/templates?category=Google+Slides" },
   { label: "Free Startup Templates",             href: "/templates" },
   { label: "Free Business Plan Templates",       href: "/templates" },
 ]
@@ -125,7 +122,7 @@ export function Footer() {
             © {new Date().getFullYear()} Templakit. All rights reserved.
           </p>
           <p className="text-xs text-muted-foreground">
-            Free PowerPoint templates · Free Canva templates · Free Figma templates · Free Google Slides templates
+            Free PowerPoint templates · Free Excel templates · Free Word templates · Free Google Slides templates
           </p>
           <div className="flex items-center gap-4">
             <Link href="https://twitter.com/templakit" aria-label="Templakit on Twitter" className="text-muted-foreground transition-colors hover:text-foreground">

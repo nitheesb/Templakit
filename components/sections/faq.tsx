@@ -11,7 +11,7 @@ const faqs = [
   },
   {
     q: "What tools do the templates support?",
-    a: "We cover the 8 most popular design and productivity tools: Microsoft PowerPoint (PPTX), Google Slides, Canva, Microsoft Excel (XLSX), Figma, Microsoft Word (DOCX), Notion, and Google Docs. Every template opens natively in its respective tool — no conversion needed.",
+    a: "We cover the 5 most popular productivity tools: Microsoft PowerPoint (PPTX), Google Slides, Microsoft Excel (XLSX), Microsoft Word (DOCX), and Google Docs. Every template opens natively in its respective tool — no conversion needed.",
   },
   {
     q: "Can I use these templates for client or commercial projects?",
@@ -23,7 +23,7 @@ const faqs = [
   },
   {
     q: "What file formats are included?",
-    a: "It depends on the tool: PowerPoint templates come as .PPTX + PDF; Excel templates as .XLSX (Google Sheets compatible); Figma templates as .fig files; Canva templates open directly via a Canva link; Word templates as .DOCX + PDF; Notion templates as a duplicate link; Google Slides and Google Docs as shareable links you can make a copy of.",
+    a: "It depends on the tool: PowerPoint templates come as .PPTX + PDF; Excel templates as .XLSX (Google Sheets compatible); Word templates as .DOCX + PDF; Google Slides and Google Docs as shareable links you can make a copy of.",
   },
   {
     q: "Are the templates editable?",

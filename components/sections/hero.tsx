@@ -39,7 +39,7 @@ export function HeroSection() {
           {/* Subheading */}
           <p className="animate-slide-up delay-100 mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
             Browse 400+ professionally designed templates for{" "}
-            <span className="font-semibold text-foreground">PowerPoint, Google Slides, Canva, Excel, Figma, Word, Notion</span>{" "}
+            <span className="font-semibold text-foreground">PowerPoint, Google Slides, Excel, Word, Google Docs</span>{" "}
             and more. 180+ completely free, rest just $1.
           </p>
 
@@ -87,7 +87,7 @@ export function HeroSection() {
             <div className="flex items-center gap-6 text-sm text-muted-foreground">
               <span><span className="font-bold text-foreground">400+</span> templates</span>
               <span><span className="font-bold text-foreground">180+</span> free</span>
-              <span><span className="font-bold text-foreground">8</span> tools covered</span>
+              <span><span className="font-bold text-foreground">5</span> tools covered</span>
             </div>
           </div>
 
@@ -102,11 +102,8 @@ export function HeroSection() {
           {[
             { name: "PowerPoint",    emoji: "📊", color: "hover:border-orange-500/40 hover:bg-orange-500/5 hover:text-orange-600" },
             { name: "Google Slides", emoji: "🖥️", color: "hover:border-yellow-500/40 hover:bg-yellow-500/5 hover:text-yellow-600" },
-            { name: "Canva",         emoji: "🎨", color: "hover:border-violet-500/40 hover:bg-violet-500/5 hover:text-violet-600" },
             { name: "Excel",         emoji: "📈", color: "hover:border-green-500/40 hover:bg-green-500/5 hover:text-green-600" },
-            { name: "Figma",         emoji: "✏️", color: "hover:border-pink-500/40 hover:bg-pink-500/5 hover:text-pink-600" },
             { name: "Word",          emoji: "📄", color: "hover:border-blue-500/40 hover:bg-blue-500/5 hover:text-blue-600" },
-            { name: "Notion",        emoji: "📓", color: "hover:border-slate-500/40 hover:bg-slate-500/5" },
             { name: "Google Docs",   emoji: "📝", color: "hover:border-cyan-500/40 hover:bg-cyan-500/5 hover:text-cyan-600" },
           ].map(tool => (
             <Link

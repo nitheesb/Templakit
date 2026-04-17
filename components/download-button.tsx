@@ -24,7 +24,7 @@ export function DownloadButton({ templateId, isFree, downloadType, downloadUrl }
       await new Promise(r => setTimeout(r, 400))
 
       if (downloadType === "external") {
-        // Canva, Notion, Google Slides, Figma — open platform link
+        // External link — open platform link
         window.open(downloadUrl, "_blank", "noopener,noreferrer")
         setState("success")
       } else {

@@ -18,11 +18,8 @@ templates.forEach(t => { toolCounts[t.tool] = (toolCounts[t.tool] ?? 0) + 1 })
 const tools = [
   { name: "PowerPoint",    count: toolCounts["PowerPoint"]    ?? 0 },
   { name: "Google Slides", count: toolCounts["Google Slides"] ?? 0 },
-  { name: "Canva",         count: toolCounts["Canva"]         ?? 0 },
   { name: "Excel",         count: toolCounts["Excel"]         ?? 0 },
-  { name: "Figma",         count: toolCounts["Figma"]         ?? 0 },
   { name: "Word",          count: toolCounts["Word"]          ?? 0 },
-  { name: "Notion",        count: toolCounts["Notion"]        ?? 0 },
   { name: "Google Docs",   count: toolCounts["Google Docs"]   ?? 0 },
 ]
 import { cn } from "@/lib/utils"
@@ -115,7 +112,7 @@ function TemplatesContent() {
             <p className="mt-1.5 text-muted-foreground">
               {selectedCategory
                 ? `Professionally designed ${selectedCategory} templates — free to browse, instant download`
-                : "400+ professionally designed templates for PowerPoint, Canva, Google Slides & more"}
+                : "400+ professionally designed templates for PowerPoint, Google Slides, Excel, Word & Google Docs"}
             </p>
 
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">

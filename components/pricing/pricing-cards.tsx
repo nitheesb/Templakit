@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 
 const freeIncludes = [
-  "400+ templates across 8 tools — no account needed",
-  "PowerPoint, Google Slides, Canva, Excel, Figma, Word, Notion, Google Docs",
+  "400+ templates across 5 tools — no account needed",
+  "PowerPoint, Google Slides, Excel, Word, Google Docs",
   "Instant download — no waiting",
-  "PPTX, DOCX, XLSX, PDF, Figma, Canva & more formats",
+  "PPTX, DOCX, XLSX, PDF formats",
   "Personal & internal business use license",
   "Mobile-friendly browsing",
 ]
@@ -25,7 +25,7 @@ const examples = [
   { name: "Startup Pitch Deck", tool: "PowerPoint", downloads: "24.5K", rating: 4.9 },
   { name: "Investor Pitch", tool: "Google Slides", downloads: "19.8K", rating: 4.9 },
   { name: "Financial Model", tool: "Excel", downloads: "16.3K", rating: 4.8 },
-  { name: "UI Design Kit", tool: "Figma", downloads: "21.7K", rating: 4.9 },
+  { name: "UI Design Kit", tool: "Google Slides", downloads: "21.7K", rating: 4.9 },
   { name: "Resume Pro", tool: "Word", downloads: "30.1K", rating: 4.8 },
   { name: "Brand Identity Deck", tool: "PowerPoint", downloads: "9.3K", rating: 4.9 },
 ]

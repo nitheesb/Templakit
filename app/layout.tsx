@@ -22,29 +22,26 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://templakit.vercel.app"),
   title: {
-    default: "Free PowerPoint, Canva, Google Slides & Figma Templates | Templakit",
+    default: "Free PowerPoint, Google Slides, Excel & Word Templates | Templakit",
     template: "%s | Templakit — Free Templates",
   },
   description:
-    "Download 400+ professionally designed templates for PowerPoint, Google Slides, Canva, Excel, Figma, Word, Notion, and Google Docs. Free to browse, instant download. Premium templates just $1.",
+    "Download 400+ professionally designed templates for PowerPoint, Google Slides, Excel, Word, and Google Docs. Free to browse, instant download. Premium templates just $1.",
   keywords: [
     "free PowerPoint templates download",
-    "free Canva templates",
     "free Google Slides templates",
-    "free Figma UI kit",
     "free Excel templates",
     "free Word templates",
-    "free Notion templates",
     "free Google Docs templates",
     "free presentation templates",
     "free pitch deck template",
     "free resume template Word",
     "free business plan template",
-    "free social media templates Canva",
+    "free spreadsheet templates Excel",
     "free YouTube thumbnail template",
     "free financial model Excel",
     "startup pitch deck template free",
-    "free dashboard UI kit Figma",
+    "free dashboard template Excel",
     "free invoice template",
     "free marketing presentation template",
     "professional templates free download",
@@ -61,23 +58,23 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://templakit.vercel.app",
     siteName: "Templakit",
-    title: "Free PowerPoint, Canva, Google Slides & Figma Templates | Templakit",
+    title: "Free PowerPoint, Google Slides, Excel & Word Templates | Templakit",
     description:
-      "Download 400+ professionally designed templates for PowerPoint, Google Slides, Canva, Excel, Figma, Word, Notion, and Google Docs. Premium templates just $1.",
+      "Download 400+ professionally designed templates for PowerPoint, Google Slides, Excel, Word, and Google Docs. Premium templates just $1.",
     images: [
       {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "Templakit — Free Professional Templates for PowerPoint, Canva, Figma & more",
+        alt: "Templakit — Free Professional Templates for PowerPoint, Excel, Word & more",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free PowerPoint, Canva & Google Slides Templates | Templakit",
+    title: "Free PowerPoint, Excel & Google Slides Templates | Templakit",
     description:
-      "400+ templates for PowerPoint, Canva, Figma, Excel, Notion & more. Premium downloads just $1.",
+      "400+ templates for PowerPoint, Excel, Word, Google Slides & Google Docs. Premium downloads just $1.",
     images: ["/opengraph-image"],
     creator: "@templakit",
   },
@@ -106,7 +103,7 @@ const websiteJsonLd = {
       url: "https://templakit.vercel.app",
       name: "Templakit",
       description:
-        "Free professional templates for PowerPoint, Google Slides, Canva, Excel, Figma, Word, Notion, and Google Docs.",
+        "Free professional templates for PowerPoint, Google Slides, Excel, Word, and Google Docs.",
       potentialAction: {
         "@type": "SearchAction",
         target: {
@@ -151,7 +148,7 @@ const websiteJsonLd = {
           name: "What tools do the templates work with?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Templakit offers templates for Microsoft PowerPoint, Google Slides, Canva, Microsoft Excel, Figma, Microsoft Word, Notion, and Google Docs.",
+            text: "Templakit offers templates for Microsoft PowerPoint, Google Slides, Microsoft Excel, Microsoft Word, and Google Docs.",
           },
         },
         {
@@ -175,7 +172,7 @@ const websiteJsonLd = {
           name: "What file formats are included?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Formats vary by template type: PowerPoint templates come as PPTX and PDF; Canva templates open directly in Canva; Excel templates are XLSX and Google Sheets compatible; Figma templates are .fig files; Word templates are DOCX and PDF; Notion templates are shared via duplicate link.",
+            text: "Formats vary by template type: PowerPoint templates come as PPTX and PDF; Excel templates are XLSX and Google Sheets compatible; Word templates are DOCX and PDF; Google Slides and Google Docs are shareable copy links.",
           },
         },
       ],

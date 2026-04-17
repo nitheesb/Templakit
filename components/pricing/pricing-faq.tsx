@@ -33,7 +33,7 @@ const faqs = [
   {
     question: "What file formats do I get?",
     answer:
-      "It depends on the tool: PowerPoint templates come as .PPTX + PDF; Excel as .XLSX; Figma as .fig files; Canva templates open via a direct Canva link; Word as .DOCX + PDF; Notion as a duplicate link; Google Slides and Google Docs as shareable copy links.",
+      "It depends on the tool: PowerPoint templates come as .PPTX + PDF; Excel as .XLSX; Word as .DOCX + PDF; Google Slides and Google Docs as shareable copy links.",
   },
   {
     question: "What if I'm not satisfied with my purchase?",

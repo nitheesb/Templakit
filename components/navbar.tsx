@@ -6,8 +6,8 @@ import { usePathname, useSearchParams } from "next/navigation"
 import { useTheme } from "next-themes"
 import {
   Menu, X, Moon, Sun, Sparkles,
-  Presentation, Monitor, Palette, Table2,
-  FileText, BookOpen, FileEdit, Figma,
+  Presentation, Monitor, Table2,
+  FileText, FileEdit,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -16,11 +16,8 @@ import { Suspense } from "react"
 const toolNav = [
   { name: "PowerPoint",    slug: "PowerPoint",    icon: Presentation, color: "text-orange-500", activeColor: "bg-orange-500/10 text-orange-600 border-orange-500/30" },
   { name: "Google Slides", slug: "Google Slides", icon: Monitor,      color: "text-yellow-500", activeColor: "bg-yellow-500/10 text-yellow-600 border-yellow-500/30" },
-  { name: "Canva",         slug: "Canva",         icon: Palette,      color: "text-violet-500", activeColor: "bg-violet-500/10 text-violet-600 border-violet-500/30" },
   { name: "Excel",         slug: "Excel",         icon: Table2,       color: "text-green-600",  activeColor: "bg-green-500/10 text-green-700 border-green-500/30" },
-  { name: "Figma",         slug: "Figma",         icon: Figma,        color: "text-pink-500",   activeColor: "bg-pink-500/10 text-pink-600 border-pink-500/30" },
   { name: "Word",          slug: "Word",          icon: FileText,     color: "text-blue-500",   activeColor: "bg-blue-500/10 text-blue-600 border-blue-500/30" },
-  { name: "Notion",        slug: "Notion",        icon: BookOpen,     color: "text-slate-400",  activeColor: "bg-slate-500/10 text-slate-500 border-slate-500/30" },
   { name: "Google Docs",   slug: "Google Docs",   icon: FileEdit,     color: "text-cyan-500",   activeColor: "bg-cyan-500/10 text-cyan-600 border-cyan-500/30" },
 ]
 
