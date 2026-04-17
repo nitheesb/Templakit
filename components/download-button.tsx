@@ -82,9 +82,7 @@ export function DownloadButton({ templateId, isFree, downloadType, downloadUrl }
         {state === "error"   && <><AlertCircle className="h-5 w-5" />Something went wrong — Try again</>}
         {state === "idle"    && (
           isFree
-            ? isExternal
-              ? <><ExternalLink className="h-5 w-5" />Open in {downloadUrl.includes("canva") ? "Canva" : downloadUrl.includes("notion") ? "Notion" : downloadUrl.includes("figma") ? "Figma" : "Google"}</>
-              : <><Download className="h-5 w-5" />Download Free (.zip)</>
+            ? <><Download className="h-5 w-5" />Download Free (.zip)</>
             : <><Download className="h-5 w-5" />Download for $1</>
         )}
       </Button>
